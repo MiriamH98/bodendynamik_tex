@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\draw (-1.1, 0) -- (-0.9, 0);
+\draw[->] (-1, 0) -- (-1, -1) node[below] {$z$};
+\foreach \y in {0,-0.5,...,-4.5}
+{
+   \draw[<-] (-0.33,\y) -- +(0,-0.45);
+   \draw[<-] ( 0.33,\y) -- +(0,-0.45);
+}
+\draw[->, very thick] (0,1) -- node[right] {$F(t)$} (0,0);
+\draw[thick, fill=black!10!white] (-0.25,-5) rectangle (0.25,0);
+\draw (0, -5) pic [scale=0.5, thick, rotate=90] {DKbase};
+\end{tikzpicture}

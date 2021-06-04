@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=8cm, 
+    height=5cm,
+    axis x line=center, 
+    axis y line=middle, 
+    xlabel={$t$},
+    ylabel={$F$},
+    samples=100,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {0.9*cos(2*deg(x)+10)-0.6*cos(4*deg(x)+80)+0.3*cos(6*deg(x)+40)};
+\end{axis}
+\end{tikzpicture}

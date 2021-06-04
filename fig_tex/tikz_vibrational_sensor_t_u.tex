@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=10cm, 
+    height=5cm,
+    axis x line=center, 
+    axis y line=middle, 
+    xlabel={$t$},
+    x label style={at={(current axis.right of origin)}, right},
+    ylabel={$u$},
+    y label style={at={(current axis.above origin)}, left},
+    samples=100,
+    ymin=-1.1, ymax=1.2,
+    xmin=0, xmax=11,
+    domain=0.2:3.2*pi,
+    xtick={ 1.0472, 7.3304 },
+    xticklabels={ 
+    $t_\mathrm{max1}$, $t_\mathrm{max2}$
+    },
+    ytick={0},
+    yticklabels={}
+]
+\addplot [mark=none, semithick] {exp(-0.03*x)*cos(deg(x)-60)};
+\fill (axis cs: 1.0472, 0.975) circle [radius=1mm];
+\fill (axis cs: 7.3304, 0.81) circle [radius=1mm];
+\end{axis}
+\end{tikzpicture}

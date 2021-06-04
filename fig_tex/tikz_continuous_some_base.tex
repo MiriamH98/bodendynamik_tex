@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=14cm, 
+    height=6cm,
+    axis x line=center, 
+    axis y line=middle, 
+    samples=100,
+    ymin=-1, ymax=4,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [semithick] {2+0.9*cos(2*deg(x)+10)-0.6*cos(4*deg(x)+80)+0.3*cos(6*deg(x)+40)};
+\addplot [semithick, red] {1};
+\addplot [semithick, green] {cos(2*deg(x)+10)};
+\addplot [semithick, blue] {cos(4*deg(x)+10)};
+\end{axis}
+\end{tikzpicture}

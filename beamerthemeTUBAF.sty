@@ -1,0 +1,4359 @@
+% copyright 2008-2019 by Thomas Benkert
+% http://latex.tu-freiberg.de
+% latex at tu bindestrich freiberg punkt de
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dieses Werk ist unter einem Creative Commons 
+% Namensnennung - Keine Bearbeitung 3.0 Deutschland Lizenzvertrag lizenziert. 
+% Um die Lizenz anzusehen, gehen Sie bitte zu http://creativecommons.org/licenses/by-nd/3.0/de/ 
+% oder schicken Sie einen Brief an 
+% Creative Commons, 171 Second Street, Suite 300, San Francisco, California 94105, USA.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\NeedsTeXFormat{LaTeX2e}
+%
+\newcommand{\TUBAFbeamer@name}{beamerthemeTUBAF}
+\newcommand{\TUBAFbeamer@date}{2019/04/01}
+\newcommand{\TUBAFbeamer@version}{2.5.1}
+%
+\ProvidesPackage{\TUBAFbeamer@name}[\TUBAFbeamer@date\space v.\TUBAFbeamer@version\space Thomas Benkert, TUBAF-LaTeX]
+%
+\typeout{Package: \TUBAFbeamer@name\space \TUBAFbeamer@date\space v.\TUBAFbeamer@version\space Thomas Benkert^^J
+	\@spaces\@spaces\@spaces\@spaces\@spaces\@spaces\space TUBAF-LaTeX: Corporate Design 2013^^J
+	\@spaces\@spaces\@spaces\@spaces\@spaces\@spaces\space Beamerthema der TU Bergakademie Freiberg}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pakete laden
+%
+\RequirePackage{relsize}						% Schriftskalierung
+\@ifpackageloaded{fp}{}{\RequirePackage[nomessages]{fp}}	% wird schon wg. Poster schon hier benötigt
+\RequirePackage{calc}							% Rechnen in Argumenten
+%
+\RequirePackage{TUBAFbausteinebefehle}[2019/04/01]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optionen alles Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Variablen definieren Anfang
+%
+% allgemein
+\newif\ifbeamer@autopdfinfo
+% TUBAF-Logo und Zweitlogo in savebox
+\newcommand{\insertTUBAF@tubaflogo}{}
+\newif\ifbeamer@TUBAF@tubaflogoboxed	\beamer@TUBAF@tubaflogoboxedtrue
+\newcommand{\insertTUBAF@zweitlogo}{}
+\newif\ifbeamer@TUBAF@zweitlogoboxed	\beamer@TUBAF@zweitlogoboxedtrue
+\newcommand{\TUBAF@zwlvpos}{t}
+% Helligkeit grau
+\providecommand{\TUBAFgrauext}{}
+% Titelseite
+\newif\ifbeamer@TUBAF@tlsb			\beamer@TUBAF@tlsbtrue
+% Kopfzeile
+\newcommand{\TUBAF@kopfzeile}{}
+% Rahmentitel (frame title)
+\newcommand{\TUBAF@rahmentitel}{}
+\newcommand*{\TUBAF@uppercase}{\uppercase}
+% Fußzeile Gestaltung
+\newcommand\TUBAF@fusszeile{}
+% Navigationssymbole
+\newcommand\TUBAF@navigation{}
+% Fußzeile Seitenzahl
+\newcommand\TUBAF@seite{}
+% Fußzeile Lektionsnummer
+%\newcommand{\TUBAF@lektionsnummer}{}
+\newif\ifbeamer@TUBAF@lektionsnummer	\beamer@TUBAF@lektionsnummerfalse
+% Überschriften sehen/nicht sehen
+\newif\ifbeamer@TUBAF@sec			\beamer@TUBAF@secfalse
+\newif\ifbeamer@TUBAF@subsec			\beamer@TUBAF@subsecfalse
+\newif\ifbeamer@TUBAF@secnumper		\beamer@TUBAF@secnumperfalse
+% Überschriften 
+\newcommand\TUBAF@numper{none}
+\newcommand\TUBAF@secnumper{}%lecture,part,section
+% Schriften
+\newif\ifbeamer@TUBAF@hausschrift		\beamer@TUBAF@hausschriftfalse
+\newif\ifbeamer@TUBAF@mathsf			\beamer@TUBAF@mathsftrue
+% Blockeinstellungen
+\newif\ifbeamer@TUBAF@blockinnersep		\beamer@TUBAF@blockinnersepfalse
+\newcommand\TUBAF@blocktitelkonst{}
+% Seitenverhältnis
+\newcommand{\TUBAF@verhaeltnis}{4:3}
+% Reihenfolge der Angaben in headline bei stil=lehre
+\newcommand{\TUBAF@folge}{}
+%
+% AM
+%
+% Text
+\newcommand{\TUBAF@textsf}{}
+% Gesamtseiten
+\newif\ifbeamer@TUBAF@gesamtseiten		\beamer@TUBAF@gesamtseitenfalse
+% frame begin/end Marken
+\newif\ifbeamer@TUBAF@framebeg		\beamer@TUBAF@framebegfalse
+\newif\ifbeamer@TUBAF@frameend		\beamer@TUBAF@frameendfalse
+%
+% Poster
+%
+\newcommand{\TUBAF@postertest}{}	% Test
+\newcommand{\TUBAF@posterformat}{}	% Format a0-a4,custom
+\newcommand{\TUBAF@posterorient}{}	% hoch,quer
+\newcommand{\TUBAF@posterskal}{}	% Fontskalierung
+\newcommand{\TUBAF@posterbreite}{70}	% für custom
+\newcommand{\TUBAF@posterhoehe}{100}	% für custom
+\newcommand{\TUBAF@postereinheit}{cm}	% für custom
+%
+% Variablen definieren Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Paketoptionen definieren Anfang
+%
+% Grauabstufungen
+%
+\DeclareOptionBeamer{helligkeitgrau}{% eine Berechnung mittels TUBAFFarbe führt z.T. zu inkorrekten Erscheinungen
+	\ifthenelse{\equal{#1}{-10}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{X}}{%
+	\ifthenelse{\equal{#1}{-9}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{IX}}{%
+	\ifthenelse{\equal{#1}{-8}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{VIII}}{%
+	\ifthenelse{\equal{#1}{-7}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{VII}}{%
+	\ifthenelse{\equal{#1}{-6}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{VI}}{%
+	\ifthenelse{\equal{#1}{-5}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{V}}{%
+	\ifthenelse{\equal{#1}{-4}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{IV}}{%
+	\ifthenelse{\equal{#1}{-3}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{III}}{%
+	\ifthenelse{\equal{#1}{-2}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{II}}{%
+	\ifthenelse{\equal{#1}{-1}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{i}}{%
+	\ifthenelse{\equal{#1}{}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{}}{%
+	\ifthenelse{\equal{#1}{1}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{i}}{%
+	\ifthenelse{\equal{#1}{2}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{ii}}{%
+	\ifthenelse{\equal{#1}{3}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{iii}}{%
+	\ifthenelse{\equal{#1}{4}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{iv}}{%
+	\ifthenelse{\equal{#1}{5}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{v}}{%
+	\ifthenelse{\equal{#1}{6}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{vi}}{%
+	\ifthenelse{\equal{#1}{7}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{vii}}{%
+	\ifthenelse{\equal{#1}{8}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{viii}}{%
+	\ifthenelse{\equal{#1}{9}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{ix}}{%
+	\ifthenelse{\equal{#1}{10}}{\renewcommand{\TUBAFhelligkeitgrau}{#1}\renewcommand{\TUBAFgrauext}{x}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'helligkeitgrau'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}}}}}}}}}}}}}}}}}}%
+}
+%
+% Sprache
+%
+\DeclareOptionBeamer{sprache}{%
+	\ifthenelse{\equal{#1}{nobabel}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{ngerman}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{german}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{american}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{english}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{french}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{norsk}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{polish}}{\renewcommand{\TUBAF@sprache}{#1}}{%
+	\ifthenelse{\equal{#1}{addgreek}}{\renewcommand{\TUBAF@addgreek}{greek,}}{% das Komma ist wichtig
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'sprache'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}}}}}}%
+}
+%
+% Stil der gesamten Präsentation
+%
+\DeclareOptionBeamer{stil}{%
+	\ifthenelse{\equal{#1}{strikt}}{\renewcommand{\TUBAF@stil}{#1}}{%
+	\ifthenelse{\equal{#1}{klassisch}}{\renewcommand{\TUBAF@stil}{#1}}{%
+	\ifthenelse{\equal{#1}{lehre}}{\renewcommand{\TUBAF@stil}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'stil'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Stil der Kopfzeile: strikt:headline
+%
+\DeclareOptionBeamer{kopfzeile}{%
+	\ifthenelse{\equal{#1}{shorttitle}}{\renewcommand{\TUBAF@kopfzeile}{#1}}{%
+	\ifthenelse{\equal{#1}{shortlecture}}{\renewcommand{\TUBAF@kopfzeile}{#1}}{%
+	\ifthenelse{\equal{#1}{shortsection}}{\renewcommand{\TUBAF@kopfzeile}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'kopfzeile'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Stil der Rahmentitels (frame title) nonstrikt
+%
+\DeclareOptionBeamer{rahmentitel}{%
+	\ifthenelse{\equal{#1}{klassisch}}{\renewcommand{\TUBAF@rahmentitel}{#1}}{%
+	\ifthenelse{\equal{#1}{modern}}{\renewcommand{\TUBAF@rahmentitel}{#1}}{%
+	\ifthenelse{\equal{#1}{pseudostrikt}}{\renewcommand{\TUBAF@rahmentitel}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'rahmentitel'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% TUBAF-Logo in savebox auf den Folgeseiten
+%
+\DeclareOptionBeamer{tubaflogoboxed}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@tubaflogoboxedtrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@tubaflogoboxedfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'tubaflogoboxed'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% Zweitlogo in savebox auf den Folgeseiten
+%
+\DeclareOptionBeamer{zweitlogoboxed}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@zweitlogoboxedtrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@zweitlogoboxedfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'zweitlogoboxed'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% vertikale Ausrichtung Zweitlogo auf den Folgeseiten
+%
+\DeclareOptionBeamer{zwlvpos}[t]{%
+	\ifthenelse{\equal{#1}{t}}{\renewcommand{\TUBAF@zwlvpos}{t}}{%
+	\ifthenelse{\equal{#1}{c}}{\renewcommand{\TUBAF@zwlvpos}{c}}{%
+	\ifthenelse{\equal{#1}{b}}{\renewcommand{\TUBAF@zwlvpos}{b}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'zwlvpos'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Stil der Fußzeile (footline) nonstrikt
+%
+\DeclareOptionBeamer{fusszeile}{%
+	\ifthenelse{\equal{#1}{klassisch}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{riehl}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{ernst}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{ernstcolor}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{eiermann}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{pseudostrikt}}{\renewcommand{\TUBAF@fusszeile}{#1}}{%
+	\ifthenelse{\equal{#1}{bunt}}{\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'fusszeile'\MessageBreak ist veraltet, wird ignoriert und kann\MessageBreak in Zukunft geloescht sein}}{%
+	\ifthenelse{\equal{#1}{weiss}}{\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'fusszeile'\MessageBreak ist veraltet, wird ignoriert und kann\MessageBreak in Zukunft geloescht sein}}{%
+	\ifthenelse{\equal{#1}{ganzweiss}}{\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'fusszeile'\MessageBreak ist veraltet, wird ignoriert und kann\MessageBreak in Zukunft geloescht sein}}{%
+	\ifthenelse{\equal{#1}{cd}}{\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'fusszeile'\MessageBreak ist veraltet, wird ignoriert und kann\MessageBreak in Zukunft geloescht sein.\MessageBreak Bitte nutzen Sie 'stil=strikt' stattdessen}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'fusszeile'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}}}
+}}}}
+}
+%
+% Navigationssymbole
+%
+\DeclareOptionBeamer{navigation}[true]{
+	\ifthenelse{\equal{#1}{true}}{\renewcommand\TUBAF@navigation{#1}}{%
+	\ifthenelse{\equal{#1}{false}}{\renewcommand\TUBAF@navigation{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'navigation'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% Seitenzahl
+%
+\DeclareOptionBeamer{seite}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\renewcommand\TUBAF@seite{#1}}{%
+	\ifthenelse{\equal{#1}{false}}{\renewcommand\TUBAF@seite{#1}}{%
+	\ifthenelse{\equal{#1}{letzte}}{\renewcommand\TUBAF@seite{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'seite'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Lektionsnummer
+%
+\DeclareOptionBeamer{lektionsnummer}[true]{
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@lektionsnummertrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@lektionsnummerfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'lektionsnummer'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% Überschriften sehen/nicht sehen
+%
+\DeclareOptionBeamer{sections}[allvis]{%
+	\ifthenelse{\equal{#1}{allvis}}{\beamer@TUBAF@sectrue}{%
+	\ifthenelse{\equal{#1}{allinvis}}{\beamer@TUBAF@secfalse}{%
+	\ifthenelse{\equal{#1}{subvis}}{\beamer@TUBAF@sectrue\beamer@TUBAF@subsectrue}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'sections'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Abschnittsweise Numerierung
+%
+\DeclareOptionBeamer{numper}{%
+	\ifthenelse{\equal{#1}{none}}{}{%
+	\ifthenelse{\equal{#1}{lecture}}{\renewcommand{\TUBAF@numper}{#1}}{%
+	\ifthenelse{\equal{#1}{part}}{\renewcommand{\TUBAF@numper}{#1}}{%
+	\ifthenelse{\equal{#1}{section}}{\renewcommand{\TUBAF@numper}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'numper'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}%
+}
+%
+% Abschnittsweise Numerierung der Überschriften
+%
+\DeclareOptionBeamer{secnumper}{%
+	\ifthenelse{\equal{#1}{lecture}}{\renewcommand{\TUBAF@secnumper}{#1}\beamer@TUBAF@secnumpertrue}{%
+	\ifthenelse{\equal{#1}{part}}{\renewcommand{\TUBAF@secnumper}{#1}\beamer@TUBAF@secnumpertrue}{%
+	\ifthenelse{\equal{#1}{section}}{\renewcommand{\TUBAF@secnumper}{#1}\beamer@TUBAF@secnumpertrue}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'secnumper'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Hausschrift
+%
+\DeclareOptionBeamer{hausschrift}[true]{\renewcommand\TUBAF@hausschrift{#1}}
+%
+% mathsf
+%
+\DeclareOptionBeamer{mathsf}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@mathsftrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@mathsffalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'mathsf'\MessageBreak ist falsch und wird ignoriert}%
+	}}
+}
+%
+%
+% Stil der Titelseite
+%
+\DeclareOptionBeamer{titelseite}{%
+	\ifthenelse{\equal{#1}{blau}}{\renewcommand{\TUBAF@titelseite}{#1}}{%
+	\ifthenelse{\equal{#1}{grau}}{\renewcommand{\TUBAF@titelseite}{#1}}{%
+	\ifthenelse{\equal{#1}{weiss}}{\renewcommand{\TUBAF@titelseite}{#1}}{%
+	\ifthenelse{\equal{#1}{klassisch}}{\renewcommand{\TUBAF@titelseite}{#1}}{%
+	\ifthenelse{\equal{#1}{strikt}}{\renewcommand{\TUBAF@titelseite}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'titelseite'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}}%
+}
+% blocksep innen/außen
+\DeclareOptionBeamer{blocksep}{%
+	\ifthenelse{\equal{#1}{innersep}}{\beamer@TUBAF@blockinnerseptrue}{%
+	\ifthenelse{\equal{#1}{outersep}}{\beamer@TUBAF@blockinnersepfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'blocksep'\MessageBreak ist falsch und wird ignoriert}%
+	}}
+}
+%
+% Blocktitel var/konst
+\DeclareOptionBeamer{blocktitel}{%
+	\ifthenelse{\equal{#1}{konst}}{\renewcommand{\TUBAF@blocktitelkonst}{\vphantom{\"Ag/}}}{%
+	\ifthenelse{\equal{#1}{var}}{\renewcommand{\TUBAF@blocktitelkonst}{}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'blocktitel'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% Seitenverhältnis der Präsentation
+%
+\DeclareOptionBeamer{verhaeltnis}{%
+	\ifthenelse{\equal{#1}{4:3}}{\renewcommand{\TUBAF@verhaeltnis}{#1}}{%
+	\ifthenelse{\equal{#1}{16:9}}{\renewcommand{\TUBAF@verhaeltnis}{#1}}{%
+	\ifthenelse{\equal{#1}{16:10}}{\renewcommand{\TUBAF@verhaeltnis}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'verhaeltnis'\MessageBreak ist falsch und wird ignoriert}%
+	}}}%
+}
+%
+% Reihenfolge der Angaben in headline bei stil=lehre
+%
+\DeclareOptionBeamer{folge}{%
+	\ifthenelse{\equal{#1}{ls}}{\renewcommand{\TUBAF@folge}{#1}}{%
+	\ifthenelse{\equal{#1}{lss}}{\renewcommand{\TUBAF@folge}{#1}}{%
+	\ifthenelse{\equal{#1}{ss}}{\renewcommand{\TUBAF@folge}{#1}}{%
+	\ifthenelse{\equal{#1}{ssn}}{\renewcommand{\TUBAF@folge}{#1}}{%
+	\ifthenelse{\equal{#1}{sss}}{\renewcommand{\TUBAF@folge}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'folge'\MessageBreak ist falsch und wird ignoriert}%
+	}}}}}%
+}
+%
+% AM: Wort-Bild-Marke auf Titelseite
+%
+\DeclareOptionBeamer{wbm}{%
+	\ifthenelse{\equal{#1}{blau-grau}}{\renewcommand\TUBAF@wbm{#1}}{%
+	\ifthenelse{\equal{#1}{schwarz}}{\renewcommand\TUBAF@wbm{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'wbm'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% PM/AM: Tracht der Wort-Bild-Marke auf Titelseite
+%
+\DeclareOptionBeamer{wbmtracht}{%
+	\ifthenelse{\equal{#1}{einfach}}{\renewcommand\TUBAFwbmtracht{#1}\renewcommand\TUBAFlogotracht{#1}}{%
+	\ifthenelse{\equal{#1}{250}}{\renewcommand\TUBAFwbmtracht{#1}\renewcommand\TUBAFlogotracht{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'wbmtracht'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% AM: Textgestaltung
+%
+\DeclareOptionBeamer{textsf}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\renewcommand{\TUBAF@textsf}{#1}}{%
+	\ifthenelse{\equal{#1}{false}}{\renewcommand{\TUBAF@textsf}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'textsf'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% AM: Anzeige der Gesamtseitenanzahl auf Titelseite
+%
+\DeclareOptionBeamer{gesamtseiten}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@gesamtseitentrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@gesamtseitenfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'gesamtseiten'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% AM: frame begin kennzeichnen
+%
+\DeclareOptionBeamer{framebeg}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@framebegtrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@framebegfalse}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'framebeg'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% AM: frame end kennzeichnen
+%
+\DeclareOptionBeamer{frameend}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\beamer@TUBAF@frameendtrue}{%
+	\ifthenelse{\equal{#1}{false}}{\beamer@TUBAF@frameendfalse}{%
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'frameend'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% PM: Poster ja/nein
+%
+\DeclareOptionBeamer{poster}[true]{%
+	\ifthenelse{\equal{#1}{true}}{\renewcommand{\TUBAF@postertest}{#1}}{%
+	\ifthenelse{\equal{#1}{false}}{\renewcommand{\TUBAF@postertest}{#1}}{%
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'poster'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% PM: Poster Papiergröße
+%
+\DeclareOptionBeamer{posterformat}{%
+	\ifthenelse{\equal{#1}{a0}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\ifthenelse{\equal{#1}{a1}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\ifthenelse{\equal{#1}{a2}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\ifthenelse{\equal{#1}{a3}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\ifthenelse{\equal{#1}{a4}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\ifthenelse{\equal{#1}{custom}}{\renewcommand{\TUBAF@posterformat}{#1}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Das Posterformat '#1' \MessageBreak wird derzeit nicht unterstuetzt}%
+	}}}}}}%
+}
+%
+% PM: Poster Ausrichtung
+%
+\DeclareOptionBeamer{posterorientierung}{%
+	\ifthenelse{\equal{#1}{hoch}\OR\equal{#1}{portrait}}{\renewcommand{\TUBAF@posterorient}{portrait}}{%
+	\ifthenelse{\equal{#1}{quer}\OR\equal{#1}{landscape}}{\renewcommand{\TUBAF@posterorient}{landscape}}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '#1' der Option 'posterorientierung'\MessageBreak ist falsch und wird ignoriert}%
+	}}%
+}
+%
+% PM: Poster Fontskalierung
+%
+\DeclareOptionBeamer{posterskal}{\renewcommand\TUBAF@posterskal{#1}}
+%
+% PM: Poster Papierbreite bei Format custom
+%
+\DeclareOptionBeamer{posterbreite}{%
+	\ifthenelse{\ispositiverealnumber{#1}}{\renewcommand\TUBAF@posterbreite{#1}}{%
+		\PackageError{\TUBAFbeamer@name}{Option 'posterbreite':\MessageBreak Geben Sie eine positive Zahl an}{Geben Sie eine positive Zahl an}}
+}
+%
+% PM: Poster Papierhöhe bei Format custom
+%
+\DeclareOptionBeamer{posterhoehe}{%
+	\ifthenelse{\ispositiverealnumber{#1}}{\renewcommand\TUBAF@posterhoehe{#1}}{%
+		\PackageError{\TUBAFbeamer@name}{Option 'posterhoehe':\MessageBreak Geben Sie eine positive Zahl an}{Geben Sie eine positive Zahl an}}
+}
+%
+% TUBAFbausteine
+%
+\DeclareOptionBeamer{farbschema}[rgb]{\renewcommand\TUBAF@farbenfarbschema{#1}}
+\DeclareOptionBeamer{farbtafel}[k]{\renewcommand\TUBAF@farbenfarbtafel{#1}}
+\DeclareOptionBeamer{textpos}[true]{\renewcommand\TUBAF@bausteinetextpos{#1}}
+\DeclareOptionBeamer{textposwert}[1]{\renewcommand\TUBAF@bausteinetextposwert{#1}}
+\DeclareOptionBeamer{textposeinheit}[mm]{\renewcommand\TUBAF@bausteinetextposeinheit{#1}}
+\DeclareOptionBeamer{bausteineeinheit}[mm]{\renewcommand\TUBAF@bausteinebausteineeinheit{#1}}
+%
+%
+%\DeclareOptionBeamer*{\PackageWarning{\TUBAFbeamer@name}{Unknown option ignored: \CurrentOption}}% fnkt nicht, wird von xkeyval abgefangen
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% alte Optionen abfangen Anfang
+%
+\DeclareOptionBeamer{futura}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'futura' ist veraltet\MessageBreak und kann in Zukunft geloescht sein.\MessageBreak Nutzen Sie bitte die Option\MessageBreak 'hausschrift' stattdessen}}
+\DeclareOptionBeamer{titel}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'titel' ist veraltet\MessageBreak und kann in Zukunft geloescht sein}}
+\DeclareOptionBeamer{zusatz}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'zusatz' ist veraltet\MessageBreak und kann in Zukunft geloescht sein}}
+\DeclareOptionBeamer{identlinien}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'identlinien' ist veraltet\MessageBreak und kann in Zukunft geloescht sein}}
+\DeclareOptionBeamer{block}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'block' ist veraltet\MessageBreak und kann in Zukunft geloescht sein}}
+\DeclareOptionBeamer{rahmen}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'rahmen' ist veraltet\MessageBreak und kann in Zukunft geloescht sein.\MessageBreak Nutzen Sie bitte die Option\MessageBreak 'wbm=<blau-grau,schwarz>' stattdessen}}
+\DeclareOptionBeamer{posterstil}{\PackageWarningNoLine{\TUBAFbeamer@name}{Die Option 'posterstil' ist veraltet\MessageBreak und kann in Zukunft geloescht sein}}
+%
+% alte Optionen abfangen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Paketoptionen definieren Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Paketoptionen ausführen Anfang
+%
+\ExecuteOptionsBeamer{%
+	sprache=ngerman,
+	stil=strikt,
+	%titelseite=blau,%nicht hier setzen, da dann auch für stil=klassisch
+	rahmentitel=modern,
+	fusszeile=klassisch,
+	navigation=false,
+	seite=true,
+	lektionsnummer=false,
+	sections=allinvis,
+	%hausschrift=false,% nicht hier setzen, wird in Abh. von stil gesetzt
+	mathsf=false,
+	secnumper=section,
+	blocksep=outersep,
+	folge=ss,
+	wbm=blau-grau,
+	wbmtracht=einfach,
+	tubaflogoboxed=true,
+	zweitlogoboxed=true,
+	%textsf=true,% nicht hier setzen
+	gesamtseiten=false,
+	framebeg=true,
+	frameend=false,
+	poster=false,
+	posterformat=a1,
+	posterorientierung=hoch,
+}
+\ProcessOptionsBeamer
+%
+% Paketoptionen ausführen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stil=strikt Grundeinstellungen Anfang
+% wird hier gesetzt, da später andere Tests darauf aufbauen
+%
+\mode<presentation>{
+\ifthenelse{\equal{\TUBAF@stil}{strikt}}{%
+	% Titelseite
+	\ifthenelse{\equal{\TUBAF@titelseite}{}}{\renewcommand{\TUBAF@titelseite}{blau}}{}
+	% Schrift
+	\ifthenelse{\equal{\TUBAF@hausschrift}{}}{\IfFileExists{uarial.sty}{\renewcommand{\TUBAF@hausschrift}{arial}}{}}{}
+   }{%
+	% Titelseite 
+	\ifthenelse{\equal{\TUBAF@titelseite}{}}{\renewcommand{\TUBAF@titelseite}{weiss}}{}
+	% Schrift
+	\ifthenelse{\equal{\TUBAF@hausschrift}{}}{\renewcommand{\TUBAF@hausschrift}{false}}{}
+}%
+%
+\ifbeamer@TUBAF@tubaflogoboxed%
+	% Vorschlag des savebox-Konstrukts von Dr.-Ing. Dmitry Safronov, TUBAF
+	\newsavebox{\TUBAFbeamertubaflogobox}
+	%%%\AtEndOfPackage{% fnkt nicht für Logo, daher \AtBeginDocument
+	\AtBeginDocument{% erst da setzen, sonst Fehler wegen unbekannter Umgebung tikzpicture, unbekannter Kommandos TUBAFwbm...
+		\ifthenelse{\equal{\TUBAFlogotracht}{einfach}}{%
+			\savebox{\TUBAFbeamertubaflogobox}{%
+					\usebeamercolor[fg]{frametitle}% muß hier stehen
+					\begin{tikzpicture}[scale=\TUBAF@tikzscale]%\TUBAFbausteine@scale]%
+						\begin{pgfscope}%
+							\TUBAFwbmlogoschrifteinzeln%
+							\TUBAFwbmlogoschlaegelundeiseneinzeln%
+							\TUBAFwbmlogogiessereibesteckeinzeln%
+						\end{pgfscope}%
+					\end{tikzpicture}%
+			}%
+		   }{%
+			\savebox{\TUBAFbeamertubaflogobox}{%
+					\usebeamercolor[fg]{frametitle}% muß hier stehen
+					\begin{tikzpicture}[scale=\TUBAF@tikzscale]%\TUBAFbausteine@scale]%
+						\begin{scope}[scale=0.7153326,xshift=5.95,yshift=34.67]%,xshift=17,yshift=67.9]% shift iterativ ermittelt
+							\begin{pgfscope}%
+								\pgfsetstrokecolor{\TUBAFlogofg}\pgfsetfillcolor{\TUBAFlogofg}%
+								\TUBAFwbmlogoschrifteinzeln%
+								\TUBAFwbmlogoschlaegelundeiseneinzeln%
+								\TUBAFwbmlogogiessereibesteckeinzeln%
+							\end{pgfscope}%
+						\end{scope}%
+						\begin{pgfscope}%
+							\pgfsetstrokecolor{\TUBAFlogofg}\pgfsetfillcolor{\TUBAFlogofg}%
+							\TUBAFCCLwbmeinzeln%
+						\end{pgfscope}%
+					\end{tikzpicture}%
+			}%
+		}%
+	}%
+	\renewcommand{\insertTUBAF@tubaflogo}{\usebox{\TUBAFbeamertubaflogobox}}%
+   \else% tubaflogoboxed=false
+	\renewcommand{\insertTUBAF@tubaflogo}{%
+		\ifthenelse{\equal{\TUBAFlogotracht}{einfach}}{%
+			\begin{tikzpicture}[scale=\TUBAF@tikzscale]%
+				\begin{pgfscope}%
+					\TUBAFwbmlogoschrifteinzeln%
+					\TUBAFwbmlogoschlaegelundeiseneinzeln%
+					\TUBAFwbmlogogiessereibesteckeinzeln%
+				\end{pgfscope}%
+			\end{tikzpicture}%
+		   }{%
+			\begin{tikzpicture}[scale=\TUBAF@tikzscale]%
+				\begin{scope}[scale=0.7153326,xshift=5.95,yshift=34.67]%
+					\begin{pgfscope}%
+						\pgfsetstrokecolor{\TUBAFlogofg}\pgfsetfillcolor{\TUBAFlogofg}%
+						\TUBAFwbmlogoschrifteinzeln%
+						\TUBAFwbmlogoschlaegelundeiseneinzeln%
+						\TUBAFwbmlogogiessereibesteckeinzeln%
+					\end{pgfscope}%
+				\end{scope}%
+				\begin{pgfscope}%
+					\pgfsetstrokecolor{\TUBAFlogofg}\pgfsetfillcolor{\TUBAFlogofg}%
+					\TUBAFCCLwbmeinzeln%
+				\end{pgfscope}%
+			\end{tikzpicture}%
+		}%
+	}%
+\fi
+%
+% Zweitlogboxed erst später bei PM: Test auf Zweitlogo und Berechnung
+%
+}
+%
+% stil=strikt Grundeinstellungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Optionen alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% all mode Beginn
+%
+\mode
+<all>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% allgemeine Einstellungen Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst. textsuperscript/subscript Anfang
+%
+\ifthenelse{\isundefined{\textsuperscript}}{%
+	\newcommand{\textsuperscript}[#1]{{\donotcoloroutermaths\ensuremath{{}^{\text{#1}}}}\ignorespaces}%
+	}{}
+% ebenso textsubscript; \newcommand erzeugt Fehler
+\ifthenelse{\isundefined{\textsubscript}}{%
+	\def\textsubscript#1{{\donotcoloroutermaths\ensuremath{{}_{\text{#1}}}}\ignorespaces}%
+	}{}
+%
+% allg. Einst. textsuperscript/subscript Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% allg. Einst.: Sprachanpassungen Anfang
+%
+\TUBAFSprachanpassung[Package]{beamer}
+%
+% allg. Einst.: Sprachanpassungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: poster: Test auf beamerposter.sty Anfang
+% hier schon testen, da sonst Probleme mit Zweitlogo
+%
+\ifthenelse{\equal{\TUBAF@postertest}{true}}{%
+	\ifthenelse{\equal{\TUBAF@posterformat}{custom}}{%
+		\ifthenelse{\lengthtest{\TUBAF@posterbreite\TUBAF@postereinheit<\TUBAF@posterhoehe\TUBAF@postereinheit}}{%
+			\renewcommand{\TUBAF@posterorient}{portrait}
+			\setlength{\TUBAFtmpdima}{\TUBAF@posterhoehe\TUBAF@postereinheit}%\TUBAF@posterbreite}
+		   }{%
+			\renewcommand{\TUBAF@posterorient}{landscape}
+			\setlength{\TUBAFtmpdima}{\TUBAF@posterbreite\TUBAF@postereinheit}
+		}
+		\ifthenelse{\equal{\TUBAF@posterskal}{}}{%
+			\setlength{\TUBAFtmpdimb}{59.4cm}% paperwidth DIN A1 
+			\FPdiv\tempa{\number\TUBAFtmpdima}{\number\TUBAFtmpdimb}
+			\FPround\TUBAF@posterskal\tempa3
+		}{}
+		\RequirePackage[%
+				size=\TUBAF@posterformat,%custom,
+				scale=\TUBAF@posterskal,
+				width=\TUBAF@posterbreite,
+				height=\TUBAF@posterhoehe,
+				orientation=\TUBAF@posterorient
+				]{beamerposter}
+		\ifthenelse{\lengthtest{\TUBAF@posterbreite\TUBAF@postereinheit<\TUBAF@posterhoehe\TUBAF@postereinheit}}{\renewcommand{\TUBAF@posterorient}{portrait}}{\renewcommand{\TUBAF@posterorient}{landscape}}
+	   }{%
+		\ifthenelse{\equal{\TUBAF@posterformat}{a0}}{\setlength{\TUBAFtmpdima}{83.96cm}}{% Breite aus beamerposter.sty
+		\ifthenelse{\equal{\TUBAF@posterformat}{a1}}{\setlength{\TUBAFtmpdima}{59.4cm}}{% Breite aus beamerposter.sty
+		\ifthenelse{\equal{\TUBAF@posterformat}{a2}}{\setlength{\TUBAFtmpdima}{41.98cm}}{% Breite aus beamerposter.sty
+		\ifthenelse{\equal{\TUBAF@posterformat}{a3}}{\setlength{\TUBAFtmpdima}{29.7cm}}{% Breite aus beamerposter.sty
+		\ifthenelse{\equal{\TUBAF@posterformat}{a4}}{\setlength{\TUBAFtmpdima}{21.0cm}}{% Breite aus beamerposter.sty
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert '\TUBAF@posterformat' der Option 'posterformat'\MessageBreak ist falsch und wird ingoriert}
+		}}}}}
+		\ifthenelse{\equal{\TUBAF@posterskal}{}}{%
+			\setlength{\TUBAFtmpdimb}{59.4cm}% paperwidth DIN A1 
+			\FPdiv\tempa{\number\TUBAFtmpdima}{\number\TUBAFtmpdimb}
+			\FPround\TUBAF@posterskal\tempa3
+		}{}
+		\RequirePackage[%
+				size=\TUBAF@posterformat,
+				orientation=\TUBAF@posterorient,
+				scale=\TUBAF@posterskal,
+				]{beamerposter}
+	}%
+}{}
+%
+% allg. Einst.: poster: Test auf beamerposter.sty Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: erst hier laden, da Optionen übergeben werden müssen
+%
+% Papiergröße zuerst hier festlegen, damit die Grundskalierung berechnet werden kann
+% und nach dem Laden von TUBAFbausteine erst ändern, damit die Skalierung gleich bleibt
+\ifthenelse{\isundefined\beamer@paperheight}{%
+	\mode<presentation>{%
+		\geometry{papersize={12.8cm,9.6cm}}%
+	}%
+   }{%
+	\mode<presentation>{%
+		\beamer@paperheight 9.6cm
+		\beamer@paperwidth 12.8cm % 4:3
+	}
+}
+%
+\RequirePackage[%
+	farbschema=\TUBAF@farbenfarbschema,
+	farbtafel=\TUBAF@farbenfarbtafel,
+	textpos=\TUBAF@bausteinetextpos,
+	textposwert=\TUBAF@bausteinetextposwert,
+	textposeinheit=\TUBAF@bausteinetextposeinheit,
+	bausteineeinheit=\TUBAF@bausteinebausteineeinheit
+	]{TUBAFbausteine}[2019/04/01]	% Farben und CD-Elemente
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst: Längen, die überall gebraucht werden
+\newlength{\TUBAF@titelseiterand}
+\newlength{\TUBAF@titelseitetextrand}
+\newlength{\TUBAF@titelseitetextbreite}
+\newlength{\TUBAF@logoscaledbreite}% Breite des korrekt skalierten Logos
+\newlength{\TUBAF@logoscaledhoehe}% Höhe des korrekt skalierten Logos
+\newlength{\TUBAF@hdlosep}% headline: Abstand Umrandung zu Text entsp. WBM-Schutzzone (Abstand Hintergrund--Logo)
+\newlength{\TUBAF@hdlisep}% headline: Abstand Umrandung zu Text entsp. WBM-innereSchutzzone (Abstand Logo--Textblock)
+\newlength{\TUBAF@hdlhoehe}% headline: Höhe
+\newlength{\TUBAF@hdltextwidthTS}% headline: Breite des Textbereiches auf der Titelseite
+\newlength{\TUBAF@hdltextwidth}% headline: Breite des Textbereiches
+\newlength{\TUBAF@frtlskip}% frametitle: leftskip
+\newlength{\TUBAF@textlmargin}% Text: linker Rand
+\newlength{\TUBAF@tlsbbreite}% Titelseite: Bilderbreite
+\newlength{\TUBAF@tlsbhoehe}% Titelseite: Bilderhöhe
+\newlength{\TUBAF@ftllskip}% footline: leftskip
+\newlength{\TUBAF@ftlrskip}% footline: rightskip
+\newlength{\TUBAF@ftltextwidth}% footline: Textbreite (links, ohne Platz für Seitenzahl)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.:  Autordefinition; komplett aus beamerbasetitle.sty Anfang
+%
+\def\author{\@dblarg\beamer@author}
+\long\def\beamer@author[#1]#2{%
+  \def\insertauthor{\def\inst{\beamer@insttitle}\def\and{\beamer@andtitle}#2}%
+  \def\beamer@shortauthor{#1}%
+  \ifbeamer@autopdfinfo%
+    \def\beamer@andstripped{}%
+    \beamer@stripands#2 \and\relax
+    {\let\inst=\@gobble\let\thanks=\@gobble\def\and{, }\hypersetup{pdfauthor={\beamer@andstripped}}}
+  \fi%
+}
+%
+\def\beamer@stripands#1 \and#2\relax{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \expandafter\def\expandafter\beamer@andstripped\expandafter{\beamer@andstripped#1}
+  \else
+    \expandafter\def\expandafter\beamer@andstripped\expandafter{\beamer@andstripped#1, }
+    \beamer@stripands#2\relax%
+  \fi
+}
+%
+\author{}
+%
+% allg. Einst.:  Autordefinition; komplett aus beamerbasetitle.sty Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: damit \insertshortdate auch im Artikelmodus fnkt. Anfang
+%
+\def\date{\@dblarg\beamer@date}
+\long\def\beamer@date[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\insertdate{}
+  \else
+    \def\insertdate{#2}%
+  \fi
+ \def\insertshortdate{#1}}
+\date{\today}
+%
+% allg. Einst.: damit \insertshortdate auch im Artikelmodus fnkt. Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: damit \insertshortsubtitle auch im Artikelmodus fnkt. Anfang
+%
+\def\subtitle{\@dblarg\beamer@subtitle}
+\long\def\beamer@subtitle[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\insertsubtitle{}
+  \else
+    \def\insertsubtitle{#2}%
+  \fi
+ \def\insertshortsubtitle{#1}}
+\subtitle{}
+%
+% allg. Einst.: damit \insertshortsubtitle auch im Artikelmodus fnkt. Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: damit die lecture-sachen auch im AM fnkt. (aus beamerbasesection.sty), angepaßt Anfang
+%
+\newcounter{TUBAF@lecturelastframenumber}
+\renewcommand\theTUBAF@lecturelastframenumber{\@arabic\c@TUBAF@lecturelastframenumber}
+%
+\ifthenelse{\isundefined{\thelecture}}{\newcounter{lecture}}{}
+\renewcommand\thelecture{\@arabic\c@lecture}
+\let\insertlecturenumber=\thelecture
+\renewcommand\lecture{\@dblarg\beamer@lecture}
+\long\def\beamer@lecture[#1]#2#3{
+	\ifbeamer@TUBAF@lektionsnummer
+		\setcounter{TUBAF@lecturelastframenumber}{\the\c@framenumber}
+		\setcounter{framenumber}{0}
+	   \else
+	\fi
+	  \beamer@savemode
+	  \mode<all>
+	  \refstepcounter{lecture}
+	  \def\beamer@currentlecturelabel{#3}
+	  \def\beamer@lecturename{#2}
+	  \def\beamer@shortlecturename{#1}
+	  \ifx\beamer@onlylecture\@empty
+	  \else
+	    \ifx\beamer@currentlecturelabel\beamer@onlylecture
+	      \beamer@inlecturetrue
+	    \else
+	      \beamer@inlecturefalse
+	    \fi
+	  \fi
+	  \beamer@atbeginlecture
+	  \beamer@resumemode
+}
+%
+\providecommand{\insertlecture}{\beamer@lecturename}
+\providecommand{\beamer@shortlecturename}{}% sonst Fehlermeldung bei insertshortlecture in headline
+%
+\providecommand\insertshortlecture[1][]{%
+  {%
+    \beamer@setupshort{#1}%
+    \beamer@insertshort{\beamer@shortlecturename}%
+  }}
+%
+% allg. Einst.: damit die lecture-sachen auch im AM fnkt. (aus beamerbasesection.sty), angepaßt Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: zur besseren Übernahme des Autorennamens in der Fußzeile
+%
+\def\TUBAFAutor{\@dblarg\beamer@TUBAFAutor}
+\long\def\beamer@TUBAFAutor[#1]#2{%
+  \def\insertTUBAFAutor{\def\inst{\beamer@insttitle}\def\and{\beamer@andtitle}#2}%
+  \def\insertshortTUBAFAutor{#1}%
+  \ifbeamer@autopdfinfo%
+    \def\beamer@andstripped{}%
+    \beamer@stripands#2 \and\relax
+    {\let\inst=\@gobble\let\thanks=\@gobble\def\and{, }\hypersetup{pdfauthor={\beamer@andstripped}}}
+  \fi%
+ }
+\TUBAFAutor{}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: 
+% TUBAFTitel kommt jetzt aus TUBAFbasteinebefehle
+% TUBAFUntertitel ebenso
+% TUBAFInstituts ebenso
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: zum besseren Eintragen von Konferenzname und -ort
+%
+\def\TUBAFOrt{\@dblarg\beamer@TUBAFOrt}
+\long\def\beamer@TUBAFOrt[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\insertTUBAFOrt{}\def\insertTUBAFconferenceplace{}
+  \else
+    \def\insertTUBAFOrt{#2}\def\insertTUBAFconferenceplace{#2\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'TUBAFconferenceplace'\MessageBreak ist veraltet und kann\MessageBreak in Zukunft geloescht sein}}%
+  \fi
+ \def\insertshortTUBAFOrt{#1}\def\insertshortTUBAFconferenceplace{#1\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'TUBAFconferenceplace'\MessageBreak ist veraltet und kann\MessageBreak in Zukunft geloescht sein}}}
+\TUBAFOrt{}
+%
+\let\TUBAFconferenceplace\TUBAFOrt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: zur besseren Übernahme des Institutsnamens in der Fußzeile; kommt jetzt aus TUBAFbasteinebefehle
+%
+%\TUBAFDatum{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Bildbereich auf Titelseite Anfang
+%
+\newcommand{\TUBAFTitelseitebilder}[1]{\def\TUBAFTitelseitebildernotscaled{#1}}
+\def\TUBAFTitelseitebildernotscaled{\mbox{X}}% muß Box enthalten, sonst FP-Fehler division by zero
+%\newif\ifbeamer@TUBAF@tlsb
+\AtBeginDocument{
+	\ifthenelse{\equal{\TUBAFTitelseitebildernotscaled}{\mbox{X}}}{%
+		\beamer@TUBAF@tlsbfalse%
+	   }{%
+		\beamer@TUBAF@tlsbtrue%
+	}%
+}
+%
+% allg. Einst.: Bildbereich auf Titelseite Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Erläuterung auf Titelseite Anfang
+%
+\newcommand{\TUBAFTitelseiteerlaeuterung}[1]{\def\insertTUBAFTitelseiteerlaeuterung{#1}}
+\def\insertTUBAFTitelseiteerlaeuterung{}
+%
+% allg. Einst.: Erläuterung auf Titelseite Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: zum besseren Eintragen des Inhalts der Fußzeile bei strikt Anfang
+%
+\newcommand{\TUBAFFzstrikttext}[1]{\def\insertTUBAFFzstrikttext{#1}}
+\def\insertTUBAFFzstrikttext{}
+%
+% allg. Einst.: zum besseren Eintragen des Inhalts der Fußzeile bei strikt Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Zweitlogo Anfang
+%
+\newif\ifbeamer@TUBAF@zwl
+\AtBeginDocument{
+	\ifx\TUBAFZweitlogonotscaled\@empty% muß mit \ifx testen, sonst Probleme mit tikz und AtBeginDocument
+		\beamer@TUBAF@zwlfalse%
+	   \else
+		\beamer@TUBAF@zwltrue%
+	\fi%
+}
+%
+% allg. Einst.: Zweitlogo Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Poster Referenzen Anfang
+%
+\newcommand{\TUBAFReferenzen}[1]{\def\insertTUBAFReferenzen{#1}}
+\def\insertTUBAFReferenzen{}
+%
+% allg. Einst.: Poster Referenzen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Trennzeichen und andere Hilfsmittel Anfang
+%
+\newcommand{\TUBAFseitentrenner}{/}			% <aktuelle Seite>\TUBAFseitentrenner<letzte Seite>
+\newcommand{\TUBAFletzteseitescale}{}		% Skalierung der lastframenumber
+\newcommand{\TUBAFname}{TU Bergakademie Freiberg}% der Uniname als Variable stil=klassisch UND fusszeile=klassisch
+\newcommand{\TUBAFshortname}{TUBAF}			% stil=klassisch UND  fusszeile={riehl,ernst,ernstcolor}
+\newcommand{\TUBAFopensign}{(}	% öffnendes Zeichen bei ernst um \TUBAFshortname, bei riehl um \insertshortdate
+\newcommand{\TUBAFclosesign}{)}	% schließendes Zeichen bei ernst um \TUBAFshortname, bei riehl um \insertshortdate
+%
+\newcommand{\TUBAFaktabschn}{Aktueller Abschnitt}
+%
+\newcommand{\TUBAFfolgetrenner}{~\ensuremath{\triangleright}~}% trennt Elemente in Fußzeile strikt/pseudostrikt
+\newcommand{\TUBAFfztrenner}{~|\ }% trennt Elemente in Fußzeile strikt/pseudostrikt
+%
+\newcommand{\TUBAFfzvkorr}[1]{\def\insertTUBAFfzvkorr{\vphantom{#1}}}
+\TUBAFfzvkorr{\"Ag\TUBAFfztrenner\TUBAFseitentrenner}%  vertikale Korrektur von Fußzeilentext und Seitenzahl strikt
+%
+\newcommand{\TUBAFvfill}{\vskip0pt plus 1filll}% ein vfill
+%
+% allg. Einst.: manueller framebreak zählt für AM framenumber weiter
+\def\framebreak{\pagebreak<presentation>\mode<article>{\refstepcounter{framenumber}}}
+%
+% allg. Einst.: Trennzeichen und andere Hilfsmittel Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: Befehle für die Lektionsseite Anfang
+%
+\newcommand{\TUBAFlektionsname}{Lektion}
+\newcommand{\TUBAFlektionstrenner}{}
+\newcommand{\TUBAFlektionstitel}{\TUBAFlektionsname~\insertlecturenumber\TUBAFlektionstrenner}
+% die Lektionsseite
+\AtBeginLecture{%
+	\mode<presentation>{%
+		\ifthenelse{\equal{\TUBAF@stil}{lehre}}{
+			\frame[plain]{%
+				\frametitle{{\usebeamerfont{framesubtitle}\insertshortTUBAFAutor:~\insertshortTUBAFTitel~\\[2ex]} \TUBAFlektionstitel}
+				%\frametitle{\TUBAFlektionstitel}
+				\vskip0pt plus 1filll
+				\begin{center}\Large\bfseries\insertlecture\end{center}
+				\vskip0pt plus 1filll\vskip3cm
+			}%
+		   }{%
+			\frame{%
+				\frametitle{\TUBAFlektionstitel}
+				\vskip0pt plus 1filll
+				\begin{center}\Large\bfseries\insertlecture\end{center}
+				\vskip0pt plus 1filll\vskip3cm
+			}%
+		}
+			\addtocounter{framenumber}{-1}%
+	}
+	\mode<article>{%
+		\vskip1.5em
+		\noindent{\ifthenelse{\isundefined{\usekomafont}}{}{\usekomafont{sectioning}}%
+		\Large\bfseries\TUBAFlektionstitel
+		\newline
+		\huge\insertlecture
+		\vskip1em}
+	}
+}
+% allg. Einst.: Befehle für die Lektionsseite Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.:  allgemeine Blockdefinitionen Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.:  neue Blöcke:
+%
+% doch zuerst die Einrückung klären
+\newcommand{\TUBAF@blocksep}{.75ex}
+\ifbeamer@TUBAF@blockinnersep
+	\newcommand{\TUBAF@blockoutersep}{0ex}
+	\newcommand{\TUBAF@blockinnersep}{\TUBAF@blocksep}
+   \else
+	\newcommand{\TUBAF@blockoutersep}{\TUBAF@blocksep}
+	\newcommand{\TUBAF@blockinnersep}{0ex}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.:  block TUBAFin Anfang
+\mode<presentation>{%
+	\setbeamertemplate{block TUBAFin begin}{%
+		\vskip\medskipamount%%	\par\vskip\medskipamount%
+		\ifx\insertblocktitle\@empty
+			\vskip0.15ex
+		   \else
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title TUBAFin}
+		  		\usebeamerfont*{block title TUBAFin}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+		\fi
+		  \ifbeamercolorempty[bg]{block title TUBAFin}
+		  {}
+		  {\ifbeamercolorempty[bg]{block body TUBAFin}{}{\nointerlineskip\vskip-0.5pt}}%
+		  \usebeamerfont{block body TUBAFin}%
+		  \begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep,vmode]{block body TUBAFin}%
+		    \ifbeamercolorempty[bg]{block body TUBAFin}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+	\setbeamertemplate{block TUBAFin end}{\end{beamercolorbox}\vskip\smallskipamount}%
+}
+%
+\newenvironment<>{TUBAFinblock}[1]{%
+	\begin{actionenv}#2%
+		\ifx\insertblocktitle\@empty
+			\def\insertblocktitle{\vskip-2ex}\vskip-2ex
+		   \else
+			\def\insertblocktitle{#1}
+		\fi
+		\usebeamertemplate{block TUBAFin begin}%
+   }{%
+		\par%
+		\usebeamertemplate{block TUBAFin end}%
+	\end{actionenv}%
+}
+%
+% allg. Einst.: block TUBAFin Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: block TUBAFout Anfang
+\mode<presentation>{%
+	\setbeamertemplate{block TUBAFout begin}{%
+		\par\vskip\medskipamount%
+		\ifx\insertblocktitle\@empty
+			\vskip0.15ex
+		   \else
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title TUBAFout}
+		  		\usebeamerfont*{block title TUBAFout}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+		\fi
+		\ifbeamercolorempty[bg]{block title TUBAFout}
+			{}
+			{\ifbeamercolorempty[bg]{block body TUBAFout}{}{\nointerlineskip\vskip-0.5pt}}%
+		\usebeamerfont{block body TUBAFout}%
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep,vmode]{block body TUBAFout}%
+				\ifbeamercolorempty[bg]{block body TUBAFout}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+	\setbeamertemplate{block TUBAFout end}{\end{beamercolorbox}\vskip\smallskipamount}
+}
+%
+\newenvironment<>{TUBAFoutblock}[1]{%
+	\begin{actionenv}#2%
+		\ifx\insertblocktitle\@empty
+			\def\insertblocktitle{\vskip-2ex}\vskip-2ex
+		   \else
+			\def\insertblocktitle{#1}
+		\fi
+		\usebeamertemplate{block TUBAFout begin}}
+		{\par%
+		\usebeamertemplate{block TUBAFout end}%
+	\end{actionenv}}
+%
+% allg. Einst.: block TUBAFout Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.:  block TUBAFcis Anfang
+\mode<presentation>{%
+	\setbeamertemplate{block TUBAFcis begin}{%
+		\vskip\medskipamount%%	\par\vskip\medskipamount%
+% falscher Test		\ifx\insertblocktitle\@empty
+		\ifthenelse{\equal{\TUBAFtmpa}{leer}}{%
+			\vskip0.15ex
+% falscher Test		   \else
+		   }{%
+			%\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title TUBAFcis}
+			\begin{beamercolorbox}[colsep*=0pt,sep=0pt,dp=1.75ex,vmode]{block title TUBAFcis}%
+				\vspace{1ex}%
+				\usebeamerfont*{block title TUBAFcis}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+% falscher Test		\fi
+		}
+		  \ifbeamercolorempty[bg]{block title TUBAFcis}
+		  {}
+		  {\ifbeamercolorempty[bg]{block body TUBAFcis}{}{\nointerlineskip\vskip-0.5pt}}%
+		  \usebeamerfont{block body TUBAFcis}%
+		  \begin{beamercolorbox}[colsep*=0pt,sep=0pt,vmode]{block body TUBAFcis}%
+		    \ifbeamercolorempty[bg]{block body TUBAFcis}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+	\setbeamertemplate{block TUBAFcis end}{\end{beamercolorbox}\vskip\smallskipamount}%
+}
+%
+\newenvironment<>{TUBAFcisblock}[1]{%
+	\begin{actionenv}#2%
+		%\ifx\insertblocktitle\@empty%
+			%\def\insertblocktitle{\vskip-2ex}\vskip-2ex%
+		   %\else%
+			%\def\insertblocktitle{\uppercase{#1}}%
+		%\fi%
+		%% anderer Test, da sonst falsches Ergebnis
+		\ifthenelse{\equal{#1}{}}{%
+			\renewcommand{\TUBAFtmpa}{leer}
+		   }{%
+			\def\insertblocktitle{\TUBAF@uppercase{#1}}%
+		}
+		\usebeamertemplate{block TUBAFcis begin}%
+   }{%
+		\par%
+		\usebeamertemplate{block TUBAFcis end}%
+	\end{actionenv}%
+}
+%
+% allg. Einst.: block TUBAFin Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: neue Blöcke im article Modus Anfang
+%
+\defbeamertemplate<article>*{block TUBAFin begin}{default}
+  {\par\vskip\medskipamount{\noindent\textsl{\insertblocktitle}}\par\noindent\ignorespaces}
+\defbeamertemplate<article>*{block TUBAFin end}{default}{\vskip\medskipamount}
+\defbeamertemplate<article>*{block TUBAFout begin}{default}
+  {\par\vskip\medskipamount{\noindent\textsl{\insertblocktitle}}\par\noindent\ignorespaces}
+\defbeamertemplate<article>*{block TUBAFout end}{default}{\vskip\medskipamount}
+\defbeamertemplate<article>*{block TUBAFcis begin}{default}
+  {\par\vskip\medskipamount{\noindent\textsl{\insertblocktitle}}\par\noindent\ignorespaces}
+\defbeamertemplate<article>*{block TUBAFcis end}{default}{\vskip\medskipamount}
+%
+% allg. Einst.: neue Blöcke im article Modus Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst.: bekannte Blöcke eckig Anfang
+%
+% Korrektur für leeren Titel für block, alertedblock und exampleblock
+\mode<presentation>{%
+	\setbeamertemplate{block begin}{%
+		\par\vskip\medskipamount%
+		\ifx\insertblocktitle\@empty
+			\vskip0.15ex
+		   \else
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title}
+		  		\usebeamerfont*{block title}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+		\fi
+		\ifbeamercolorempty[bg]{block title}
+			{}
+			{\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+		\usebeamerfont{block body}%
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep,vmode]{block body}%
+				\ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+
+	\setbeamertemplate{block alerted begin}{%
+		\par\vskip\medskipamount%
+		\ifx\insertblocktitle\@empty
+			\vskip0.15ex
+		   \else
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title alerted}
+		  		\usebeamerfont*{block title alerted}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+		\fi
+		\ifbeamercolorempty[bg]{block title alerted}
+			{}
+			{\ifbeamercolorempty[bg]{block body alerted}{}{\nointerlineskip\vskip-0.5pt}}%
+		\usebeamerfont{block body alerted}%
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep,vmode]{block body alerted}%
+				\ifbeamercolorempty[bg]{block body alerted}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+	
+	\setbeamertemplate{block example begin}{%
+		\par\vskip\medskipamount%
+		\ifx\insertblocktitle\@empty
+			\vskip0.15ex
+		   \else
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep]{block title example}
+		  		\usebeamerfont*{block title example}\insertblocktitle\TUBAF@blocktitelkonst%
+			\end{beamercolorbox}%
+			{\parskip0pt\par}%
+		\fi
+		\ifbeamercolorempty[bg]{block title example}
+			{}
+			{\ifbeamercolorempty[bg]{block body example}{}{\nointerlineskip\vskip-0.5pt}}%
+		\usebeamerfont{block body example}%
+			\begin{beamercolorbox}[colsep*=\TUBAF@blockoutersep,sep=\TUBAF@blockinnersep,vmode]{block body example}%
+				\ifbeamercolorempty[bg]{block body example}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+	}
+}
+%
+% allg. Einst.: bekannte Blöcke eckig Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% allg. Einst.: allgemeine Blockdefinitionen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% allg. Einst: Nummerierung per Abschnitt Anfang
+%
+\ifthenelse{\equal{\TUBAF@numper}{none}}{}{}
+\ifthenelse{\equal{\TUBAF@numper}{lecture}}{%
+	\renewcommand{\thefigure}{\thelecture.\arabic{figure}}%
+	\renewcommand{\thetable}{\thelecture.\arabic{table}}%
+	\renewcommand{\theequation}{\thelecture.\arabic{equation}}%
+	\@addtoreset{figure}{lecture}%
+	\@addtoreset{table}{lecture}%
+	\@addtoreset{equation}{lecture}%
+   }{}
+\ifthenelse{\equal{\TUBAF@numper}{part}}{%
+	\renewcommand{\thefigure}{\thepart.\arabic{figure}}%
+	\renewcommand{\thetable}{\thepart.\arabic{table}}%
+	\renewcommand{\theequation}{\thepart.\arabic{equation}}%
+	\@addtoreset{figure}{part}%
+	\@addtoreset{table}{part}%
+	\@addtoreset{equation}{part}%
+   }{}
+\ifthenelse{\equal{\TUBAF@numper}{section}}{%
+	\renewcommand{\thefigure}{\thesection.\arabic{figure}}%
+	\renewcommand{\thetable}{\thesection.\arabic{table}}%
+	\renewcommand{\theequation}{\thesection.\arabic{equation}}%
+	\@addtoreset{figure}{section}%
+	\@addtoreset{table}{section}%
+	\@addtoreset{equation}{section}%
+   }{}
+%
+% allg. Einst: Nummerierung per Abschnitt Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst: Nummerierung der Überschriften per lecture, part oder section Anfang
+%\ifbeamer@TUBAF@sec%
+	\ifthenelse{\equal{\TUBAF@secnumper}{lecture}}{%
+%		\ifthenelse{\insertlecturenumber < 0}{% Test fnkt nur in Präambel
+%			\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+%			\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}%
+%			\@addtoreset{section}{lecture}%
+%		   }{%
+			\renewcommand{\thesection}{\thelecture.\arabic{section}}%
+			\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+			\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}%
+			\@addtoreset{section}{lecture}%
+%		}%
+	   }{%
+	}%
+	\ifthenelse{\equal{\TUBAF@secnumper}{part}}{%
+%		\ifthenelse{\thepart = 0}{%Test fnkt nicht (auch nicht mit \equal{\thepart}{}, auch nicht mit \arabic{part}
+%			\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+%			\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}%
+%			\@addtoreset{section}{part}%
+%		   }{%
+			\renewcommand{\thesection}{\thepart.\arabic{section}}%
+			\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+			\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}%
+			\@addtoreset{section}{part}%
+%		}%
+	   }{%
+	}%
+	\ifthenelse{\equal{\TUBAF@secnumper}{section}}{%
+		\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+		\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}%
+	   }{%
+	}%
+%   \else
+%\fi
+% allg. Einst: Nummerierung der Überschriften per lecture, part oder section Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% allg. Einst: alternativ zu den neuen Überschriftendefinitionen: letzte Überschrift einfügen als Text Anfang
+\mode<presentation>{%
+\newcommand{\TUBAFshowsection}{%
+	\ifbeamer@TUBAF@sec%
+	   \else%
+		\vspace{.25\baselineskip}\par%
+		{\normalfont\bfseries\large\thesection~\insertsection}%
+		\par\vspace{.75\baselineskip}%
+	\fi%
+}
+\newcommand{\TUBAFshowsubsection}{%
+	\ifbeamer@TUBAF@sec%
+	   \else%
+		\vspace{.2\baselineskip}\par%
+		{\normalfont\bfseries%
+		\ifbeamer@TUBAF@secnumper%
+			\thesubsection%
+		   \else
+			\thesection.\thesubsection%
+		\fi%
+		~\insertsubsection}%
+		\par\vspace{.5\baselineskip}%
+	\fi%
+}
+\newcommand{\TUBAFshowsubsubsection}{
+	\ifbeamer@TUBAF@sec%
+	   \else%
+		\vspace{.2\baselineskip}\par%
+		{\normalfont\bfseries%
+		\ifbeamer@TUBAF@secnumper%
+			\thesubsubsection%
+		   \else
+			\thesection.\thesubsection.\thesubsection%
+		\fi%
+		~\insertsubsubsection}%
+		\par\vspace{.25\baselineskip}%
+	\fi%
+	}
+}
+%
+\mode<article>{%
+	\newcommand{\TUBAFshowsection}{\par\medskip}
+	\newcommand{\TUBAFshowsubsection}{\par\medskip}
+	\newcommand{\TUBAFshowsubsubsection}{\par\medskip}
+}
+% allg. Einst: alternativ zu den neuen Überschriftendefinitionen: letzte Überschrift einfügen als Text Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% allgemeine Einstellungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Begin des Präsentationsmodus'
+%
+\mode<presentation>{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% PM: Test auf Lua/Xe(La)TeX und entspr. Pakete laden Anfang
+%
+\ifluatex %beamer laedt ifpdf, ifpdf laedt bei bedarf ifluatex, packet einbinden unnoetig
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Kuemmern Sie sich bitte selbst\MessageBreak um die Fontangelegenheiten}
+   \else
+	\ifxetex
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Kuemmern Sie sich bitte selbst\MessageBreak um die Fontangelegenheiten}
+		%
+	   \else%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% PM: pdflatex Anfang
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% poster: Test auf Schrift Anfang
+		\ifthenelse{\equal{\TUBAF@postertest}{true}}{%
+		\ifthenelse{\equal{\TUBAF@hausschrift}{times}}{%
+			\PackageWarningNoLine{\TUBAFbeamer@name}{Der Wert 'times' fuer die Option 'hausschrift'\MessageBreak ist fuer Poster nicht zulaessig.\MessageBreak Setze ihn auf 'false'}
+			\renewcommand{\TUBAF@hausschrift}{false}
+		   }{%
+		}%
+		}{}
+		% poster: Test auf Schrift Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% PM: Fonteinst: Tests für Hausschrift Anfang
+		\ifthenelse{\equal{\TUBAF@hausschrift}{false}\OR\equal{\TUBAF@hausschrift}{arial}}{%
+			%
+			\beamer@TUBAF@hausschriftfalse%
+			%
+			\ifthenelse{\equal{\TUBAF@hausschrift}{arial}}{%
+				\RequirePackage[scaled]{uarial}
+				\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont\small {#1}}}%
+			   }{%
+				\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont {#1}}}
+			}
+		   }{%
+			\ifthenelse{\equal{\TUBAF@hausschrift}{}\OR\equal{\TUBAF@hausschrift}{true}\OR\equal{\TUBAF@hausschrift}{futura}}{%
+				\beamer@TUBAF@hausschrifttrue%
+				\RequirePackage{TUBAFhausschrift}%
+			   }{%
+				\beamer@TUBAF@hausschrifttrue%
+				\RequirePackage[\TUBAF@hausschrift]{TUBAFhausschrift}%
+			}%
+		}
+		% PM: allg. Einst.: Fonteinst: Tests für Hausschrift Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% PM: allg. Einst.: Fonteinst: Mathesachen mit Serifen; kommt erst hier, da _NACH_ Hausschrift Anfang
+		\ifbeamer@TUBAF@mathsf
+			\ifbeamer@TUBAF@hausschrift\RequirePackage{TUBAFhausschriftmathe}\fi
+			\def\mathfamilydefault{\sfdefault}
+			\beamer@sansmathtrue
+		   \else
+			\def\mathfamilydefault{cmr}%\rmdefault}
+			\beamer@sansmathfalse
+		\fi
+		% PM: allg. Einst.: Fonteinst: Mathesachen mit Serifen; kommt erst hier, da _NACH_ Hausschrift Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%\ifthenelse{\equal{\TUBAF@stil}{strikt}}{%
+			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			%% pdflatex: stil=strikt Anfang
+			%%
+			%%\ifbeamer@TUBAF@hausschrift%
+			   %%\else
+				%%\ifthenelse{\equal{\TUBAF@hausschrift}{noarial}}{%
+					%%\RequirePackage[nomath]{lmodern}
+					%%\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont {#1}}}
+				   %%}{%
+					%%\IfFileExists{uarial.sty}{\RequirePackage[scaled]{uarial}}{}%=0.9
+					%%\@ifpackageloaded{uarial}{%
+						%%\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont\small {#1}}}%
+					   %%}{}
+				%%}
+			%%\fi
+			%%
+			%% pdflatex: stil=strikt Ende
+			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		   %}{%
+			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			%% pdflatex: stil=nonstrikt Anfang
+			%%
+			%\ifbeamer@TUBAF@hausschrift%
+			   %\else
+				%\RequirePackage[nomath]{lmodern}
+				%\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont {#1}}}
+	 		%\fi
+			%%
+			%% pdflatex: stil=nonstrikt Ende
+			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%}
+		%
+		% PM: pdflatex Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\fi
+\fi
+%
+% PM: Fonteinst: Test auf Lua/Xe(La)TeX und entspr. Pakete laden Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Hintergrund- und Textfarbe/-formen Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Farbzuweisungen (müssen hier stehen, damit sie später geändert werden können) Anfang
+%
+\setbeamercolor{structure}{bg=TUBAFhausfarbe,fg=TUBAFhausfarbe}
+%
+% direktes Einsetzen von Farben zu Testzwecken
+%
+\setbeamercolor{TUBAFhausfarbe}{bg=TUBAFhausfarbe,fg=TUBAFhausfarbe}
+\setbeamercolor{TUBAFumwelt}{bg=TUBAFumwelt,fg=TUBAFumwelt}
+\setbeamercolor{TUBAFenergie}{bg=TUBAFenergie,fg=TUBAFenergie}
+\setbeamercolor{TUBAFmaterial}{bg=TUBAFmaterial,fg=TUBAFmaterial}
+\setbeamercolor{TUBAFgeo}{bg=TUBAFgeo,fg=TUBAFgeo}
+\setbeamercolor{TUBAFweiss}{bg=TUBAFweiss,fg=TUBAFweiss}
+\setbeamercolor{TUBAFschwarz}{bg=TUBAFschwarz,fg=TUBAFschwarz}
+\setbeamercolor{TUBAFgrau}{bg=TUBAFgrau\TUBAFgrauext,fg=TUBAFgrau\TUBAFgrauext}
+%
+% Farbzuweisungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: setzt die Hintergrund und die Textfarbe
+%\setbeamercolor{normal text}{bg=TUBAFweiss,fg=TUBAFschwarz}% wird später stilabhängig angepaßt
+\setbeamercolor{alerted text}{fg=TUBAFenergie}
+\setbeamercolor{example text}{fg=TUBAFumwelt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Farben Titelseite
+\setbeamercolor{title page}{parent=structure,bg=,fg=structure.fg}
+\setbeamercolor{title}{parent=title page}
+\setbeamercolor{subtitle}{parent=title page}
+\setbeamercolor{title page author}{parent=normal text}
+\setbeamercolor{title page institute}{parent=footline}
+\setbeamercolor{title page ort}{parent=title page institute}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farben und Fonts partpage
+% partpage
+\setbeamercolor{part name}{parent=normal.txt,fg=normal text.fg}
+\setbeamercolor{part title}{parent=structure,fg=structure.fg,bg=}
+\setbeamerfont{part name}{size=\large}
+\setbeamerfont{part title}{size=\Large,series=\bfseries}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farben für enumerate, itemize und description
+\setbeamercolor{enumerate item}{use=block title,fg=block title.bg}
+\setbeamercolor{enumerate subitem}{use=block title,fg=block title.bg}
+\setbeamercolor{enumerate subsubitem}{use=block title,fg=block title.bg}
+\setbeamercolor{itemize item}{use=block title,fg=block title.bg}
+\setbeamercolor{itemize subitem}{use=block title,fg=block title.bg}
+\setbeamercolor{itemize subsubitem}{use=block title,fg=block title.bg}
+\setbeamercolor{description item}{use=block title,fg=block title.bg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Quadrate für alle itemize-Tiefen
+\setbeamertemplate{itemize item}{\rule{.95ex}{.95ex}}
+\setbeamertemplate{itemize subitem}{\rule{.9ex}{.9ex}}
+\setbeamertemplate{itemize subsubitem}{\rule{.85ex}{.85ex}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farben für Inhaltsverzeichnis
+\setbeamercolor{section in toc}{use=structure,fg=structure.fg}
+\setbeamercolor{subsection in toc}{fg=normal text.fg}
+\setbeamercolor{subsubsection in toc}{fg=normal text.fg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: überdeckter Text zu erkennen
+\setbeamercovered{transparent=20}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: caption
+\setbeamercolor{caption name}{fg=structure.fg}
+\setbeamerfont{caption name}{size=\footnotesize}
+\setbeamerfont{caption}{size=\footnotesize}
+%
+\setbeamertemplate{caption}[numbered]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farben für thebibliographic (org. in beamercolorthemedefault.sty)
+\setbeamercolor{bibliography item}{fg=structure.fg}
+\setbeamercolor{bibliography entry author}{fg=structure.fg}
+\setbeamercolor{bibliography entry title}{fg=structure.fg}
+\setbeamercolor{bibliography entry location}{fg=normal text.fg}
+\setbeamercolor{bibliography entry note}{fg=normal text.fg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Schriften Bibliographie
+\setbeamerfont{bibliography item}{size=\normalsize}
+\setbeamerfont{bibliography entry author}{size=\normalsize}
+\setbeamerfont{bibliography entry title}{size=\normalsize}
+\setbeamerfont{bibliography entry location}{size=\footnotesize}
+\setbeamerfont{bibliography entry note}{size=\footnotesize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Formatierung von bibliography-Kram (org. in beamercolorthemedefault.sty)
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{bibliography entry author}{}
+\setbeamertemplate{bibliography entry title}{\par}
+\setbeamertemplate{bibliography entry location}{\par}
+\setbeamertemplate{bibliography entry note}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farben für Blöcke einstellen Anfang
+% block
+\setbeamercolor{block title}{use=structure,fg=structure.fg!0,bg=structure.fg}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!20!normal text.bg}
+% alertedblock
+\setbeamercolor{block title alerted}{use=alerted text,fg=alerted text.fg!0,bg=alerted text.fg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!20!normal text.bg}
+% exampleblock
+\setbeamercolor{block title example}{use=example text,fg=example text.fg!0,bg=example text.fg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!20!normal text.bg}
+% TUBAFinblock
+%\setbeamercolor{block title TUBAFin}{use=block title,bg=TUBAFmaterial,fg=block title.fg}
+\setbeamercolor{block title TUBAFin}{use=block title,bg=TUBAFmaterial,fg=block title.fg}
+\setbeamercolor{block body TUBAFin}{use={normal text,block title TUBAFin},bg=block title TUBAFin.bg!20!normal text.bg}
+% TUBAFoutblock
+\setbeamercolor{block title TUBAFout}{use=block title,bg=TUBAFgeo,fg=block title.fg}
+\setbeamercolor{block body TUBAFout}{use={normal text,block title TUBAFout},bg=block title TUBAFout.bg!20!normal text.bg}
+% TUBAFcisblock (wird später stilabhängig gesetzt)
+\setbeamercolor{block title TUBAFcis}{use={structure,background canvas},bg=background canvas.bg,fg=structure.fg}
+\setbeamercolor{block body TUBAFcis}{use={block title TUBAFcis,normal text},bg=block title TUBAFcis.bg,fg=normal text.fg}
+%
+% PM: Farben für Blöcke einstellen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Fonts für Blöcke einstellen Anfang
+% block
+\setbeamerfont{block title}{size=\large}
+\setbeamerfont{block body}{size=\normalsize}
+% alertedblock
+\setbeamerfont{block title alerted}{size=\large}
+\setbeamerfont{block body alerted}{size=\normalsize}
+% exampleblock
+\setbeamerfont{block title example}{size=\large}
+\setbeamerfont{block body example}{size=\normalsize}
+% TUBAFinblock
+\setbeamerfont{block title TUBAFin}{size=\large}
+\setbeamerfont{block body TUBAFin}{size=\normalsize}
+% TUBAFoutblock
+\setbeamerfont{block title TUBAFout}{size=\large}
+\setbeamerfont{block body TUBAFout}{size=\normalsize}
+% TUBAFcisblock
+\setbeamerfont{block title TUBAFcis}{size=\large,series=\bfseries}
+\setbeamerfont{block body TUBAFcis}{size=\normalsize}
+%
+% PM: Fonts für Blöcke einstellen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farbe für Navigationssymbole
+\setbeamercolor{navigation symbols}{use=footline,fg=footline.fg,bg=footline.bg}
+\setbeamercolor{navigation symbols dimmed}{use=footline,fg=footline.fg,bg=footline.bg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PM: Farben für Rahmen Anfang
+%%
+%% Farbpaletten
+%\setbeamercolor{palette primary}{%
+	%use={framecolor,normal text},fg=framecolor.fg!50!TUBAFschwarz,bg=framecolor.bg!70!normal text.bg}
+%\setbeamercolor{palette secondary}{%
+	%use={framecolor,normal text},fg=framecolor.fg!50!TUBAFschwarz,bg=framecolor.bg!75!normal text.bg}
+%\setbeamercolor{palette tertiary}{%
+	%use={framecolor,normal text},fg=framecolor.fg!50!TUBAFschwarz,bg=framecolor.bg!80!normal text.bg}
+%\setbeamercolor{palette quaternary}{%
+	%use={framecolor,normal text},fg=framecolor.fg!50!TUBAFschwarz,bg=framecolor.bg!85!normal text.bg}
+%%
+%% PM: Farben für Rahmen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Fonts für frames Anfang
+%
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{framesubtitle}{size=\small}
+%
+% PM: Fonts für frames Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Farbe für framebreak-Zähler
+%
+%\setbeamercolor{frametitle continuation}{use=titlelike,fg=titlelike.fg}
+\setbeamercolor{frametitle continuation}{parent=frametitle}%fg=TUBAFgeo}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Form des framebreak-Zählers
+%
+\setbeamertemplate{frametitle continuation}{%
+	\expandafter\ifnum\insertcontinuationcount>1\relax\insertcontinuationcountroman\fi
+}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: stilabhängige Farben setzen Anfang
+%
+%	ACHTUNG: einige Farben werden bei der Redefinition von titlepage und maketitle nochmals gesetzt!
+%			KONTROLLE!!!
+%
+\ifthenelse{\equal{\TUBAF@stil}{strikt}}{%
+	\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+		\setbeamercolor{normal text}{bg=TUBAFweiss,fg=TUBAFschwarz}
+		\setbeamercolor{title page}{parent=structure,bg=,fg=structure.fg!0}	% alles außer title und subtitle
+		%\setbeamercolor{block title TUBAFcis}{use=structure,bg=TUBAFweiss,fg=structure.fg}
+		%\setbeamercolor{block body TUBAFcis}{bg=red,fg=blue}%use=normal text,bg=TUBAFgeo,fg=normal text.fg}
+	}{}
+	\ifthenelse{\equal{\TUBAF@titelseite}{grau}}{%
+		\setbeamercolor{normal text}{bg=TUBAFgrauviii,fg=TUBAFschwarz}
+		\setbeamercolor{title page}{parent=structure,bg=,fg=structure.fg}	% alles außer title und subtitle
+		%\setbeamercolor{block title TUBAFcis}{use=structure,bg=TUBAFgrauviii,fg=structure.fg}% parent={normal text,structure},bg=normal text.bg,fg=structure.fg}% fnkt nicht!
+		%\setbeamercolor{block body TUBAFcis}{parent={block title TUBAFcis,normal text},bg=block title TUBAFcis.bg,fg=normal text.fg}
+	}{}%
+	\ifthenelse{\equal{\TUBAF@titelseite}{weiss}}{%
+		\setbeamercolor{normal text}{bg=TUBAFweiss,fg=TUBAFschwarz}
+		\setbeamercolor{title page}{parent={normal text,structure},bg=normal text.bg,fg=structure.fg}	% alles außer title und subtitle
+		%\setbeamercolor{block title TUBAFcis}{use=structure,bg=TUBAFweiss,fg=structure.fg}% parent={normal text,structure},bg=normal text.bg,fg=structure.fg}% fnkt nicht!
+		%\setbeamercolor{block body TUBAFcis}{parent={block title TUBAFcis,normal text},bg=block title TUBAFcis.bg,fg=normal text.fg}
+	}{}%
+	%\setbeamercolor{headline}{use=background canvas,bg=background canvas.bg,fg=TUBAFgrau\TUBAFgrauext}
+	\setbeamercolor{headline}{use={background canvas,structure},bg=background canvas.bg,fg=structure.fg}
+	%\setbeamercolor{headline}{bg=,fg=TUBAFgrau\TUBAFgrauext}
+	\setbeamercolor{frametitle}{use=background canvas,bg=background canvas.bg,fg=structure.fg}% parent geht nicht!
+	%\setbeamercolor{frametitle}{use=structure,bg=,fg=structure.fg}% parent geht nicht!
+	%
+	\setbeamercolor{footline}{parent=headline,fg=TUBAFgrau\TUBAFgrauext}
+	\setbeamercolor{page number in head/foot}{parent=footline,fg=footline.fg}
+	\setbeamercolor{title page erlaeuterung}{use=structure,bg=structure.bg,fg=TUBAFweiss}
+	%
+	% stil=strikt Ende
+   }{%
+	\ifthenelse{\equal{\TUBAF@stil}{klassisch}}{%
+		% stil=klassisch Anfang
+		\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+			\setbeamercolor{title page}{parent=structure,fg=structure.fg!0}	% alles außer title und subtitle
+			\setbeamercolor{title page author}{fg=TUBAFgrauvii}%parent=title page}
+			\setbeamercolor{title page institute}{fg=TUBAFgrauv}%parent=title page}
+			\setbeamercolor{title page ort}{parent=title page institute}
+		}{}
+		\ifthenelse{\equal{\TUBAF@titelseite}{grau}}{%
+			\setbeamercolor{title page}{parent={normal text,structure},bg=normal text.bg,fg=structure.fg}	% alles außer title und subtitle
+			\setbeamercolor{title page author}{parent=normal text}
+			\setbeamercolor{title page institute}{fg=TUBAFgrauII}
+			\setbeamercolor{title page ort}{parent=title page institute}
+		}{}
+		%
+		\ifthenelse{\equal{\TUBAF@rahmentitel}{klassisch}}{%
+			\setbeamercolor{frametitle}{parent=structure,fg=structure!0}
+		}{}
+		\ifthenelse{\equal{\TUBAF@rahmentitel}{modern}}{%
+			\setbeamercolor{frametitle}{use={background canvas,structure},bg=background canvas.bg,fg=structure.fg}
+		}{}
+		\ifthenelse{\equal{\TUBAF@rahmentitel}{pseudostrikt}}{%
+			\setbeamercolor*{frametitle}{use={footline,structure},bg=footline.bg,fg=structure.fg}
+		}{}
+		\setbeamercolor{headline}{use=background canvas,bg=background canvas.bg,fg=TUBAFgrau\TUBAFgrauext}
+		\setbeamercolor{footline}{parent=headline}%,bg=headline.bg,fg=headline.fg}% ohne bg/fg sonst Fehler
+		\setbeamercolor{page number in head/foot}{parent=footline,fg=footline.fg}
+		%
+		\ifthenelse{\equal{\TUBAF@fusszeile}{ernst}}{%
+			\setbeamercolor{ernstcolori}{parent=footline}
+			\setbeamercolor{ernstcolorii}{parent=footline}
+			\setbeamercolor{ernstcoloriii}{parent=footline}
+			\setbeamercolor{ernstcoloriv}{parent=footline}
+		}{}
+		\ifthenelse{\equal{\TUBAF@fusszeile}{ernstcolor}}{%
+			\setbeamercolor{ernstcolori}{fg=TUBAFweiss,bg=TUBAFhausfarbeII}
+			\setbeamercolor{ernstcolorii}{fg=TUBAFweiss,bg=TUBAFhausfarbeIV}
+			\setbeamercolor{ernstcoloriii}{fg=TUBAFweiss,bg=TUBAFhausfarbeVI}
+			\setbeamercolor{ernstcoloriv}{fg=TUBAFweiss,bg=TUBAFhausfarbe}
+		}{}
+		%  stil=klassisch Ende
+	   }{%
+		% stil=lehre Anfang
+		\setbeamercolor{title page}{parent={normal text,structure},bg=normal text.bg,fg=structure.fg}	% alles außer title und subtitle
+		\setbeamercolor{title page author}{parent=normal text}
+		\setbeamercolor{title page institute}{fg=TUBAFgrauII}
+		\setbeamercolor{title page ort}{parent=title page institute}
+		%
+		\setbeamercolor{frametitle}{parent={normal text,structure},bg=normal text.bg,fg=structure.fg}%TUBAFweiss!60!red
+		\setbeamercolor{headline}{use=background canvas,bg=background canvas.bg,fg=TUBAFgrau\TUBAFgrauext}
+		\setbeamercolor{footline}{use=headline,bg=headline.bg,fg=headline.fg}%TUBAFweiss!80!green
+		\setbeamercolor{page number in head/foot}{use=footline,bg=footline.bg,fg=footline.fg}
+		% stil=lehre Ende
+	}
+}% stil=strikt false Ende
+%
+% PM: stilabhängige Farben setzen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Fontgrößen setzen in Abhängigkeit von geladenen Paketen und externen Compilern Anfang
+%
+\ifthenelse{\equal{\TUBAF@stil}{strikt}}{%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt Fonts Titelseite
+	%\setbeamerfont{title page}{series=\normalfont,size*={10}{12}}	% alles außer title und subtitle
+	%\setbeamerfont{title}{series=\normalfont,size*={17}{19}}
+	%\setbeamerfont{subtitle}{series=\normalfont,size*={14}{16}}
+	\setbeamerfont{title page}{series=\normalfont,size=\normalsize}	% alles außer title und subtitle
+	\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+	\setbeamerfont{subtitle}{series=\normalfont,size=\Large}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	\setbeamerfont{headline}{size=\large}
+	%
+	\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+	\setbeamerfont{framesubtitle}{size=\small}
+	%
+	\ifluatex
+		\setbeamerfont{footline}{size=\tiny}
+		\setbeamerfont{page number in head/foot}{size=\tiny}
+	   \else
+		\ifxetex
+			\setbeamerfont{footline}{size=\tiny}
+			\setbeamerfont{page number in head/foot}{size=\tiny}
+		   \else
+			\setbeamerfont{footline}{series*={m},size*={6}{8}}%mb
+		\fi
+	\fi
+	%
+   }{%
+	\ifthenelse{\equal{\TUBAF@stil}{klassisch}}{%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% PM: stil=klassisch Fonts Titelseite
+		%\setbeamerfont{title page}{series=\normalfont,size*={10}{12}}	% alles außer title und subtitle
+		%\setbeamerfont{title}{series=\normalfont,size*={17}{19}}
+		%\setbeamerfont{subtitle}{series=\normalfont,size*={14}{16}}
+		\setbeamerfont{title page}{series=\normalfont,size=\normalsize}	% alles außer title und subtitle
+		\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+		\setbeamerfont{subtitle}{series=\normalfont,size=\Large}
+		%
+		\setbeamerfont{title page author}{series=\normalfont,size=\normalsize}
+		\setbeamerfont{title page institute}{series=\normalfont,size=\footnotesize}
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		\setbeamerfont{headline}{size=\large}
+		%
+		\setbeamerfont{frametitle}{size=\Large}%,series=\bfseries}
+		\setbeamerfont{framesubtitle}{size=\small}
+		%
+		\setbeamerfont{footline}{size=\tiny}
+		\setbeamerfont{page number in head/foot}{size=\tiny}
+		%
+		\ifthenelse{\equal{\TUBAF@fusszeile}{klassisch}}{%
+			\setbeamerfont{footline}{size=\tiny}
+			\setbeamerfont{page number in head/foot}{size=\normalsize}%\footnotesize}
+		 }{}
+		% PM: stil=klassisch Fontgrößen Ende
+	   }{%
+		% PM: stil=lehre Fontgrößen Anfang
+		\setbeamerfont{title page}{series=\normalfont,size=\normalsize}	% alles außer title und subtitle
+		\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+		\setbeamerfont{subtitle}{series=\normalfont,size=\Large}
+		%
+		\setbeamerfont{title page author}{series=\normalfont,size=\normalsize}
+		\setbeamerfont{title page institute}{series=\normalfont,size=\footnotesize}
+		%
+		\setbeamerfont{headline}{size=\large}
+		%
+		\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+		\setbeamerfont{framesubtitle}{size=\small}
+		%
+		\ifluatex
+			\setbeamerfont{footline}{size=\tiny}
+			\setbeamerfont{page number in head/foot}{size=\tiny}
+		   \else
+			\ifxetex
+				\setbeamerfont{footline}{size=\tiny}
+				\setbeamerfont{page number in head/foot}{size=\tiny}
+			   \else
+				\setbeamerfont{footline}{series*={m},size*={6}{7}}%mb
+				\setbeamerfont{page number in head/foot}{series*={m},size*={6}{7}}%size*={10}{12}}
+			\fi
+		\fi
+		% PM: stil=lehre Fontgrößen Ende
+	}%
+}
+%
+% PM: Fontgrößen setzen in Abhängigkeit von geladenen Paketen und externen Compilern Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: Hintergrund- und Textfarbe/-formen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Längen: setzen und Berechnungen Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Papiergröße NACH TUBAFbausteine festlegen, damit die Skalierung bleibt.
+%     Bei Angabe davor, wird selbige dennoch falsch berechnet.
+%
+\ifthenelse{\isundefined\beamer@paperheight}{%
+	\ifthenelse{\equal{\TUBAF@verhaeltnis}{4:3}}{%
+		\geometry{papersize={12.8cm,9.60cm}} % 4:3
+		 }{%
+		\ifthenelse{\equal{\TUBAF@verhaeltnis}{16:9}}{%
+			\geometry{papersize={17.07cm,9.60cm}}%
+			 }{%
+			\ifthenelse{\equal{\TUBAF@verhaeltnis}{16:10}}{%
+				\geometry{papersize={15.36cm,9.60cm}}%
+				 }{%
+			}%
+		}%
+	}%
+   }{%
+	\beamer@paperheight 9.6cm
+	\ifthenelse{\equal{\TUBAF@verhaeltnis}{4:3}}{%
+		\beamer@paperwidth 12.8cm % 4:3
+		 }{%
+		\ifthenelse{\equal{\TUBAF@verhaeltnis}{16:9}}{%
+			\beamer@paperwidth 17.07cm % 16:9
+			\setlength{\paperwidth}{17.07cm}%
+			 }{%
+			\ifthenelse{\equal{\TUBAF@verhaeltnis}{16:10}}{%
+				\beamer@paperwidth 15.36cm % 16:10
+				\setlength{\paperwidth}{15.36cm}%
+				 }{%
+			}%
+		}%
+	}%
+}
+%
+% PM: Papiergrößen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Berechnung von Längen Anfang
+%
+\newcommand{\TUBAF@tikzscale}{0.502}% Skalierung für tikz-Befehle aus TUBAFbausteine, extern berechnet
+\newcommand{\TUBAF@scale}{1.1}% Skalierung für Längen aus TUBAFbasteinelaengen, berechnet aus ? \TUBAF@tikzscale}{0.502*\TUBAFwbmBreiteLogo/(\TUBAFbeamer@tikzscale\TUBAFwbmBreiteLogo)
+\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+	%
+	\setlength{\TUBAF@logoscaledbreite}{\TUBAF@scale\TUBAFwbmBreiteLogo}
+	\setlength{\TUBAF@logoscaledhoehe}{\the\TUBAF@logoscaledbreite}
+	\setlength{\TUBAF@hdlosep}{\TUBAF@scale\TUBAFwbmSchutzzone}
+	\setlength{\TUBAF@hdlisep}{\the\TUBAF@hdlosep}
+   }{%
+	\setlength{\TUBAF@logoscaledbreite}{\TUBAF@scale\TUBAFwbmCCLBreiteLogo}
+	\setlength{\TUBAF@logoscaledhoehe}{\TUBAF@scale\TUBAFwbmCCLHoeheLogo}
+	\setlength{\TUBAF@hdlosep}{\TUBAF@scale\TUBAFwbmCCLSchutzzone}
+	\setlength{\TUBAF@hdlisep}{\TUBAF@scale\TUBAFwbmCCLinnereSchutzzone}
+}
+%
+\setlength{\TUBAF@textlmargin}{\TUBAF@hdlosep + \TUBAF@logoscaledbreite + \TUBAF@hdlisep}
+\setlength{\TUBAF@hdlhoehe}{2\TUBAF@hdlosep + \TUBAF@logoscaledhoehe}
+\setlength{\TUBAF@hdltextwidth}{\paperwidth - 2\TUBAF@hdlosep - \TUBAF@hdlisep - \TUBAF@logoscaledbreite}
+%\setlength{\TUBAF@hdltextwidth}{\paperwidth - 2\TUBAF@hdlosep - \TUBAF@hdlisep - 2\TUBAF@logoscaledbreite}
+\setlength{\TUBAF@frtlskip}{\TUBAF@hdlisep + \TUBAF@logoscaledbreite - 1pt}
+\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+	\setlength{\TUBAF@tlsbbreite}{\paperwidth - 2\TUBAF@textlmargin}%
+   }{%
+	\setlength{\TUBAF@tlsbbreite}{\paperwidth}%
+}
+\setlength{\TUBAF@tlsbhoehe}{.3333\paperheight}
+\setlength{\TUBAF@ftllskip}{\TUBAF@hdlisep + \TUBAF@logoscaledbreite}
+\setlength{\TUBAF@ftlrskip}{\TUBAF@hdlosep}
+\setlength{\TUBAF@ftltextwidth}{\paperwidth - 4\TUBAF@hdlosep - 2\TUBAF@logoscaledbreite}
+%
+% PM: Berechnung von Längen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Zweitlogo Berechnungen Anfang
+%
+\AtBeginDocument{% damit alle Längen korrekt sind
+	\ifbeamer@TUBAF@zwl%
+		% Berechnung der Skalierung und Definition von TUBAFZweitlogoscale/insertTUBAFZweitlogo
+		\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+			\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAF@scale\TUBAFwbmBreitewbm}{\TUBAF@logoscaledhoehe}{\TUBAFZweitlogoTSnotscaled}
+		   }{%
+			\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAF@scale\TUBAFwbmCCLBreitewbm}{\TUBAF@logoscaledhoehe}{\TUBAFZweitlogoTSnotscaled}
+		}
+		\ifthenelse{\equal{\TUBAF@postertest}{true}}{}{% sonst zweimalige Warnung
+			%%	% PM: Zweitlogo Ausgabe einer Warnung, wenn das Zweitlogo skaliert wird
+			\ifthenelse{\equal{\TUBAFZweitlogoTSscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFZweitlogo auf Titelseite ist verkleinert.\MessageBreak Ha ha!}}
+		}%
+		%
+		% in Abhängigkeit des Zweitlogos die Breiten der Kopfzeile (headline) neu berechnen erst mit dem Zweitlogo der Folgeseiten
+		%
+		% Berechnung der Skalierung und Definition von TUBAFZweitlogoscale/insertTUBAFZweitlogo
+		% kein Trachttest, da Test oben (PM: Berechnung von Längen) und Werte gesetzt
+		\TUBAFscalecomp{TUBAFZweitlogo}{\TUBAF@logoscaledbreite}{\TUBAF@logoscaledhoehe}{\TUBAFZweitlogonotscaled}
+		\ifthenelse{\equal{\TUBAF@postertest}{true}}{}{% sonst zweimalige Warnung
+			%%	% PM: Zweitlogo Ausgabe einer Warnung, wenn das Zweitlogo skaliert wird
+			\ifthenelse{\equal{\TUBAFZweitlogoscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFZweitlogo ist verkleinert.\MessageBreak Ha ha!}}
+		}%
+		%
+		% in Abhängigkeit des Zweitlogos die Breiten der Kopfzeile (headline) neu berechnen
+		%
+		\newlength{\TUBAF@zwlbreiteTS}\settowidth{\TUBAF@zwlbreiteTS}{\insertTUBAFZweitlogoTS}
+		\newlength{\TUBAF@zwlbreite}\settowidth{\TUBAF@zwlbreite}{\insertTUBAFZweitlogo}
+		%
+		\addtolength{\TUBAF@hdltextwidthTS}{-\TUBAF@zwlbreiteTS - \TUBAF@hdlosep}
+		\addtolength{\TUBAF@hdltextwidth}{-\TUBAF@zwlbreite - \TUBAF@hdlosep}
+		%
+		\ifbeamer@TUBAF@zweitlogoboxed%
+			% Vorschlag des savebox-Konstrukts von Dr.-Ing. Dmitry Safronov, TUBAF
+			\newsavebox{\TUBAFbeamerzweitlogobox}
+			\savebox{\TUBAFbeamerzweitlogobox}{\insertTUBAFZweitlogo}%
+			\renewcommand{\insertTUBAF@zweitlogo}{\usebox{\TUBAFbeamerzweitlogobox}}%
+		   \else
+			\renewcommand{\insertTUBAF@zweitlogo}{\insertTUBAFZweitlogo}%
+		\fi%
+	\fi% ifthenelse{\equal{\TUBAFZweitlogonotscaled} Ende
+}% AtBeginDocument Ende
+%
+% PM: Zweitlogo Berechnungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Titelseite Bilder Berechnungen Anfang
+%
+\AtBeginDocument{% damit alle Längen korrekt sind
+	\ifbeamer@TUBAF@tlsb%
+		% Berechnung der Skalierung und Definition von TUBAFTitelseitebilderscale/insertTUBAFTitelseitebilder
+		\TUBAFscalecomp{TUBAFTitelseitebilder}{\TUBAF@tlsbbreite}{\TUBAF@tlsbhoehe}{\TUBAFTitelseitebildernotscaled}
+		%%	% PM: Titelseitebilder Ausgabe einer Warnung, wenn das Titelseitebilder skaliert wird
+		\ifthenelse{\equal{\TUBAFTitelseitebilderscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFTitelseitebilder ist verkleinert.\MessageBreak Ha ha!}}
+	\fi%
+}% AtBeginDocument Ende
+%
+% PM: Titelseite Bilder Berechnungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: Längen: setzen und Berechnungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Allgemeines Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: durch Laden von \usefonttheme[onlymath]{serif} wird \inst{1} italic gesetzt
+% Index \inst auf normale Schrift anpassen
+\def\beamer@insttitle#1{{\textsuperscript{#1}}}
+\def\beamer@instinst#1{{\textsuperscript{#1}}\ignorespaces}
+%
+% PM: wird für AM dort nochmals geändert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: Allgemeines Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Navigationssymbole Anfang
+%
+% PM: Farbe wird oben bei Farben eingstellt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: keine Navigationsymbole (rechts unten)
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\insertTUBAF@navigation}{\usebeamercolor[fg]{navigation symbols}\insertframenavigationsymbol}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: die Zeile mit den Navigationssymbolen
+\newcommand{\TUBAF@navi}{%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=7pt,dp=0pt,right]{}% transparent
+		\ifthenelse{\equal{\TUBAF@navigation}{true}}{%
+			\usebeamercolor[fg]{navigation symbols}\insertframenavigationsymbol%\insertTUBAF@navigation%
+		   }{%
+		}%
+	\end{beamercolorbox}%
+	\vskip0pt%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: Navigationssymbole Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Test auf Farbe und Seitenzahl Anfang
+%
+% lieber hier extern testen, sonst auf jedem frame eine Warnung
+\ifthenelse{\equal{\TUBAF@seite}{letzte}}{% Seite ja, letzte Seite ja, lecturenumber ja
+	\ifbeamer@TUBAF@lektionsnummer
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Die Optionen 'seite=letzte'\MessageBreak und 'lektionsnummer=true' werden ignoriert}%
+		\renewcommand{\TUBAF@seite}{true}
+	   \else
+		% Seite ja, letzte Seite ja, lecturenumber nein
+	\fi
+}{}
+%
+\newcommand{\TUBAF@fzseitentest}{}
+\ifthenelse{\equal{\TUBAF@seite}{true}\OR\equal{\TUBAF@seite}{letzte}}{% Seite ja
+	\ifthenelse{\equal{\TUBAF@seite}{letzte}}{% Seite ja, letzte Seite ja
+		%\ifthenelse{\equal{\TUBAF@lektionsnummer}{true}}{% Seite ja, letzte Seite ja, lecturenumber ja
+			%\PackageWarningNoLine{\TUBAFbeamer@name}{Options 'seite=letzte,lektionsnummer=true' are ignored!}%
+			%\hskip1pt%
+			%\insertframenumber%
+		   %}{% Seite ja, letzte Seite ja, lecturenumber nein
+			\ifthenelse{\equal{\TUBAFletzteseitescale}{}}{%
+				\renewcommand{\TUBAF@fzseitentest}{%
+					\insertframenumber%
+					\TUBAFseitentrenner\inserttotalframenumber%
+				}%
+			   }{%
+				\renewcommand{\TUBAF@fzseitentest}{%
+					\insertframenumber%
+					\textscale{\TUBAFletzteseitescale}{\TUBAFseitentrenner\inserttotalframenumber}%
+				}%
+			%}%
+		}%
+	   }{% Seite ja, letzte Seite nein
+		\renewcommand{\TUBAF@fzseitentest}{%
+			~\ifthenelse{\isundefined{\beamer@shortlecturename}}{}{%
+				\ifbeamer@TUBAF@lektionsnummer% letzte Seite nein, lecturenumber ja
+					\insertlecturenumber.%
+				   \else% letzte Seite nein, lecturenumber nein
+				\fi%
+			}%
+			\insertframenumber%
+		}%
+	}%
+   }{% Seite nein
+}
+%
+% PM: Test auf Farbe und Seitenzahl Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: frames alles Anfang
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: Titelseite Umdefinition von titlepage und maketitle
+%			wird nur für titelseite=blau/grau benötigt,
+%			aber aus Egalitätsgründen für alles definiert
+%
+% org aus beamerbasetitle.sty
+%%%% ORG \def\titlepage{\usebeamertemplate*{title page}\@thanks}
+\def\titlepage{%
+	\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+		\ifbeamer@inframe
+			\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'titlepage' steht innerhalb von\MessageBreak frames bei Verwendung der Paketoption\MessageBreak 'titelseite=blau' (Grundeinstellung)\MessageBreak nicht zur Verfuegung.\MessageBreak Nutzen Sie 'titlepage' ausserhalb von 'frame'}
+			\TUBAFvfill
+			{Der Befehl 'titlepage' steht innerhalb von frames bei Verwendung der Paketoption 'titelseite=blau' (Grundeinstellung) nicht zur Verfuegung.\\ Nutzen Sie 'titlepage' ausserhalb von 'frame'.}
+			\TUBAFvfill
+		   \else
+			\setbeamercolor{background canvas}{use=structure,bg=structure.bg,fg=TUBAFgeo}
+			\frame[plain]{\usebeamertemplate{title page}\@thanks}
+			%\setbeamercolor{background canvas}{use=normal text,bg=,fg=normal text.fg}
+			\setbeamercolor{background canvas}{use=normal text,bg=,fg=normal text.fg}
+		\fi
+	}{%
+	\ifthenelse{\equal{\TUBAF@titelseite}{grau}\AND\equal{\TUBAF@stil}{klassisch}}{%
+		\ifbeamer@inframe
+			\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'titlepage' steht innerhalb von\MessageBreak frames bei Verwendung der Paketoption\MessageBreak 'titelseite=grau' nicht zur Verfuegung.\MessageBreak Nutzen Sie 'titlepage' ausserhalb von 'frame'}
+			\TUBAFvfill
+			{Der Befehl 'titlepage' steht innerhalb von frames bei Verwendung der Paketoption 'titelseite=grau' nicht zur Verfuegung.\\ Nutzen Sie 'titlepage' ausserhalb von 'frame'.}
+			\TUBAFvfill
+		   \else
+			\setbeamercolor{background canvas}{bg=TUBAFgrauviii,fg=TUBAFgeo}
+			\frame[plain]{\usebeamertemplate{title page}\@thanks}
+			\setbeamercolor{background canvas}{use=normal text,bg=normal text.bg,fg=normal text.fg}
+		\fi
+	}{%
+	\ifbeamer@inframe
+		\usebeamertemplate{title page}\@thanks
+	   \else
+		\frame[plain]{\usebeamertemplate{title page}\@thanks}
+	\fi
+	}}%
+}
+%
+%%% ORG \def\maketitle{\ifbeamer@inframe\titlepage\else\frame{\titlepage}\fi}
+\def\maketitle{%
+	\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+		\ifbeamer@inframe
+			\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'maketitle' steht innerhalb von\MessageBreak frames bei Verwendung der Paketoption\MessageBreak 'titelseite=blau' (Grundeinstellung)\MessageBreak nicht zur Verfuegung.\MessageBreak Nutzen Sie 'maketitle' ausserhalb von 'frame'}
+			\TUBAFvfill
+			{Der Befehl 'maketitle' steht innerhalb von frames bei Verwendung der Paketoption 'titelseite=blau' (Grundeinstellung) nicht zur Verfuegung.\\ Nutzen Sie 'maketitle' ausserhalb von 'frame'.}
+			\TUBAFvfill
+		   \else
+			%\begingroup
+				\setbeamercolor{background canvas}{use=structure,bg=structure.bg,fg=TUBAFgeo}
+				\frame[plain]{\usebeamertemplate{title page}\@thanks}
+				\setbeamercolor{background canvas}{use=normal text,bg=,fg=normal text.fg}
+			%\endgroup
+		\fi
+	}{%
+	\ifthenelse{\equal{\TUBAF@titelseite}{grau}\AND\equal{\TUBAF@stil}{klassisch}}{%
+		\ifbeamer@inframe
+			\PackageWarningNoLine{\TUBAFbeamer@name}{Der Befehl 'maketitle' steht innerhalb von\MessageBreak frames bei Verwendung der Paketoption\MessageBreak 'titelseite=grau' nicht zur Verfuegung.\MessageBreak Nutzen Sie 'maketitle' ausserhalb von 'frame'}
+			\TUBAFvfill
+			{Der Befehl 'maketitle' steht innerhalb von frames bei Verwendung der Paketoption 'titelseite=grau' nicht zur Verfuegung.\\ Nutzen Sie 'maketitle' ausserhalb von 'frame'.}
+			\TUBAFvfill
+		   \else
+			%\begingroup
+				\setbeamercolor{background canvas}{bg=TUBAFgrauviii,fg=TUBAFgeo}
+				\frame[plain]{\usebeamertemplate{title page}\@thanks}
+				\setbeamercolor{background canvas}{use=normal text,bg=normal text.bg,fg=normal text.fg}
+			%\endgroup
+		\fi
+	}{%
+	\ifbeamer@inframe\titlepage\else\frame[plain]{\titlepage}\fi
+	}}
+}
+%
+% PM: Titelseite Umdefinition von titlepage und maketitle Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: stil=strikt alles Anfang
+%
+\ifthenelse{\equal{\TUBAF@stil}{strikt}}{%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt Titelseite Template Anfang
+	%
+	\setbeamertemplate{title page}{%
+		\ifbeamer@centered%
+		   \else%
+			\vspace*{-1.955mm}%
+		\fi%
+		\leavevmode%
+		% Kopfzeile mit Wort-Bild-Marke
+		\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@hdlhoehe,sep=\TUBAF@hdlosep,dp=0pt]{title page}%TUBAFgeo}%
+			\TUBAFBox{%
+				\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmBreitewbm}%
+						{%
+							\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+								\TUBAFwbm[scale=\TUBAF@tikzscale,fg=weiss]%
+							   }{%
+								\TUBAFwbm[scale=\TUBAF@tikzscale]%
+							}%
+						}%
+				   }{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmCCLBreitewbm}%
+						{%
+							\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+								\TUBAFwbm[scale=\TUBAF@tikzscale,fg=weiss,tracht=250]%
+							   }{%
+								\TUBAFwbm[scale=\TUBAF@tikzscale,tracht=250]%
+							}%
+						}%
+				}%
+			}%
+			\hfill%
+			\ifbeamer@TUBAF@zwl\TUBAFBox{\parbox[c][\TUBAF@logoscaledhoehe][\TUBAF@zwlvpos]{\TUBAF@zwlbreiteTS}{\insertTUBAFZweitlogoTS}}\fi%
+		\end{beamercolorbox}
+		\TUBAFvfill
+		% Überschriften
+		\begingroup
+			\addtolength{\TUBAF@ftllskip}{-.13em}
+			\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@ftllskip,rightskip=\TUBAF@ftllskip,dp=0pt]{title page}%TUBAFmaterial}%
+				\usebeamerfont{title}\usebeamercolor[fg]{title}%
+				\ifx\insertTUBAFTitel\@empty\inserttitle\else\insertTUBAFTitel\fi\par%
+				\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}%
+				\ifx\insertTUBAFUntertitel\@empty\insertsubtitle\else\insertTUBAFUntertitel\fi%
+			\end{beamercolorbox}
+		\endgroup
+		% Bilder
+		\ifbeamer@TUBAF@tlsb%
+			\vskip-1pt
+			\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+				\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@ftllskip,rightskip=\TUBAF@ftllskip,dp=0pt]{title page}%TUBAFenergie}%
+					\insertTUBAFTitelseitebilder%
+				\end{beamercolorbox}%
+			   }{%
+				\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=0pt,center]{title page}%TUBAFenergie}%
+					\insertTUBAFTitelseitebilder%
+				\end{beamercolorbox}%
+			}
+		\fi%
+		% Titelerläuterung
+		\ifx\insertTUBAFTitelseiteerlaeuterung\@empty\else%
+			\vskip-1pt
+			\begingroup
+				\addtolength{\TUBAF@ftllskip}{-.08em}
+				\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@ftllskip,rightskip=\TUBAF@ftllskip,dp=0pt]{title page erlaeuterung}%TUBAFumwelt}%
+					\usebeamercolor[fg]{title page erlaeuterung}%
+					\insertTUBAFTitelseiteerlaeuterung
+				\end{beamercolorbox}
+			\endgroup
+			\TUBAFvfill
+		\fi
+		\TUBAFvfill
+		\addtocounter{framenumber}{-1}%
+	}
+	%
+	% PM: stil=strikt Titelseite Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt Kopfzeile Anfang
+	%
+	%\setbeamercolor{headline}{bg=TUBAFmaterial,fg=TUBAFschwarz}% für Testzwecke
+	%\setbeamercolor{testcolor}{bg=TUBAFgeo,fg=TUBAFumwelt}% für Testzwecke
+	\setbeamertemplate{headline}{%
+		\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@hdlhoehe,sep=\TUBAF@hdlosep,dp=0pt]{headline}
+			%\TUBAFUmrandung%
+			\TUBAFBox%
+			{%
+			\parbox[c][\TUBAF@logoscaledhoehe][c]{\TUBAF@logoscaledbreite}{\insertTUBAF@tubaflogo}%
+			}%
+			%\ifthenelse{\equal{\TUBAFlogotracht}{einfach}}{\hspace*{.25\TUBAF@hdlosep}}{\hspace*{.25\TUBAF@hdlosep}}%
+			\hfill%
+			%\TUBAFUmrandung%
+			\TUBAFBox%
+			{%
+			\parbox[c][\TUBAF@logoscaledhoehe][c]{\TUBAF@hdltextwidth}{% parbox nur für vertikale Ausrichtung wichtig
+				\ifthenelse{\equal{\TUBAF@kopfzeile}{}}{%
+					\ifx\insertsectionhead\@empty%
+						\ifx\insertshortTUBAFTitel\@empty%
+							%\ifpdf\insertshorttitle[width={\TUBAF@hdltextwidth}]\else\insertshorttitle\fi%
+							\insertshorttitle
+						   \else
+							\insertshortTUBAFTitel
+						\fi%
+					   \else%
+						%\ifpdf\insertsectionhead[width=\TUBAF@hdltextwidth]\else\insertsectionhead\fi% ist short
+						\insertsectionhead% ist short
+					\fi%
+				   }{%
+					\ifthenelse{\equal{\TUBAF@kopfzeile}{shorttitle}}{\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi}{%
+					\ifthenelse{\equal{\TUBAF@kopfzeile}{shortlecture}}{\insertshortlecture}{%
+					\ifthenelse{\equal{\TUBAF@kopfzeile}{shortsection}}{\insertsectionhead}{%
+					\TUBAF@kopfzeile%
+					}}}%
+				}%
+			}%
+			}
+			\ifbeamer@TUBAF@zwl
+				\hfill
+				%\TUBAFUmrandung%
+				\TUBAFBox%
+				{%
+				\parbox[c][\TUBAF@logoscaledhoehe][\TUBAF@zwlvpos]{\TUBAF@zwlbreite}{\noindent\insertTUBAF@zweitlogo}%
+				}%
+			\fi
+		\end{beamercolorbox}%
+	}%
+	%
+	% PM: stil=strikt Kopfzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt frametitle Anfang
+	%
+	%\setbeamercolor{frametitle}{bg=TUBAFgeo,fg=TUBAFschwarz}% für Testzwecke
+	\setbeamertemplate{frametitle}{%
+		\vskip-2pt% vertikale Korrektur, sonst weißer Zwischenraum
+		\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@frtlskip,rightskip=\TUBAF@frtlskip,dp=0pt]{frametitle}
+			%%%\begingroup
+			%%%\settowidth{\TUBAFtmpdima}{\insertframetitle}
+			%%%\ifthenelse{\lengthtest{\TUBAFtmpdima>0pt}}{voll\the\TUBAFtmpdima}{leer\the\TUBAFtmpdima}
+			%%%HH\the\TUBAFtmpdima HH
+			%%%\endgroup
+			\ifx\insertframetitle\@empty% test kommt nicht hier an
+				%XXX
+				%\ifx\insertframesubtitle\@empty
+				   %\else%
+					%\TUBAF@uppercase%
+					%\insertframesubtitle\usebeamertemplate*{frametitle continuation}%
+				%\fi%
+			   \else%
+				\TUBAF@uppercase%
+				\insertframetitle%
+				\ifthenelse{\equal{\TUBAF@uppercase}{}}{}{\usebeamertemplate*{frametitle continuation}}% Test nötig, sonst doppelte Ausgabe
+				\ifx\insertframesubtitle\@empty
+				   \else%
+					\\[.5ex]%
+					\usebeamerfont{framesubtitle}%
+					\TUBAF@uppercase%
+					\insertframesubtitle%
+				\fi%
+			\fi%
+		\end{beamercolorbox}%
+		\vspace*{-.5\TUBAF@hdlosep}% ergibt einen besseren Abstand, aber in der ppt Vorlage ist es eben mehr
+	}
+	%
+	% PM: stil=strikt frametitle Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt Text Anfang
+	%
+	% Ränder setzen
+	\setbeamersize{text margin left=\TUBAF@textlmargin,text margin right=\TUBAF@textlmargin}
+	%
+	% PM: stil=strikt Text Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=strikt Fußzeile Anfang
+	%
+	%\setbeamercolor{footline}{bg=TUBAFumwelt,fg=TUBAFweiss}% für Testzwecke
+	\setbeamertemplate{footline}{%
+		\TUBAF@navi%
+		\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@ftllskip,dp=0pt]{footline}
+				%\TUBAFUmrandung{%
+				\parbox[b]{\TUBAF@ftltextwidth}{%
+					\usebeamercolor[fg]{footline}% drinlassen, sonst springt der Text!
+					\ifx\insertTUBAFFzstrikttext\@empty%
+						\hspace*{0pt}\insertTUBAFfzvkorr%
+						\TUBAFname%
+						\ifx\insertshortTUBAFInstitut\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortinstitute}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortinstitute}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFInstitut%
+						\fi%
+						\ifx\insertshortTUBAFAutor\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortauthor}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortauthor}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFAutor%
+						\fi%
+						\ifx\insertshortTUBAFTitel\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshorttitle}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshorttitle}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFTitel%
+						\fi%
+						\ifx\insertshortTUBAFOrt\@empty\else\TUBAFfztrenner\insertshortTUBAFOrt\fi%
+						\ifx\insertshortTUBAFDatum\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortdate}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortdate}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFDatum%
+						\fi%
+						\insertTUBAFfzvkorr%
+					   \else%
+						\insertTUBAFFzstrikttext%
+						\insertTUBAFfzvkorr%
+					\fi%
+				}%
+				%}%
+				\hfill
+				%\TUBAFUmrandung{%
+				\parbox[b]{\TUBAF@logoscaledbreite}{%
+					\usebeamercolor[fg]{page number in head/foot}%
+					\usebeamerfont{page number in head/foot}%
+					\raggedleft%
+					\insertframenumber%
+					\insertTUBAFfzvkorr%
+				}%
+				%}%
+		\end{beamercolorbox}%
+	}%
+	%
+	% PM: stil=strikt Fußzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: stil=strikt alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}{%
+\ifthenelse{\equal{\TUBAF@stil}{klassisch}}{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: stil=klassisch alles Anfang
+%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Titelseite Längenberechnungen Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@rahmentitel}{pseudostrikt}}{%
+		\setlength{\TUBAF@textlmargin}{\TUBAF@hdlosep + .5\TUBAF@logoscaledbreite}
+		\setlength{\TUBAF@titelseitetextrand}{.5\TUBAF@logoscaledbreite + \TUBAF@hdlisep - 1pt}% Rand_Titelseite=textlmargin + titelsietetextrand
+		\setlength{\TUBAF@titelseitetextbreite}{\paperwidth - 2\TUBAF@textlmargin - 2\TUBAF@titelseitetextrand}
+		%
+		\AtBeginDocument{%
+			\ifbeamer@TUBAF@zwl%
+				\setlength{\TUBAF@hdltextwidth}{\paperwidth - 4\TUBAF@hdlosep - \TUBAF@logoscaledbreite - \TUBAF@zwlbreite}%
+			   \else%
+				\setlength{\TUBAF@hdltextwidth}{\paperwidth - 2\TUBAF@hdlosep - \TUBAF@logoscaledbreite - \TUBAF@textlmargin}%
+			\fi%
+		}
+	   }{%
+		\setlength{\TUBAF@textlmargin}{\TUBAF@hdlosep + .5\TUBAF@logoscaledbreite}
+		\setlength{\TUBAF@titelseitetextrand}{.5\TUBAF@logoscaledbreite + \TUBAF@hdlisep - 1pt}% Rand_Titelseite=textlmargin + titelsietetextrand
+		\setlength{\TUBAF@titelseitetextbreite}{\paperwidth - 2\TUBAF@textlmargin - 2\TUBAF@titelseitetextrand}
+		%
+		% im nicht-pseudostrikt wird es wegen des fehlenden TUBAFlogos kein Zweitlogo in der Kopfzeile geben.
+		% daher auch hier keine extra Berechnung
+		\setlength{\TUBAF@hdltextwidth}{\paperwidth - \TUBAF@hdlosep}% - \TUBAF@textlmargin}% - \TUBAF@pmrand
+	}
+	%
+	\settowidth{\TUBAF@ftlrskip}{\usebeamerfont{page number in head/foot}\TUBAF@fzseitentest}
+	\ifthenelse{\equal{\TUBAF@seite}{letzte}}{\addtolength{\TUBAF@ftlrskip}{1.5em}}{}
+	\addtolength{\TUBAF@ftlrskip}{2\TUBAF@hdlosep}
+	\setlength{\TUBAF@ftltextwidth}{\paperwidth - 2\TUBAF@hdlosep - \TUBAF@logoscaledbreite - \TUBAF@ftlrskip}
+	%
+	% PM: stil=klassisch Titelseite Längenberechnungen Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Titelseite Template Anfang
+	%
+	\setbeamertemplate{title page}{%
+		\ifbeamer@centered%
+		   \else%
+			\vspace*{-1.955mm}%
+		\fi%
+		\leavevmode%
+		% Kopfzeile mit Wort-Bild-Marke
+		\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@hdlhoehe,sep=\TUBAF@hdlosep,dp=0pt]{}%TUBAFgeo}%title page
+			\TUBAFBox{%
+				\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmBreitewbm}{%
+						\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale,fg=weiss]%
+						   }{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale]%
+						}%
+					}%
+				   }{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmCCLBreitewbm}{%
+						\ifthenelse{\equal{\TUBAF@titelseite}{blau}}{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale,fg=weiss,tracht=250]%
+						   }{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale,tracht=250]%
+						}%
+					}%
+				}%
+			}%
+			\hfill%
+			\ifbeamer@TUBAF@zwl\TUBAFBox{\parbox[c][\TUBAF@logoscaledhoehe][\TUBAF@zwlvpos]{\TUBAF@zwlbreiteTS}{\insertTUBAFZweitlogoTS}}\fi%
+		\end{beamercolorbox}
+		\vskip-2\TUBAF@hdlosep%
+		% Block mit Institutsnamen
+		\hskip\TUBAF@titelseitetextrand%
+		\parbox[t]{\TUBAF@titelseitetextbreite}{%
+			\vskip0pt%
+			\usebeamerfont{title page author}\usebeamercolor[fg]{title page author}%
+			\ifx\insertshortTUBAFAutor\@empty\insertauthor\else\insertTUBAFAutor\fi\par
+			\usebeamerfont{title page institute}\usebeamercolor[fg]{title page institute}%
+			\ifx\insertTUBAFInstitut\@empty\insertinstitute\else\insertTUBAFInstitut\fi
+		}%
+		\vskip20pt
+		% Textblock
+		\hskip\TUBAF@titelseitetextrand%
+		%\TUBAFUmrandung%
+		{\parbox{\TUBAF@titelseitetextbreite}{
+			\vskip0pt
+			\usebeamerfont{title}\usebeamercolor[fg]{title}%
+			\ifx\insertTUBAFTitel\@empty\inserttitle\else\insertTUBAFTitel\fi\par
+			\vskip.5em%
+			\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}%
+			\ifx\insertsubtitle\@empty%
+				\insertTUBAFUntertitel\par%
+			   \else%
+				\ifx\insertTUBAFUntertitel\@empty\insertsubtitle\else\insertTUBAFUntertitel\fi\par%
+			\fi%
+			\usebeamerfont{title page}%
+	%		\hskip\TUBAF@titelseiterand
+			\vskip2em
+			\usebeamercolor[fg]{title page author}
+			\ifx\insertTUBAFDatum\@empty\insertdate\else\insertTUBAFDatum\fi
+		}}%
+		% Fußzeile
+		\vskip5pt plus 1filll
+		\hskip\TUBAF@titelseitetextrand%
+		\parbox[b]{\TUBAF@titelseitetextbreite}{
+			\vskip0pt
+			\usebeamercolor[fg]{title page ort}%
+			\insertTUBAFOrt\insertTUBAFfzvkorr
+			\vskip\TUBAF@hdlosep
+		}
+		\addtocounter{framenumber}{-1}%
+	}
+	%
+	% PM: stil=klassisch Titelseite Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Kopfzeile Anfang
+	%
+	\setbeamertemplate{headline}{%
+	}%
+	%
+	% PM: stil=klassisch Kopfzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch frametitle Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@rahmentitel}{klassisch}\OR\equal{\TUBAF@rahmentitel}{modern}}{%
+	% PM: stil=klassisch frametitle klassisch oder modern Anfang
+		%\setbeamercolor{frametitle}{bg=TUBAFgeo,fg=TUBAFschwarz}% Testzwecke
+		%
+		\setbeamertemplate{frametitle}{%
+			\vskip-1pt% vertikale Korrektur, sonst weißer Zwischenraum bei klassisch
+			\begin{beamercolorbox}[wd=\paperwidth,sep=2\TUBAF@hdlosep,dp=0pt]{frametitle}%
+				\TUBAFBox{%umrandung{%
+				\parbox[t]{\TUBAF@hdltextwidth}{%[\TUBAF@logoscaledbreite][t]
+					%\usebeamercolor[fg]{TUBAFgeo}%frametitle}%
+					\ifx\insertframetitle\@empty\else
+						\usebeamerfont{frametitle}%
+						\insertframetitle%
+						\ifx\insertframesubtitle\@empty\else
+							\\[.5ex]%\newline%\par%
+							\usebeamerfont{framesubtitle}%
+							\insertframesubtitle%
+						\fi%
+					\fi%
+				}%
+				}%
+				%% im nicht-pseudostrikt wird es wegen des fehlenden TUBAFlogos kein Zweitlogo in der Kopfzeile geben.
+				%\hfill
+				%\ifbeamer@TUBAF@zwl%
+					%\TUBAFBox{\parbox[t]{\TUBAF@zwlbreite}{\insertTUBAF@zweitlogo}}%umrandung%\TUBAFBox
+				%\fi%
+			\end{beamercolorbox}%
+		}%
+	% PM: stil=klassisch frametitle klassisch oder modern Ende
+	}{%
+	% PM: stil=klassisch frametitle pseudostrikt Anfang
+		%\setbeamercolor{frametitle}{fg=TUBAFgeo,bg=TUBAFmaterial}%
+		\setbeamertemplate{frametitle}{%
+			\vskip-1pt% vertikale Korrektur, sonst weißer Zwischenraum
+			\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,dp=0pt]{frametitle}%
+				\usebeamercolor[fg]{frametitle}%
+				%\TUBAFUmrandung%
+				\TUBAFBox%
+				{%
+					\insertTUBAF@tubaflogo%
+				}%
+				\hspace*{.75\TUBAF@hdlosep}%
+				%\TUBAFUmrandung%
+				\TUBAFBox%
+				{%
+				\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@hdltextwidth}{%
+					\TUBAFvfill
+					\usebeamerfont{frametitle}%
+					\ifx\insertframetitle\@empty
+					   \else%
+						\insertframetitle%
+						\ifx\insertframesubtitle\@empty
+						   \else%
+							\newline%
+							\usebeamerfont{framesubtitle}%
+							\insertframesubtitle%
+						\fi%
+					\fi%
+					\TUBAFvfill
+				}%
+				}%
+				\hfill%
+				\ifbeamer@TUBAF@zwl\TUBAFBox{\parbox[t][\TUBAF@logoscaledhoehe][\TUBAF@zwlvpos]{\TUBAF@zwlbreite}{\insertTUBAF@zweitlogo}}\fi%%umrandung%[\TUBAF@logoscaledbreite][t]
+			\end{beamercolorbox}%
+			% PM: stil=klassisch frametitle pseudostrikt Ende
+		}%
+	%\vspace*{-1ex}
+	}
+	%
+	% PM: stil=klassisch frametitle Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Text Anfang
+	%
+	% Ränder setzen
+	%\setbeamersize{text margin left=\TUBAF@pmrand,text margin right=\TUBAF@pmrand}
+	\setbeamersize{text margin left=\TUBAF@textlmargin,text margin right=\TUBAF@textlmargin}
+	%
+	% PM: stil=klassisch Text Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile Anfang
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile klassisch Template Anfang
+	%
+	%\setbeamercolor{footline}{bg=TUBAFumwelt,fg=TUBAFweiss}% für Testzwecke
+	\ifthenelse{\equal{\TUBAF@fusszeile}{klassisch}}{%
+		\setbeamertemplate{footline}{%
+			\TUBAF@navi%
+			\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=3pt]{footline}%leftskip=\TUBAF@hdlosep,rightskip=\TUBAF@hdlosep,% left-/rightskip fnkt nicht immer
+				\vskip2pt
+				\hspace*{\TUBAF@hdlosep}%
+				\begin{beamercolorbox}[wd=.33\TUBAF@ftltextwidth,sep=0pt,dp=1pt,left]{footline}%TUBAFgeo}%
+					\hspace*{0pt}\insertTUBAFfzvkorr%
+					\ifx\insertshortTUBAFDatum\@empty\insertshortdate\else\insertshortTUBAFDatum\fi\newline
+					\insertTUBAFfzvkorr\insertshortTUBAFOrt\insertTUBAFfzvkorr%
+				\end{beamercolorbox}%
+				\hfill
+				\begin{beamercolorbox}[wd=.33\TUBAF@ftltextwidth,sep=0pt,dp=1pt,center]{footline}%TUBAFmaterial}%
+					\hspace*{0pt}\insertTUBAFfzvkorr%
+					\ifx\insertshortTUBAFAutor\@empty\insertshortauthor\else\insertshortTUBAFAutor\fi\newline
+					\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi%
+					\insertTUBAFfzvkorr%
+				\end{beamercolorbox}%
+				\hfill
+				\begin{beamercolorbox}[wd=.33\TUBAF@ftltextwidth,sep=0pt,dp=1pt,right]{footline}%TUBAFgeo}%
+					~\ifx\insertshortTUBAFInstitut\@empty\insertshortinstitute\else\insertshortTUBAFInstitut\fi\insertTUBAFfzvkorr~\newline
+					\TUBAFname\insertTUBAFfzvkorr%
+				\end{beamercolorbox}%
+				\hspace{\TUBAF@hdlosep}
+				\begin{beamercolorbox}[wd=\TUBAF@ftlrskip,sep=0pt,rightskip=\TUBAF@hdlosep,dp=1pt,right]{page number in head/foot}%footline}%TUBAFmaterial}%
+					\usebeamercolor[fg]{page number in head/foot}%
+					%\rule[-.45ex]{.2ex}{4.5ex}\hfill
+					\usebeamerfont{page number in head/foot}\TUBAF@fzseitentest%\insertframenumber%
+					\insertTUBAFfzvkorr%
+				\end{beamercolorbox}%
+				\hspace*{\TUBAF@hdlosep}%
+			\end{beamercolorbox}%
+		}%
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile klassisch Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile riehl Template Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@fusszeile}{riehl}}{%
+		\setbeamertemplate{footline}{%
+			\TUBAF@navi%
+			\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=1pt]{footline}% kein left-/rightskip wegen der Linie
+			\vskip2pt
+			\rule{\paperwidth}{.2pt}\vskip1pt%
+			\hbox to \paperwidth{%
+				\hskip\TUBAF@hdlosep
+				\insertTUBAFfzvkorr%
+				\ifx\insertshortTUBAFAutor\@empty\insertshortauthor\else\insertshortTUBAFAutor\fi~%
+				\TUBAFopensign\ifx\insertshortTUBAFDatum\@empty\insertshortdate\else\insertshortTUBAFDatum\fi\TUBAFclosesign:~\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi\hfill%
+				\TUBAF@fzseitentest%\insertframenumber
+%				\ifbeamer@TUBAF@navigation\raisebox{-2pt}[2pt][0pt]{\quad\insertframenavigationsymbol}\fi%
+				\hskip\TUBAF@hdlosep%
+			}
+			\vskip0pt%
+			\end{beamercolorbox}%
+		}
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile riehl Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile ernst/-color Berechnungen Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@fusszeile}{ernst}\OR\equal{\TUBAF@fusszeile}{ernstcolor}}{
+		\newlength{\TUBAF@fzernsttxt}
+		\setlength{\TUBAF@fzernsttxt}{\paperwidth}
+		\addtolength{\TUBAF@fzernsttxt}{-\TUBAF@logoscaledbreite}
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile ernst/-color Berechnungen Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile ernst/ernstcolor Template Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@fusszeile}{ernst}\OR\equal{\TUBAF@fusszeile}{ernstcolor}}{%
+		\setbeamertemplate{footline}{%
+			\TUBAF@navi%
+			%\begin{beamercolorbox}[wd=\paperwidth,ht=2pt,sep=0pt,dp=0pt]{normal text}
+			%\end{beamercolorbox}%
+			%\vskip-.3pt
+			\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=0pt]{ernstcoloriv}%TUBAFgeo}%footline}
+				\begin{beamercolorbox}[wd=.333333\TUBAF@fzernsttxt,sep=1pt,dp=0pt,left]{ernstcolori}
+					\hspace*{\TUBAF@hdlosep}\insertTUBAFfzvkorr%
+					\ifx\insertshortTUBAFAutor\@empty\insertshortauthor\else\insertshortTUBAFAutor\fi~\TUBAFopensign\TUBAFshortname\TUBAFclosesign
+				\end{beamercolorbox}%
+				\hskip-.1pt
+				\begin{beamercolorbox}[wd=.333333\TUBAF@fzernsttxt,sep=1pt,dp=0pt,center]{ernstcolorii}
+					\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi\insertTUBAFfzvkorr
+				\end{beamercolorbox}%
+				\hskip-.1pt
+				\begin{beamercolorbox}[wd=.333333\TUBAF@fzernsttxt,sep=1pt,dp=0pt,right]{ernstcoloriii}
+					\insertshortTUBAFOrt\insertTUBAFfzvkorr
+					\hspace*{\TUBAF@hdlosep}
+				\end{beamercolorbox}%
+				\hskip-.1pt
+				\begin{beamercolorbox}[wd=1.01\TUBAF@logoscaledbreite,sep=1pt,dp=0pt,right]{ernstcoloriv}
+					\TUBAF@fzseitentest\insertTUBAFfzvkorr%\insertframenumber
+					\hspace*{\TUBAF@hdlosep}
+				\end{beamercolorbox}%
+			\end{beamercolorbox}%
+		}
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile ernst/ernstcolor Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile eiermann Template Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@fusszeile}{eiermann}}{%
+		\setbeamertemplate{footline}{%
+			\TUBAF@navi%
+		}
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile eiermann Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=klassisch Fußzeile pseudostrikt Template Anfang
+	%
+	\ifthenelse{\equal{\TUBAF@fusszeile}{pseudostrikt}}{%
+		%\setbeamercolor{footline}{bg=TUBAFgeo,fg=TUBAFschwarz}
+		\setbeamertemplate{footline}{%
+			\TUBAF@navi%
+			\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=.5\TUBAF@logoscaledbreite,dp=0pt]{footline}
+				\vskip.5\TUBAF@hdlosep%2pt
+%				\usebeamercolor[fg]{footline}% drinlassen, sonst springt der Text!
+				%\TUBAFUmrandung%
+				\TUBAFBox%
+				{%
+				\parbox{\TUBAF@ftltextwidth}{%
+				\ifx\insertTUBAFFzstrikttext\@empty%
+					\hspace*{0pt}\insertTUBAFfzvkorr%
+						\TUBAFname%
+						\ifx\insertshortTUBAFInstitut\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortinstitute}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortinstitute}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFInstitut%
+						\fi%
+						\ifx\insertshortTUBAFAutor\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortauthor}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortauthor}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFAutor%
+						\fi%
+						\ifx\insertshortTUBAFTitel\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshorttitle}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshorttitle}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFTitel%
+						\fi%
+						\ifx\insertshortTUBAFOrt\@empty\else\TUBAFfztrenner\insertshortTUBAFOrt\fi%
+						\ifx\insertshortTUBAFDatum\@empty%
+							\settowidth{\TUBAFtmpdima}{\insertshortdate}\setlength{\TUBAFtmpdimb}{0pt}%
+							\ifthenelse{\lengthtest{\TUBAFtmpdima>\TUBAFtmpdimb}}{\TUBAFfztrenner\insertshortdate}{}%
+							\else\TUBAFfztrenner\insertshortTUBAFDatum%
+						\fi%
+					\insertTUBAFfzvkorr%
+				   \else%
+					\insertTUBAFFzstrikttext%
+					\insertTUBAFfzvkorr%
+				\fi%
+				}%
+				}
+				\hfill
+				\usebeamerfont{page number in head/foot}
+				\TUBAF@fzseitentest%\insertframenumber
+			\end{beamercolorbox}%
+		}
+	}{}
+	%
+	% PM: stil=klassisch Fußzeile pseudostrikt Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	% PM: stil=klassisch Fußzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: stil=klassisch alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PM: stil=lehre alles Anfang
+%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre Titelseite Längenberechnungen Anfang
+	%
+	\setlength{\TUBAF@textlmargin}{2\TUBAF@hdlosep}
+	\setlength{\TUBAF@titelseitetextrand}{\TUBAF@logoscaledbreite + \TUBAF@hdlisep - \TUBAF@hdlosep - 1pt}% Randbreite_Titelseite=textlmargin + titelseitetextrand
+	\setlength{\TUBAF@titelseitetextbreite}{\paperwidth - 2\TUBAF@textlmargin - 2\TUBAF@titelseitetextrand}
+	%
+	% im nicht-pseudostrikt wird es wegen des fehlenden TUBAFlogos kein Zweitlogo in der Kopfzeile geben.
+	% daher auch hier keine extra Berechnung
+	\setlength{\TUBAF@hdltextwidth}{\paperwidth - 4\TUBAF@hdlosep}
+	%
+	\settowidth{\TUBAF@ftlrskip}{\usebeamerfont{page number in head/foot}\TUBAF@fzseitentest}
+	\ifthenelse{\equal{\TUBAF@seite}{letzte}}{\addtolength{\TUBAF@ftlrskip}{1.5em}}{}
+	\addtolength{\TUBAF@ftlrskip}{2\TUBAF@hdlosep}
+	%\setlength{\TUBAF@ftltextwidth}{\paperwidth - 2\TUBAF@hdlosep - \TUBAF@logoscaledbreite - \TUBAF@ftlrskip}
+	\setlength{\TUBAF@ftltextwidth}{\paperwidth - 2\TUBAF@hdlosep}
+	%
+	% PM: stil=lehre Titelseite Längenberechnungen Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre Titelseite Template Anfang
+	%
+	\setbeamertemplate{title page}{%
+		\ifbeamer@centered%
+		   \else%
+			\vspace*{-1.955mm}%
+		\fi%
+		\leavevmode%
+		% Kopfzeile mit Wort-Bild-Marke
+		\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@hdlhoehe,sep=\TUBAF@hdlosep,dp=0pt]{}%TUBAFgeo}%title page
+			\TUBAFBox{%
+				\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmBreitewbm}{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale]%
+					}%
+				   }{%
+					\parbox[t][\TUBAF@logoscaledhoehe][t]{\TUBAF@scale\TUBAFwbmBreitewbm}{%
+							\TUBAFwbm[scale=\TUBAF@tikzscale,tracht=250]%
+					}%
+				}%
+			}%
+			\hfill%
+			\ifbeamer@TUBAF@zwl\TUBAFBox{\parbox[c][\TUBAF@logoscaledhoehe][\TUBAF@zwlvpos]{\TUBAF@zwlbreiteTS}{\insertTUBAFZweitlogoTS}}\fi%
+		\end{beamercolorbox}
+		\vskip-2\TUBAF@hdlosep%
+		% Block mit Institutsnamen
+		\hskip\TUBAF@titelseitetextrand%
+		\parbox[t]{\TUBAF@titelseitetextbreite}{%
+			\vskip0pt%
+			\usebeamerfont{title page author}\usebeamercolor[fg]{title page author}%
+			\ifx\insertshortTUBAFAutor\@empty\insertauthor\else\insertTUBAFAutor\fi\par
+			\usebeamerfont{title page institute}\usebeamercolor[fg]{title page institute}%
+			\ifx\insertTUBAFInstitut\@empty\insertinstitute\else\insertTUBAFInstitut\fi
+		}%
+		\vskip20pt
+		% Textblock
+		\hskip\TUBAF@titelseitetextrand%
+		%\TUBAFUmrandung%
+		{\parbox{\TUBAF@titelseitetextbreite}{
+			\vskip0pt
+			\usebeamerfont{title}\usebeamercolor[fg]{title}%
+			\ifx\insertTUBAFTitel\@empty\inserttitle\else\insertTUBAFTitel\fi\par
+			\ifx\insertsubtitle\@empty%
+				\vskip.5em%
+				\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}%
+				\ifx\insertTUBAFUntertitel\@empty\insertsubtitle\else\insertTUBAFUntertitel\fi\par%
+			   \else%
+				\vskip.5em%
+				\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}%
+				\ifx\insertTUBAFUntertitel\@empty\insertsubtitle\else\insertTUBAFUntertitel\fi\par%
+			\fi%
+			\usebeamerfont{title page}%
+	%		\hskip\TUBAF@titelseiterand
+			\vskip2em
+			\usebeamercolor[fg]{title page author}
+			\ifx\insertTUBAFDatum\@empty\insertdate\else\insertTUBAFDatum\fi
+		}}%
+		% Fußzeile
+		\vskip5pt plus 1filll
+		\hskip\TUBAF@titelseitetextrand%
+		\parbox[b]{\TUBAF@titelseitetextbreite}{
+			\vskip0pt
+			\usebeamercolor[fg]{title page ort}%
+			\insertTUBAFOrt\insertTUBAFfzvkorr
+			\vskip\TUBAF@hdlosep
+		}
+		\addtocounter{framenumber}{-1}%
+	}
+	%
+	% PM: stil=lehre Titelseite Template Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre diverses Anfang
+	%
+	\AtBeginSection[] % Do nothing for \section*
+	{%
+		\begin{frame}[plain]{\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi}{\TUBAFaktabschn}%[plain]
+			\tableofcontents[currentsection,sectionstyle=show/hide,hideothersubsections,subsubsectionstyle=show/show/hide]%shaded
+		\end{frame}
+	}
+	%
+	% PM: stil=lehre diverses Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre Kopfzeile Anfang
+	%
+	%\setbeamercolor{headline}{bg=TUBAFgeo,fg=TUBAFschwarz}
+	%
+	\setbeamertemplate{headline}{%
+		%\begin{beamercolorbox}[wd=\paperwidth,sep=.5\TUBAF@hdlosep,leftskip=.5\TUBAF@hdlosep,rightskip=.5\TUBAF@hdlosep,dp=0pt]{headline}%
+		\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,dp=0pt]{headline}%
+			\usebeamerfont{footline}%
+			\ifthenelse{\equal{\TUBAF@folge}{ls}}{%
+				\insertTUBAFfzvkorr%
+				\ifx\insertshortlecture\@empty\else\insertshortlecture%
+				\ifx\insertsectionhead\@empty\else\TUBAFfolgetrenner\insertsectionhead%
+				\fi\fi
+			   }{%
+			\ifthenelse{\equal{\TUBAF@folge}{lss}}{%
+				\insertTUBAFfzvkorr%
+				\ifx\insertshortlecture\@empty\else\insertshortlecture%
+				\ifx\insertsectionhead\@empty\else\TUBAFfolgetrenner\insertsectionhead%
+				\ifx\insertsubsection\@empty\else\TUBAFfolgetrenner\insertsubsection%
+				\fi\fi\fi
+			   }{%
+			\ifthenelse{\equal{\TUBAF@folge}{ss}}{%
+				\insertTUBAFfzvkorr%
+				\ifx\insertsectionhead\@empty\else\insertsectionhead%
+				\ifx\insertsubsection\@empty\else\TUBAFfolgetrenner\insertsubsection%
+				\fi\fi%
+			   }{%
+			\ifthenelse{\equal{\TUBAF@folge}{ssn}}{%
+				\insertTUBAFfzvkorr%
+				\ifx\insertsectionhead\@empty\else\insertsectionnumber~\insertsectionhead%
+				\ifx\insertsubsection\@empty\else\TUBAFfolgetrenner\insertsectionnumber.\insertsubsectionnumber~\insertsubsection%
+				\fi\fi
+			   }{%
+			\ifthenelse{\equal{\TUBAF@folge}{sss}}{%
+				\insertTUBAFfzvkorr%
+				\ifx\insertsectionhead\@empty\else\insertsectionhead%
+				\ifx\insertsubsection\@empty\else\TUBAFfolgetrenner\insertsubsection%
+				\ifx\insertsubsubsection\@empty\else\TUBAFfolgetrenner\insertsubsubsection%
+				\fi\fi\fi
+			   }{%
+			}}}}}
+		\end{beamercolorbox}
+		%\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=0pt]{headline}%
+			%\rule[2pt]{\paperwidth}{.2pt}
+		%\end{beamercolorbox}%
+	}%
+	%
+	% PM: stil=lehre Kopfzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre frametitle Anfang
+	%
+	%\setbeamercolor{frametitle}{bg=TUBAFmaterial,fg=TUBAFschwarz}
+	%
+	\setbeamertemplate{frametitle}{%
+		\vskip-1.5pt% vertikale Korrektur, sonst weißer Zwischenraum bei klassisch
+		%\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@hdlosep,rightskip=\TUBAF@hdlosep,dp=0pt]{frametitle}%
+		\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,dp=0pt]{frametitle}%
+			\TUBAFBox{%umrandung{%
+			\parbox[t]{\TUBAF@hdltextwidth}{%
+				\usebeamerfont{frametitle}%
+				\insertframetitle%
+				\ifx\insertframesubtitle\@empty\else
+					\\[.5ex]%\newline%\par%
+					\usebeamerfont{framesubtitle}%
+					\insertframesubtitle%
+					\par
+				\fi
+			}%
+			}%
+		\end{beamercolorbox}%
+	}
+	%
+	% PM: stil=lehre frametitle Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre Text Anfang
+	%
+	% Ränder setzen
+	\setbeamersize{text margin left=\TUBAF@textlmargin,text margin right=\TUBAF@textlmargin}
+	%
+	% PM: stil=lehre Text Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%
+	%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% PM: stil=lehre Fußzeile Anfang
+	%
+	%\setbeamercolor{footline}{bg=TUBAFumwelt,fg=TUBAFweiss}% für Testzwecke
+	%
+	\setbeamertemplate{footline}{%
+		\TUBAF@navi%
+		\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,dp=0pt]{footline}%
+			\vspace{2pt}
+			\rule{\paperwidth}{.2pt}
+		\end{beamercolorbox}
+		%\begin{beamercolorbox}[wd=\paperwidth,sep=.5\TUBAF@hdlosep,leftskip=.5\TUBAF@hdlosep,rightskip=.5\TUBAF@hdlosep,dp=0pt]{footline}%
+		\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,dp=0pt]{footline}%
+			\usebeamerfont{footline}%
+			\insertTUBAFfzvkorr%
+			\ifx\insertshortTUBAFAutor\@empty\insertshortauthor\else\insertshortTUBAFAutor\fi:~%
+			\ifx\insertshortTUBAFTitel\@empty\insertshorttitle\else\insertshortTUBAFTitel\fi%
+			~\TUBAFopensign\ifx\insertshortTUBAFDatum\@empty\insertshortdate\else\insertshortTUBAFDatum\fi\TUBAFclosesign~
+			\hfill%
+			\usebeamerfont{page number in head/foot}\TUBAF@fzseitentest%\insertframenumber
+			\vspace{-1pt}
+		\end{beamercolorbox}%
+	}
+	%
+	% PM: stil=lehre Fußzeile Ende
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+%
+% PM: stil=lehre alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+%
+% PM: stil=strikt alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PM: frames alles Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% partpage
+%
+\renewcommand{\thepart}{\@Roman\c@part}
+%
+\setbeamertemplate{part page}{%
+	\TUBAFvfill
+	\begin{centering}
+		{\usebeamerfont{part name}\usebeamercolor[fg]{part name}\partname~\thepart.}
+		\vskip1em\par
+		\begin{beamercolorbox}[sep=8pt,center]{part title}
+			\usebeamerfont{part title}\insertpart\par
+		\end{beamercolorbox}
+	\end{centering}
+	\TUBAFvfill
+}
+% die Partseite
+\AtBeginPart{\frame{\partpage}\addtocounter{framenumber}{-1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% neue Überschriftendefinitionen: Überschriften un-/sichtbar
+\ifbeamer@TUBAF@sec
+	\ifbeamer@TUBAF@subsec
+	   \else
+		\let\sectionold\section
+		\renewcommand{\section}{\secdef\TUBAF@sec\TUBAF@secstared}
+		\newcommand{\TUBAF@sec}[2][?]{%
+			\sectionold[#2]{#1}%
+			\vspace*{.25\baselineskip}%
+			\par{{\normalfont\Large\bfseries\thesection~#2\par}}%
+			\vspace{.75\baselineskip}%
+		}
+		\newcommand{\TUBAF@secstared}[1]{%
+			\vspace*{.25\baselineskip}%
+			\par{{\normalfont\Large\bfseries#1\par}}%
+			\vspace{.75\baselineskip}%
+		}
+	\fi
+	%
+	\let\subsectionold\subsection
+	\renewcommand{\subsection}{\secdef\TUBAF@subsec\TUBAF@subsecstared}
+	\newcommand{\TUBAF@subsec}[2][?]{%
+		\subsectionold[#2]{#1}%
+		\vspace*{.2\baselineskip}%
+		\par{{\normalfont\large\bfseries\thesubsection~#2\par}}%
+		\vspace{.5\baselineskip}%
+	}
+	\newcommand{\TUBAF@subsecstared}[1]{%
+		\vspace*{.2\baselineskip}%
+		\par{{\normalfont\large\bfseries#1\par}}%
+		\vspace{.5\baselineskip}%
+	}
+	%
+	\let\subsubsectionold\subsubsection
+	\renewcommand{\subsubsection}{\secdef\TUBAF@subsubsec\TUBAF@subsubsecstared}
+	\newcommand{\TUBAF@subsubsec}[2][?]{%
+		\subsubsectionold[#2]{#1}%
+		\vspace*{.2\baselineskip}%
+		\par{{\normalfont\bfseries\thesubsubsection~#2\par}}%
+		\vspace*{.25\baselineskip}%
+	}
+	\newcommand{\TUBAF@subsubsecstared}[1]{%
+		\vspace*{.2\baselineskip}%
+		\par{{\normalfont\bfseries#1\par}}%
+		\vspace*{.25\baselineskip}%
+	}
+   \else
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+}
+%
+% Ende des Präsentationsmodus'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Begin des Artikelmodus'
+%
+\mode<article>{
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einstellungen Anfang
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: Tests und Grundeinstellungen setzen Anfang
+%
+\ifthenelse{\equal{\TUBAF@titelseite}{}}{\renewcommand{\TUBAF@titelseite}{klassisch}}{}
+%
+\ifthenelse{\equal{\TUBAF@stil}{strikt}\AND\equal{\TUBAF@hausschrift}{}}{\renewcommand{\TUBAF@hausschrift}{arial}}{}
+\ifthenelse{\equal{\TUBAF@stil}{klassisch}\AND\equal{\TUBAF@hausschrift}{}}{\renewcommand{\TUBAF@hausschrift}{false}}{}
+%
+\ifthenelse{\equal{\TUBAF@textsf}{}}{%
+	\ifthenelse{\equal{\TUBAF@hausschrift}{false}\OR\equal{\TUBAF@hausschrift}{times}}{%
+		\renewcommand{\TUBAF@textsf}{false}%
+	   }{%
+		\renewcommand{\TUBAF@textsf}{true}%
+	}
+   }{%
+}
+%
+% AM: allg. Einst.: Tests und Grundeinstellungen setzen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: Pakete nachladen Anfang
+%
+\RequirePackage{lastpage}		% letzte Seite referenzieren
+\RequirePackage{scrlayer-scrpage}		% Kopf- und Fußzeile
+\RequirePackage{hyperref}		% interne Verlinkung und pdf-Dokumenteigenschaften
+\RequirePackage{ifthen}			% Test auf Titelseite
+\RequirePackage{textcomp}		% textbullet für Listen
+\RequirePackage{geometry}		% Satzspiegel einstellen
+\RequirePackage{placeins}		% stellt \FloatBarrier zur Verfügung
+%
+% AM: allg. Einst.: Pakete nachladen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: Satzspiegel festlegen Anfang
+%
+\geometry{%
+	paper=a4paper,
+	inner=25mm,%
+	outer=5mm,% Gesamtrand := outer + marginparsep + marginparwidth
+	top=2cm,%
+	bottom=2cm,%
+	marginparwidth=20mm,
+	marginparsep=5mm,
+	includehead,
+	includefoot,
+	includemp,
+}
+%
+% AM: allg. Einst.: Satzspiegel festlegen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% AM: Test auf Lua/Xe(La)TeX und entspr. Pakete laden Anfang
+%
+\ifluatex %beamer laedt ifpdf, ifpdf laedt bei bedarf ifluatex, packet einbinden unnoetig
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Kuemmer Dich selbst um die Fontangelegenheiten!}
+   \else
+	\ifxetex
+		\PackageWarningNoLine{\TUBAFbeamer@name}{Kuemmer Dich selbst um die Fontangelegenheiten!}
+		%
+	   \else%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% pdflatex Anfang
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% AM: allg. Einst.: Fonteinst: Tests für Hausschrift Anfang
+		\ifthenelse{\equal{\TUBAF@hausschrift}{false}\OR\equal{\TUBAF@hausschrift}{arial}\OR\equal{\TUBAF@hausschrift}{times}}{%
+			\beamer@TUBAF@hausschriftfalse%
+		   }{%
+			\ifthenelse{\equal{\TUBAF@hausschrift}{}\OR\equal{\TUBAF@hausschrift}{true}\OR\equal{\TUBAF@hausschrift}{futura}}{%
+				\beamer@TUBAF@hausschrifttrue%
+				\RequirePackage{TUBAFhausschrift}%
+			   }{%
+				\beamer@TUBAF@hausschrifttrue%
+				\RequirePackage[\TUBAF@hausschrift]{TUBAFhausschrift}% PackageWarning wird schon von TUBAFhausschrift.sty abgefangen
+			}%
+		}
+		% AM: allg. Einst.: Fonteinst: Tests für Hausschrift Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%% AM: allg. Einst.: Fonteinst: Tests für Hausschrift und setzten von textsf Anfang
+		%\ifthenelse{\equal{\TUBAF@hausschrift}{times}}{%
+			%\beamer@TUBAF@textsffalse%
+		   %}{%
+		%}
+		%% AM: allg. Einst.: Fonteinst: Tests für Hausschrift setzten von textsf Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% AM: allg. Einst.: Fonteinst:  pdflatex: Anfang
+		%
+		\ifbeamer@TUBAF@hausschrift%
+			\ifthenelse{\equal{\TUBAF@textsf}{true}}{%
+			   }{%
+				\PackageWarningNoLine{\TUBAFbeamer@name}{Die Optionen 'hausschrift=true' und \MessageBreak  'textsf=false' sind nicht parallel nutzbar.\MessageBreak Die Option 'textsf=false' wird ignoriert}
+			}
+		   \else
+			\ifthenelse{\equal{\TUBAF@hausschrift}{arial}}{%
+				\IfFileExists{uarial.sty}{%
+					\RequirePackage[scaled]{uarial}%
+					\renewcommand{\familydefault}{\sfdefault}%
+					\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont\small {##1}}}%
+					\ifthenelse{\equal{\TUBAF@textsf}{true}}{%
+					   }{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Die Optionen 'hausschrift=arial' und \MessageBreak  'textsf=false' sind nicht parallel nutzbar.\MessageBreak Die Option 'textsf=false' wird ignoriert}
+					}
+				   }{%
+					\PackageWarningNoLine{\TUBAFbeamer@name}{Kein Arial (Paket uarial) gefunden.\MessageBreak Gehe zur Grundeinstellung zurueck}%
+				}%
+			   }{%
+				\ifthenelse{\equal{\TUBAF@hausschrift}{times}}{%
+					\IfFileExists{mathptmx.sty}{%
+						\RequirePackage{mathptmx}
+						\ifthenelse{\equal{\TUBAF@textsf}{true}}{%
+							\PackageWarningNoLine{\TUBAFbeamer@name}{Die Optionen 'hausschrift=times' und \MessageBreak  'textsf=true' sind nicht parallel nutzbar.\MessageBreak Die Option 'textsf=true' wird ignoriert}
+						   }{%
+						}
+					   }{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Kein Times (Paket mathptmx) gefunden.\MessageBreak Gehe zur Grundeinstellung zurueck}%
+					}
+				   }{%
+					\ifthenelse{\equal{\TUBAF@textsf}{true}}{%
+						\renewcommand{\familydefault}{\sfdefault}
+						\renewcommand{\textsc}[1]{{\fontfamily{phv}\fontshape{sc}\selectfont {#1}}}
+					   }{%
+					}
+				}
+			}
+		\fi
+		% AM: allg. Einst.: Fonteinst: pdflatex: Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		% AM: Fonteinst: Mathesachen mit Serifen; kommt erst hier, da _NACH_ Hausschrift Anfang
+		%
+		\ifbeamer@TUBAF@mathsf
+			\ifbeamer@TUBAF@hausschrift
+				\RequirePackage{TUBAFhausschriftmathe}
+			   \else
+				\ifthenelse{\equal{\TUBAF@textsf}{true}}{%
+					\ifthenelse{\equal{\TUBAF@hausschrift}{arial}}{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Derzeit gibt es keine Unterstuetzung\MessageBreak der Option 'mathsf=true' parallel zur\MessageBreak Option 'hausschrift=arial'.\MessageBreak Die Option 'mathsf=true' wird ignoriert}
+					   }{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Derzeit gibt es keine Unterstuetzung\MessageBreak der Option 'mathsf=true' parallel zu\MessageBreak den Optionen 'hausschrift=false' und\MessageBreak 'textsf=true'}
+					}%
+				   }{%
+					\ifthenelse{\equal{\TUBAF@hausschrift}{false}}{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Derzeit gibt es keine Unterstuetzung\MessageBreak der Option 'mathsf=true' parallel zur\MessageBreak Option 'hausschrift=false'.\MessageBreak Die Option 'mathsf=true' wird ignoriert}
+					   }{%
+					}%
+					\ifthenelse{\equal{\TUBAF@hausschrift}{times}}{%
+						\PackageWarningNoLine{\TUBAFbeamer@name}{Derzeit gibt es keine Unterstuetzung\MessageBreak der Option 'mathsf=true' parallel zur\MessageBreak Option 'hausschrift=times'.\MessageBreak Die Option 'mathsf=true' wird ignoriert}
+					   }{%
+					}%
+				}
+			\fi
+		   \else
+		\fi
+		%
+		% AM: allg. Einst.: Fonteinst: Mathesachen mit Serifen; kommt erst hier, da _NACH_ Hausschrift Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		%
+		% AM: pdflatex Ende
+		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\fi
+\fi
+%
+% AM: allg. Einst.: Fonteinst: Test auf Lua/Xe(La)TeX und entspr. Pakete laden Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: Schriftanpassungen Anfang
+%
+\TUBAFSchriftanpassungenKoma
+%
+% AM: allg. Einst.: Schriftanpassungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.:  Gestaltung der Kopf- und Fußzeilen Anfang
+%
+\clearscrheadfoot
+\automark[section]{section}
+\pagestyle{scrheadings}
+	\ihead[]{\ifx\insertshortTUBAFAutor\@empty\insertshortauthor\else\insertshortTUBAFAutor\fi:~\ifx\insertshorttitle\@empty\insertshortTUBAFTitel\else\insertshorttitle\fi}%\headmark}	% Kopfzeile links: Überschrift
+	\chead[]{}									% Kopfzeile Mitte:
+	\ohead[]{\pagemark/\pageref{LastPage}}				% Kopfzeile rechts: Seitenzahl
+	\ifoot[]{\insertshortTUBAFOrt~--~\ifx\insertshortTUBAFDatum\@empty\insertshortdate\else\insertshortTUBAFDatum\fi}	% Fußzeile links:
+	\cfoot[\pagemark/\pageref{LastPage}]{}				% Fußzeile Mitte:
+	\ofoot[]{}			% Fußzeile rechts:
+
+\KOMAoptions{%
+	headtopline=0pt:\linewidth,	% Linienstärke über Kopfzeile
+	headsepline=0.08ex:\linewidth,	% Linienstärke unter Kopfzeile
+	footsepline=0.08ex:\linewidth,	% Linienstärke über Fußzeile
+	footbotline=0pt:\linewidth,	% Linienstärke unter Fußzeile
+}
+% AM: allg. Einst.: Gestaltung der Kopf- und Fußzeilen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: die beiden Kommandos für Artikel bekanntmachen Anfang
+%
+\newcommand{\AtBeginNote}[1]{}
+\newcommand{\AtEndNote}[1]{}
+%
+% AM: allg. Einst.: die beiden Kommandos für Artikel bekanntmachen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: allg. Einst.: Eintellungen für hyperref Anfang
+%
+\hypersetup{%
+	pdfstartview=FitV,	% ganze Seite beim Start vom Betrachter anzeigen
+	colorlinks=true,		% Verknüpfungen farbig
+	pdfpagemode=UseNone,	% Seitenüberblendung beim Blättern
+	hypertexnames=false
+}
+%
+\ifthenelse{\equal{\TUBAF@wbm}{schwarz}}{%
+	\hypersetup{%
+		linkcolor=TUBAFschwarz,		% Verknüpfungen schwarz (für Druck!)
+		citecolor=TUBAFschwarz,		% Verknüpfungen schwarz (für Druck!)
+		urlcolor=TUBAFschwarz,		% Verknüpfungen schwarz (für Druck!)
+	}
+   }{%
+	\hypersetup{%
+		linkcolor=TUBAFhausfarbe,	% Verknüpfungen
+		citecolor=TUBAFumwelt,		% Verknüpfungen
+		urlcolor=TUBAFenergie,		% Verknüpfungen
+	}
+}
+%
+% AM: allg. Einst.: Eintellungen für hyperref Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% AM: allg. Einstellungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Übernahmen aus originalen beamer-Dateien Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Übernahmen: alles aus beamerbasetitle.sty Anfang
+% den ganzen Titelseitenkram für den Artikelmodus zur Verfügung stellen
+%
+%
+% The \titlepage and \partpage
+%
+%
+\def\titlepage{\usebeamertemplate*{title page}\@thanks}
+\def\maketitle{\usebeamertemplate*{title page}\@thanks}
+\def\partpage{\usebeamertemplate*{part page}}
+
+\def\author{\@dblarg\beamer@author}
+\long\def\beamer@author[#1]#2{%
+  \def\insertauthor{\def\inst{\beamer@insttitle}\def\and{\beamer@andtitle}#2}%
+  \def\beamer@shortauthor{#1}%
+  \ifbeamer@autopdfinfo%
+    \def\beamer@andstripped{}%
+    \beamer@stripands#2 \and\relax
+    {\let\inst=\@gobble\let\thanks=\@gobble\def\and{, }\hypersetup{pdfauthor={\beamer@andstripped}}}
+  \fi%
+}
+
+\def\beamer@stripands#1 \and#2\relax{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \expandafter\def\expandafter\beamer@andstripped\expandafter{\beamer@andstripped#1}
+  \else
+    \expandafter\def\expandafter\beamer@andstripped\expandafter{\beamer@andstripped#1, }
+    \beamer@stripands#2\relax%
+  \fi
+}
+
+\author{}
+
+% Aux commands for \author
+\def\beamer@insttitle#1{{\donotcoloroutermaths$^{#1}$}}
+\def\beamer@andtitle{\quad}
+\def\beamer@instother#1{}
+\def\beamer@andother{\unskip, }
+
+\newcommand\insertshortauthor[1][]{%
+  {%
+    \def\inst{\beamer@instother}\def\and{\beamer@andother}\let\thanks=\@gobble%
+    \beamer@setupshort{#1}%
+    \beamer@insertshort{\beamer@shortauthor}%
+  }}
+
+
+\def\institute{\@dblarg\beamer@institute}
+\long\def\beamer@institute[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\insertinstitute{}
+  \else
+    \def\insertinstitute{\def\inst{\beamer@instinst}\def\and{\beamer@andinst}#2}%
+  \fi
+ \def\beamer@shortinstitute{#1}}
+\institute{}
+
+\def\beamer@instinst#1{{\donotcoloroutermaths$^{#1}$}\ignorespaces}
+\def\beamer@andinst{\\[1em]}
+
+\newcommand\insertshortinstitute[1][]{%
+  {%
+    \let\thanks=\@gobble%
+    \def\inst{\beamer@instother}\def\and{\beamer@andother}%
+    \beamer@setupshort{#1}%
+    \beamer@insertshort{\beamer@shortinstitute}%
+  }}
+%
+% AM: Übernahmen: alles aus beamerbasetitle.sty Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Übernahmen: damit \insertshorttitle auch im Artikelmodus fnkt. (originale Definition in beamerbasetitle.sty)
+%
+\def\title{\@dblarg\beamer@title}
+\long\def\beamer@title[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\inserttitle{}
+  \else
+    \def\inserttitle{#2}%
+  \fi
+ \def\insertshorttitle{#1}}
+\title{}
+%
+% AM: Übernahmen: damit \insertshorttitle auch im Artikelmodus fnkt. (originale Definition in beamerbasetitle.sty)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Übernahmen: aus beamerbasemisc.sty Anfang
+%
+\newcommand{\beamer@setupshort}[1]{%
+  \def\beamer@stlinebreakrule{\def\\{}}%
+  \def\beamer@stalign{}%
+  \def\beamer@ststart{\hbox\bgroup\def\\{}}%
+  \def\beamer@stend{\egroup}%
+  \setkeys{beamerst}{#1}}%
+\newcommand{\beamer@insertshort}[1]{%
+  \beamer@ststart#1\beamer@stend%
+}
+%
+% AM: Übernahmen: aus beamerbasemisc.sty Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Übernahmen: die Hochstellungen Anfang
+%
+\def\beamer@insttitle#1{{\textsuperscript{#1}}}
+\def\beamer@instinst#1{{\textsuperscript{#1}}\ignorespaces}
+%
+% AM: Übernahmen: die Hochstellungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% AM: Übernahmen aus originalen beamer-Dateien Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Titelseite alles Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Titelseite Anfang
+%
+%\newcommand{\TUBAF@scale}{}%0.8219}% Skalierung für Längen aus TUBAFbasteinelaengen, berechnet aus \TUBAF@tikzscale}{0.502*\TUBAFwbmBreiteLogo/(\TUBAF@tikzscale\TUBAFwbmBreiteLogo)
+%
+\def\TUBAFseitenname{Seiten}
+%
+\let\TUBAFpunkttest\@ptsize
+
+\setbeamertemplate{title page}{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Titelseite klassisch Anfang
+\ifthenelse{\equal{\TUBAF@titelseite}{klassisch}}{%
+	%\pagecolor{TUBAFgeo}
+	\begingroup
+	%\TUBAFraster%
+	\setlength{\parindent}{0pt}
+	\enlargethispage{18mm}%
+	\thispagestyle{empty}%
+	%
+	\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+		\raisebox{\headheight-1cm}[0mm][-\headheight+1cm]{%
+			\TUBAFBox{\parbox[t][\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo][t]{\TUBAFwbmscaleLXXV\TUBAFwbmBreitewbm}{%Umrandung%
+				\ifthenelse{\equal{\TUBAF@wbm}{blau-grau}}{%
+					\TUBAFwbm[scale=\TUBAFwbmscaleLXXV]
+				   }{%
+					\TUBAFwbm[scale=\TUBAFwbmscaleLXXV,fg=schwarz]%
+				}
+			}}%
+		}% Ende raisebox
+	   }{%
+		\raisebox{\headheight-15.6mm}[0mm][-\headheight+15.6mm]{%
+			\TUBAFBox{\parbox[t][\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLHoeheLogo][t]{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreitewbm}{%Umrandung%
+				\ifthenelse{\equal{\TUBAF@wbm}{blau-grau}}{%
+					\TUBAFwbm[scale=\TUBAFwbmCCLscaleLXXpV,tracht=250]
+				   }{%
+					\TUBAFwbm[scale=\TUBAFwbmCCLscaleLXXpV,tracht=250,fg=schwarz]%
+				}
+			}}%
+		}% Ende raisebox
+	}% Ende Test wbmtracht
+	\hfill%
+	\ifx\TUBAFZweitlogonotscaled\@empty\else%
+		\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+			\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAFwbmscaleLXXV\TUBAFwbmBreitewbm}{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo}{\TUBAFZweitlogoTSnotscaled}%
+			\raisebox{\headheight-1cm}[0mm][-\headheight+1cm]{%
+			\TUBAFBox{\parbox[t][\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo][\TUBAF@zwlvpos]{\TUBAFwbmscaleLXXV\TUBAFwbmBreitewbm}{%Umrandung
+				\hfill\insertTUBAFZweitlogoTS%
+			}}%
+			}%
+		   }{%
+			\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreitewbm}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLHoeheLogo}{\TUBAFZweitlogoTSnotscaled}%
+			\raisebox{\headheight-15.6mm}[0mm][-\headheight+15.6mm]{%
+			\TUBAFBox{\parbox[t][\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLHoeheLogo][\TUBAF@zwlvpos]{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreitewbm}{%Umrandung
+				\hfill\insertTUBAFZweitlogoTS%
+			}}%
+			}% raisebox Ende
+		}\ignorespaces%\hspace*{-20pt}%
+		% AM: Zweitlogo Ausgabe einer Warnung, wenn das Zweitlogo skaliert wird
+		\ifthenelse{\equal{\TUBAFZweitlogoTSscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFZweitlogo ist verkleinert.\MessageBreak Ha ha!}}%
+	\fi%
+	\\%[-\TUBAFwbmSchutzzone]
+	%%%\insertTUBAFOrt\\[4cm]%Ort
+	\TUBAFvfill
+	%
+	\bfseries
+	{\ifthenelse{\isundefined{\usekomafont}}{}{\usekomafont{sectioning}}
+	%
+	%\normalsize
+	\ifx\insertshortTUBAFAutor\@empty%
+		%\insertauthor\newline\\[1.75em]
+		\insertauthor\newline\vskip1.75em
+	   \else%
+		%\insertTUBAFAutor\\[1.75em]
+		\insertTUBAFAutor\vskip1.75em
+	\fi
+	%
+	\parbox{\linewidth}{\huge\ifx\inserttitle\@empty\insertTUBAFTitel\else\inserttitle\fi}\newline%
+	%
+	%
+	\ifx\insertsubtitle\@empty%
+		%\ifx\insertTUBAFUntertitel\@empty\else\parbox{\linewidth}{~\\[1.2ex]\Large\insertTUBAFUntertitel}\fi%
+		\ifx\insertTUBAFUntertitel\@empty\else\parbox{\linewidth}{~\newline\vskip1.2ex\Large\insertTUBAFUntertitel}\fi%
+	   \else%
+		%\parbox{\linewidth}{~\\[1.2em]\Large\insertsubtitle}%
+		\parbox{\linewidth}{~\newline\vskip1.2em\Large\insertsubtitle}%
+	\fi
+	%
+	}% sectioning Ende
+	%
+	\newline\vskip1.5em%
+	\normalfont\normalsize%
+	\ifx\insertTUBAFOrt\@empty\else\insertTUBAFOrt\newline\newline\fi%
+	\ifx\insertTUBAFDatum\@empty\insertdate\else\insertTUBAFDatum\fi%
+	%
+	\ifbeamer@TUBAF@tlsb
+		% Berechnung der Skalierung und Definition von TUBAFTitelseitebilderscale/insertTUBAFTitelseitebilder
+		\TUBAFscalecomp{TUBAFTitelseitebilder}{\linewidth}{10cm}{\TUBAFTitelseitebildernotscaled}
+		%%	% PM: Titelseitebilder Ausgabe einer Warnung, wenn das Titelseitebilder skaliert wird
+		%\ifthenelse{\equal{\TUBAFTitelseitebilderscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFTitelseitebilder is downscaled.\MessageBreak Ha ha!}}
+		%\\[1.25em]
+		\newline\vskip1.25em
+		\insertTUBAFTitelseitebilder
+	\fi
+	%
+	\ifx\insertTUBAFTitelseiteerlaeuterung\@empty\else
+		%{\normalfont\\[1.2em]\insertTUBAFTitelseiteerlaeuterung}
+		{\normalfont\newline\vskip1.2em\insertTUBAFTitelseiteerlaeuterung}
+	\fi
+	%
+	\TUBAFvfill
+	\parbox[b]{.7\linewidth}{\ifx\insertinstitute\@empty\insertTUBAFInstitut\else\insertinstitute\fi}
+	\hfill
+	\parbox[b]{.2\linewidth}{\hfill\ifbeamer@TUBAF@gesamtseiten\pageref{LastPage}~\TUBAFseitenname\fi}
+	\vspace*{0pt}
+	% AM: Titelseite klassisch Ende
+	\endgroup
+	\newpage%
+	\addtocounter{framenumber}{-1}%
+%}
+% AM: Titelseite klassich Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}{%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Titelseite strikt Anfang
+%\setbeamertemplate{title page}{%
+	\begingroup
+	%\TUBAFraster%
+	\setlength{\parindent}{0pt}%
+	\enlargethispage{18mm}%
+	\thispagestyle{empty}%
+	~\hfill%
+	\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+		\raisebox{\headheight-1cm}[0mm][-\headheight+1cm]{%
+		\begin{minipage}[t]{75.1mm}% Werte aus Handbuch S. 39: Briefvorlage + .1mm Reserve
+			\noindent\sffamily%
+			\ifthenelse{\equal{\TUBAF@wbm}{blau-grau}}{%
+				\TUBAFwbm[scale=\TUBAFwbmscaleLXXV]%
+			   }{%
+				\TUBAFwbm[scale=\TUBAFwbmscaleLXXV,fg=schwarz]%
+			}%
+			\\[\TUBAFwbmscaleLXXV\TUBAFwbmSchutzzone]
+			\ifx\TUBAFZweitlogonotscaled\@empty\else%
+				\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAFwbmscaleLXXV\TUBAFwbmBreitewbm}{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo}{\TUBAFZweitlogoTSnotscaled}%
+				\begingroup
+				\settowidth{\TUBAFtmpdima}{\insertTUBAFZweitlogoTS}%
+				\setlength{\TUBAFtmpdimb}{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteNamen}
+				\ifthenelse{\lengthtest\TUBAFtmpdima>\TUBAFtmpdimb}{%
+					\hspace{0pt}\hfill\insertTUBAFZweitlogoTS%
+					\\[\TUBAFwbmscaleLXXV\TUBAFwbmSchutzzone]
+				   }{%
+					\noindent\hspace*{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo}\hspace*{\TUBAFwbmscaleLXXV\TUBAFwbmSchutzzone}\hspace*{-1pt}\insertTUBAFZweitlogoTS%
+					\\[\TUBAFwbmscaleLXXV\TUBAFwbmSchutzzone]
+				}
+				\endgroup
+			\fi%
+			\ifx\insertTUBAFInstitut\@empty\else%
+				\TUBAFscalecomp{TUBAFinstitutsblock}{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteNamen}{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo}{%
+					\ifthenelse{\equal{\TUBAF@wbm}{schwarz}}{}{\color{TUBAFgrau\TUBAFgrauext}}%
+					\insertTUBAFInstitut
+				}
+				\noindent%
+				\hspace*{\TUBAFwbmscaleLXXV\TUBAFwbmBreiteLogo}\hspace*{\TUBAFwbmscaleLXXV\TUBAFwbmSchutzzone}\hspace*{-1pt}% hspace für exakte Positionierung
+				\noindent\insertTUBAFinstitutsblock%
+			\fi
+		\end{minipage}%
+		}%
+	   }{% Test wbmtracht einfach Ende, Anfang 250
+		\raisebox{\headheight-1.56cm}[0mm][-\headheight+1.56cm]{%
+		\begin{minipage}[t]{70.6mm}% Werte aus Briefpapiervorlage + .1mm Reserve
+			\noindent\sffamily
+			\ifthenelse{\equal{\TUBAF@wbm}{blau-grau}}{%
+				\TUBAFwbm[scale=\TUBAFwbmCCLscaleLXXpV,tracht=250]%
+			   }{%
+				\TUBAFwbm[scale=\TUBAFwbmCCLscaleLXXpV,tracht=250,fg=schwarz]%
+			}%
+			\\[\TUBAFwbmCCLscaleLXXpV\TUBAFwbmSchutzzone]
+			\ifx\TUBAFZweitlogonotscaled\@empty\else%
+				\TUBAFscalecomp{TUBAFZweitlogoTS}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreitewbm}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLHoeheLogo}{\TUBAFZweitlogoTSnotscaled}%
+				\begingroup
+				\settowidth{\TUBAFtmpdima}{\insertTUBAFZweitlogoTS}%
+				\setlength{\TUBAFtmpdimb}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmBreiteNamen}
+				\ifthenelse{\lengthtest\TUBAFtmpdima>\TUBAFtmpdimb}{%
+					\hspace{0pt}\hfill\insertTUBAFZweitlogoTS%
+					\\[\TUBAFwbmCCLscaleLXXpV\TUBAFwbmSchutzzone]
+				   }{%
+					\noindent\hspace*{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreiteLogo}\hspace*{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLinnereSchutzzone}\hspace*{-1pt}\insertTUBAFZweitlogoTS%
+					\\[\TUBAFwbmCCLscaleLXXpV\TUBAFwbmSchutzzone]
+				}
+				\endgroup
+			\fi%
+			\ifx\insertTUBAFInstitut\@empty\else%
+				\TUBAFscalecomp{TUBAFinstitutsblock}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmBreiteNamen}{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLHoeheLogo}{%
+					\ifthenelse{\equal{\TUBAF@wbm}{schwarz}}{}{\color{TUBAFgrau\TUBAFgrauext}}%
+					\insertTUBAFInstitut
+				}
+				\noindent%
+				\hspace*{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLBreiteLogo}\hspace*{\TUBAFwbmCCLscaleLXXpV\TUBAFwbmCCLinnereSchutzzone}\hspace*{-1pt}% hspace für exakte Positionierung
+				\noindent\insertTUBAFinstitutsblock%
+			\fi
+		\end{minipage}%
+		}% raisebox Ende
+	}% Test wbmtracht Ende
+	\newline
+	\ifx\TUBAFZweitlogonotscaled\@empty\else\vskip3cm\fi
+	\ifx\insertTUBAFInstitut\@empty\else\vskip3cm\fi
+	\TUBAFvfill
+	%
+	\centering
+	\bfseries
+	%
+	{\ifthenelse{\isundefined{\usekomafont}}{}{\usekomafont{sectioning}}
+	%
+	\ifx\insertshortTUBAFAutor\@empty%
+		\insertauthor\newline\vskip1.75em
+	   \else%
+		\insertTUBAFAutor\vskip1.75em
+	\fi
+	%
+	\parbox{\linewidth}{\centering\huge\ifx\inserttitle\@empty\insertTUBAFTitel\else\inserttitle\fi}\newline%
+	%
+	\ifx\insertsubtitle\@empty%
+		\ifx\insertTUBAFUntertitel\@empty\else\parbox{\linewidth}{\centering~\newline\vskip1.2ex\Large\insertTUBAFUntertitel}\fi%
+	   \else%
+		\parbox{\linewidth}{\centering~\newline\vskip1.2em\Large\insertsubtitle}%
+	\fi
+	%
+	}% sectioning Ende
+	%
+	\newline\vskip1em%
+	\normalfont\normalsize%
+	\ifx\insertTUBAFOrt\@empty\else\parbox{\linewidth}{\centering\insertTUBAFOrt}\newline\newline\fi%
+	\ifx\insertTUBAFDatum\@empty\parbox{\linewidth}{\centering\insertdate}\else\parbox{\linewidth}{\centering\insertTUBAFDatum}\fi%
+	%
+	\ifbeamer@TUBAF@tlsb
+		% Berechnung der Skalierung und Definition von TUBAFTitelseitebilderscale/insertTUBAFTitelseitebilder
+		\TUBAFscalecomp{TUBAFTitelseitebilder}{\linewidth}{10cm}{\TUBAFTitelseitebildernotscaled}
+		%	% PM: Titelseitebilder Ausgabe einer Warnung, wenn das Titelseitebilder skaliert wird
+		\ifthenelse{\equal{\TUBAFTitelseitebilderscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFTitelseitebilder wurde verkleinert.\MessageBreak Ha ha!}}
+		\newline\vskip1.25em
+		\parbox{\linewidth}{\centering\insertTUBAFTitelseitebilder}
+	\fi
+	%
+	\ifx\insertTUBAFTitelseiteerlaeuterung\@empty\else
+		\normalfont\newline\vskip1.2em\parbox{\linewidth}{\centering\insertTUBAFTitelseiteerlaeuterung}
+	\fi
+	%
+	\TUBAFvfill
+	\hfill
+	\parbox[b]{.2\linewidth}{\hfill\ifbeamer@TUBAF@gesamtseiten\pageref{LastPage}~\TUBAFseitenname\fi}
+	\vspace*{0pt}
+	\endgroup
+	\newpage%
+	\addtocounter{framenumber}{-1}%
+}
+% AM: Titelseite strikt Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+%
+% AM: Titelseite Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: frame Darstellung Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: frame Darstellung: frametitle Anfang
+%
+\setbeamertemplate{frametitle}{%
+	\noindent\ignorespaces%
+	\ifx\insertframesubtitle\@empty%
+		\textbf{\insertframetitle}%
+	   \else
+		\textbf{\hskip-.3em\insertframetitle~\rule[0.1em]{0.33em}{.33em}~\insertframesubtitle}%
+	\fi%
+	\par%
+}
+%
+% AM: frame Darstellung: frametitle Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: frame Darstellung: frame begin Anfang
+%
+\setbeamertemplate{frame begin}{%
+	\ifthenelse{\value{page}=1}{}{%
+		\ifbeamer@TUBAF@framebeg
+			~\par%
+			\hspace*{0pt}\marginpar{%
+			\if@twoside
+				\ifthenelse{\isodd{\thepage}}{%
+					\hfill%
+					\ifthenelse{\equal{\TUBAF@seite}{true}}{%
+						\ifthenelse{\value{framenumber}=0}{\addtocounter{framenumber}{1}}{}% Absicherung gegen falsche Zählung
+						\ifthenelse{\equal{\insertlecturenumber}{0}}{%
+							\insertframenumber%
+						   }{%
+							\ifbeamer@TUBAF@lektionsnummer%
+								\insertlecturenumber.\insertframenumber%
+							   \else
+								\insertframenumber%
+							\fi%
+						}%
+					}{}%
+					~\rule[-.2em]{.4pt}{1.2em}%
+					\hspace{-\marginparwidth}%
+					\rule[1em]{\marginparwidth}{.4pt}%
+				   }{%
+					\rule[-.2em]{.4pt}{1.2em}~%
+					\ifthenelse{\equal{\TUBAF@seite}{true}}{%
+						\ifthenelse{\value{framenumber}=0}{\addtocounter{framenumber}{1}}{}% Absicherung gegen falsche Zählung
+						\ifthenelse{\equal{\insertlecturenumber}{0}}{%
+							\insertframenumber%
+						   }{%
+							\ifbeamer@TUBAF@lektionsnummer%
+								\insertlecturenumber.\insertframenumber
+							   \else
+								\insertframenumber%
+							\fi%
+						}%
+					}{}%
+					\hfill~%
+					\hspace{-\marginparwidth}%
+					\rule[1em]{\marginparwidth}{.4pt}%
+				}
+			   \else
+				\hfill%
+				\ifthenelse{\equal{\TUBAF@seite}{true}}{%
+					\ifthenelse{\value{framenumber}=0}{\addtocounter{framenumber}{1}}{}% Absicherung gegen falsche Zählung
+					\ifthenelse{\equal{\insertlecturenumber}{0}}{%
+						\insertframenumber%
+					   }{%
+						\ifbeamer@TUBAF@lektionsnummer
+							\insertlecturenumber.\insertframenumber%
+						   \else
+							%\PackageWarningNoLine{\TUBAFbeamer@name}{There is a lecturenumber but no output of it.\MessageBreak Maybe the framenumbers are wrong}
+							\insertframenumber%
+						\fi%
+					}%
+				}{}%
+				~\rule[-.2em]{.4pt}{1.2em}%
+				\hspace{-\marginparwidth}%
+				\rule[1em]{\marginparwidth}{.4pt}%
+			\fi% iftwoside Ende
+			}% marginpar Ende
+		   \else
+		\fi% \ifbeamer@TUBAF@framebeg Ende
+	}% if value page=1 false Ende
+}% template Ende
+%
+% AM: frame Darstellung: frame begin Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: frame Darstellung: frame end Anfang
+%
+\setbeamertemplate{frame end}{%
+	\FloatBarrier%
+	\ifbeamer@TUBAF@frameend%
+		~\\%
+		\marginpar{\rule{\marginparwidth}{.4pt}}
+	   \else%
+	\fi%
+}
+%
+% AM: frame Darstellung: frame end Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% AM: frame Darstellung Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% AM: Blöcke Anfang
+% nach insertblocktitle newline anstatt par, sonst bei parskip=yes zu großer Abstand
+%
+\setbeamertemplate{block begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+\setbeamertemplate{block alerted begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+\setbeamertemplate{block example begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+\setbeamertemplate{block TUBAFin begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+\setbeamertemplate{block TUBAFout begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+\setbeamertemplate{block TUBAFcis begin}{%
+	\par\vskip\medskipamount{\noindent\textbf{\insertblocktitle}}\newline\noindent\ignorespaces
+}
+%
+% AM: Blöcke Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+%
+% Ende des Artikelmodus'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Begin des Poster
+%
+\ifthenelse{\equal{\TUBAF@postertest}{true}}{%
+%
+\mode<presentation>{%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: die eigentliche Umgebung Anfang
+%
+\newenvironment{TUBAFposter}{%
+	\begin{frame}[t]{~}% Leerzeichne muß sein, sonst keine Übernahme des Inhalts
+   }{%
+	\end{frame}%
+}
+% wegen der Konsistenz
+\newenvironment{TUBAFPoster}{%
+	\PackageWarningNoLine{\TUBAFbeamer@name}{Der Umgebung 'TUBAFPoster'\MessageBreak ist veraltet und kann\MessageBreak in Zukunft geloescht sein}%
+	\begin{frame}[t]{~}% Leerzeichne muß sein, sonst keine Übernahme des Inhalts
+   }{%
+	\end{frame}%
+}
+%
+% poster alles: die eigentliche Umgebung Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: Einstellungen für Farben Anfang
+%
+% Farben für Posterabschnitte
+\setbeamercolor{background canvas}{bg=TUBAFweiss}%bg=TUBAFenergie!50!TUBAFweiss,fg=TUBAFumwelt}
+\setbeamercolor{headline}{bg=TUBAFweiss,fg=TUBAFenergie}%{bg=TUBAFgeo,fg=TUBAFenergie}%
+\setbeamercolor{headline left}{use=TUBAFhausfarbe,bg=TUBAFhausfarbe.bg,fg=TUBAFweiss}
+\setbeamercolor{headline right}{bg=TUBAFweiss,fg=TUBAFhausfarbe}
+%%%\TUBAFFarbe{TUBAFgrau}{0}{\TUBAFhelligkeitgrau}% wird direkt über Option gesetzt
+\setbeamercolor{frametitle}{bg=TUBAFgrau\TUBAFgrauext,fg=TUBAFhausfarbe}
+\setbeamercolor{title page author}{use=normal text,fg=normal text.fg}
+\setbeamercolor{referenzen}{use={frametitle,normal text},bg=frametitle.bg,fg=normal text.fg}
+\setbeamercolor{footline}{parent=headline left}
+% muß hier nochmal gesetzt werden
+\setbeamercolor{block body TUBAFcis}{use=background canvas,bg=background canvas.bg}
+
+% Farben für enumerate, itemize
+\setbeamercolor{enumerate item}{use=normal text,fg=normal text.fg}
+\setbeamercolor{enumerate subitem}{use=normal text,fg=normal text.fg}
+\setbeamercolor{enumerate subsubitem}{use=normal text,fg=normal text.fg}
+\setbeamercolor{itemize item}{use=normal text,fg=normal text.fg}
+\setbeamercolor{itemize subitem}{use=normal text,fg=normal text.fg}
+\setbeamercolor{itemize subsubitem}{use=normal text,fg=normal text.fg}
+\setbeamercolor{description item}{use=normal text,fg=normal text.fg}
+%
+% Farben für thebibliographic (org. in beamercolorthemedefault.sty)
+\setbeamercolor{bibliography item}{fg=normal text.fg}
+\setbeamercolor{bibliography entry author}{fg=normal text.fg}
+\setbeamercolor{bibliography entry title}{fg=normal text.fg}
+\setbeamercolor{bibliography entry location}{fg=normal text.fg}
+\setbeamercolor{bibliography entry note}{fg=normal text.fg}
+%
+% poster alles: Einstellungen für Farben Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: Einstellungen für Fonts Anfang
+% Formatierung von bibliography-Kram (org. in beamercolorthemedefault.sty)
+%
+\setbeamerfont{frametitle}{size=\Huge,series=\bfseries}
+\setbeamerfont{title page author}{size=\normalsize,series=\mdseries,shape=\itshape}%
+%
+\setbeamerfont{referenzen}{size=\footnotesize}
+\setbeamerfont{footline}{size=\footnotesize}
+%
+\setbeamerfont{bibliography item}{size=\small}
+\setbeamerfont{bibliography entry author}{size=\small}
+\setbeamerfont{bibliography entry title}{size=\small}
+\setbeamerfont{bibliography entry location}{size=\scriptsize}
+\setbeamerfont{bibliography entry note}{size=\scriptsize}
+%
+% Fonts für Blöcke einstellen
+\setbeamerfont{block title}{size=\large,series=\bfseries}
+\setbeamerfont{block title alerted}{size=\large,series=\bfseries}
+\setbeamerfont{block title example}{size=\large,series=\bfseries}
+\setbeamerfont{block title TUBAFin}{size=\large,series=\bfseries}
+\setbeamerfont{block title TUBAFout}{size=\large,series=\bfseries}
+\setbeamerfont{block title TUBAFcis}{size=\large,series=\bfseries}% bleibt gleich
+% poster alles: Einstellungen für Fonts Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: Einstellungen templates Anfang
+% Formatierung von bibliography-Kram (org. in beamercolorthemedefault.sty)
+%
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{bibliography entry author}{}
+\setbeamertemplate{bibliography entry title}{}
+\setbeamertemplate{bibliography entry location}{}
+\setbeamertemplate{bibliography entry note}{}
+%
+% zur Sicherheit ;-)
+\setbeamertemplate{title page}{}
+\renewcommand{\titlepage}{}
+\renewcommand{\maketitle}{}
+%
+% poster alles: Einstellungen templates Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: Einstellungen diverses Anfang
+%
+% Nummerierung der Überschriften per lecture, part oder section ins Leere laufen lassen
+\ifthenelse{\equal{\TUBAF@secnumper}{lecture}}{}{}
+\ifthenelse{\equal{\TUBAF@secnumper}{part}}{}{}
+\ifthenelse{\equal{\TUBAF@secnumper}{section}}{}{}
+%
+% Nummerierung per Abschnitt ins Leere laufen lassen
+\ifthenelse{\equal{\TUBAF@numper}{none}}{}{}
+\ifthenelse{\equal{\TUBAF@numper}{lecture}}{}{}
+\ifthenelse{\equal{\TUBAF@numper}{part}}{}{}
+\ifthenelse{\equal{\TUBAF@numper}{section}}{}{}
+%
+% poster alles: Einstellungen diverses Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: Längen und Berechnungen Anfang
+%
+\newlength{\TUBAF@posterkopfhoehe}
+\newlength{\TUBAF@postertlhoehe}
+\newlength{\TUBAF@postertltxthoehe}
+\newlength{\TUBAF@posterfzhoehe}
+\newlength{\TUBAF@posterfztxthoehe}
+%
+%\typeout{An dieser Stelle wird die Papiergroesse und Ausrichtung getestet!}
+%
+\ifthenelse{\equal{\TUBAF@posterformat}{custom}}{%
+	\ifthenelse{\equal{\TUBAF@posterorient}{portrait}}{%
+	%%%\ifbeamer@TUBAF@portrait%\ifportrait
+		\renewcommand{\TUBAF@tikzscale}{1.1}% ca.-Wert
+	   }{%
+		\renewcommand{\TUBAF@tikzscale}{.87}% getestet, in ghostview gemessen
+	}
+	\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{.1\paperheight}}{\setlength{\TUBAF@posterkopfhoehe}{.12\paperheight}}
+	\setlength{\TUBAF@postertlhoehe}{.14\paperheight}
+	\setlength{\TUBAF@posterfzhoehe}{.07\paperheight}
+	\setlength{\TUBAF@textlmargin}{.06\paperwidth}
+   }{%
+	\ifthenelse{\equal{\TUBAF@posterorient}{portrait}}{%
+	%%%\ifbeamer@TUBAF@portrait%\ifportrait
+		\ifthenelse{\equal{\TUBAF@posterformat}{a0}}{%
+			\renewcommand{\TUBAF@tikzscale}{1.0688835738}
+			\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{105mm}}{\setlength{\TUBAF@posterkopfhoehe}{126mm}}% Kopfzeilenhöhe
+			\setlength{\TUBAF@postertlhoehe}{120mm}% Titelhöhe
+			\setlength{\TUBAF@posterfzhoehe}{60mm}% Fußzeilenhöhe
+			\setlength{\TUBAF@textlmargin}{75mm}% Text: linker Rand
+		   }{%
+		\ifthenelse{\equal{\TUBAF@posterformat}{a1}}{%
+			\renewcommand{\TUBAF@tikzscale}{1.0911532235}
+			\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{75mm}}{\setlength{\TUBAF@posterkopfhoehe}{90mm}}
+			\setlength{\TUBAF@postertlhoehe}{85mm}
+			\setlength{\TUBAF@posterfzhoehe}{45mm}
+			\setlength{\TUBAF@textlmargin}{50mm}
+		   }{%
+		\ifthenelse{\equal{\TUBAF@posterformat}{a2}}{%
+			\renewcommand{\TUBAF@tikzscale}{1.1084719067}
+			\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{55mm}}{\setlength{\TUBAF@posterkopfhoehe}{66mm}}
+			\setlength{\TUBAF@postertlhoehe}{60mm}
+			\setlength{\TUBAF@posterfzhoehe}{30mm}
+			\setlength{\TUBAF@textlmargin}{35mm}
+		   }{%
+		\ifthenelse{\equal{\TUBAF@posterformat}{a3}}{%
+			\renewcommand{\TUBAF@tikzscale}{1.1191941135}
+			\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{40mm}}{\setlength{\TUBAF@posterkopfhoehe}{48mm}}
+			\setlength{\TUBAF@postertlhoehe}{45mm}
+			\setlength{\TUBAF@posterfzhoehe}{20mm}
+			\setlength{\TUBAF@textlmargin}{25mm}
+		   }{%
+		\ifthenelse{\equal{\TUBAF@posterformat}{a4}}{%
+			\renewcommand{\TUBAF@tikzscale}{1.1079456854}
+			\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{30mm}}{\setlength{\TUBAF@posterkopfhoehe}{36mm}}
+			\setlength{\TUBAF@postertlhoehe}{35mm}
+			\setlength{\TUBAF@posterfzhoehe}{15mm}
+			\setlength{\TUBAF@textlmargin}{18mm}
+		   }{%
+		}}}}}
+	   }{%\else
+		\renewcommand{\TUBAF@tikzscale}{.87}% getestet, in ghostview gemessen
+		\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{\setlength{\TUBAF@posterkopfhoehe}{.1\paperheight}}{\setlength{\TUBAF@posterkopfhoehe}{.12\paperheight}}
+		\setlength{\TUBAF@postertlhoehe}{.14\paperheight}
+		\setlength{\TUBAF@posterfzhoehe}{.07\paperheight}
+		\setlength{\TUBAF@textlmargin}{.06\paperwidth}
+	}%\fi
+}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Neuberechnung der Skalierung nur für WBM
+\ifthenelse{\lengthtest{\paperwidth<\paperheight}}{%
+	\setlength{\TUBAFtmpdima}{210mm}
+	\FPset\TUBAFbeamer@dinavierbreite{\number\TUBAFtmpdima}
+	\FPset\TUBAFbeamer@aktuellebreite{\number\paperwidth}
+	\FPdiv\TUBAFbeamer@bausteinescale\TUBAFbeamer@aktuellebreite\TUBAFbeamer@dinavierbreite
+	\FPmul\TUBAFtmpa\TUBAF@tikzscale\TUBAFbeamer@bausteinescale
+	\FPround\TUBAF@wbmscale\TUBAFtmpa8% sonst Nachkommastellen zuviel und Fehler Number too big
+   }{%
+	\setlength{\TUBAFtmpdima}{210mm}
+	\FPset\TUBAFbeamer@dinavierbreite{\number\TUBAFtmpdima}
+	\FPset\TUBAFbeamer@aktuellebreite{\number\paperheight}
+	\FPdiv\TUBAFbeamer@bausteinescale\TUBAFbeamer@aktuellebreite\TUBAFbeamer@dinavierbreite
+	\FPmul\TUBAFtmpa\TUBAF@tikzscale\TUBAFbeamer@bausteinescale
+	\FPround\TUBAF@wbmscale\TUBAFtmpa8% sonst Nachkommastellen zuviel und Fehler Number too big
+}
+%
+\setlength{\TUBAF@hdlosep}{\TUBAFwbmSchutzzone}% Abstand Umrandung zu Text
+%
+\setlength{\TUBAF@hdltextwidth}{\paperwidth}% - 2\TUBAF@textlmargin}% für Titel-/Autor-Bereich
+\setlength{\TUBAF@frtlskip}{\TUBAF@textlmargin - \TUBAFwbmSchutzzone}% für Titel-/Autor-Bereich
+\setlength{\TUBAF@postertltxthoehe}{\TUBAF@postertlhoehe - 2\TUBAF@hdlosep}
+%
+\setlength{\TUBAF@posterfztxthoehe}{\TUBAF@posterfzhoehe - 2\TUBAF@hdlosep}
+%
+% poster alles: Längen und Berechnungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster: Zweitlogo Berechnungen Anfang
+%
+\AtBeginDocument{% damit alle Längen korrekt sind
+	\ifbeamer@TUBAF@zwl%
+		% Berechnung der Skalierung und Definition von TUBAFZweitlogoscale/insertTUBAFZweitlogo
+		\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+			\TUBAFscalecomp{TUBAFZweitlogo}{\TUBAF@tikzscale\TUBAFwbmBreitewbm}{\TUBAF@tikzscale\TUBAFwbmBreiteLogo}{\TUBAFZweitlogonotscaled}
+		   }{%
+			\TUBAFscalecomp{TUBAFZweitlogo}{\TUBAF@tikzscale\TUBAFwbmCCLBreitewbm}{\TUBAF@tikzscale\TUBAFwbmCCLHoeheLogo}{\TUBAFZweitlogonotscaled}
+		}
+		%%	% PM: Zweitlogo Ausgabe einer Warnung, wenn das Zweitlogo skaliert wird
+		\ifthenelse{\equal{\TUBAFZweitlogoscale}{1}}{}{\PackageWarningNoLine{\TUBAFbeamer@name}{TUBAFZweitlogo ist verkleinert.\MessageBreak Ha ha!}}
+		\settowidth{\TUBAF@zwlbreite}{\insertTUBAFZweitlogo}
+	\fi% if Zweitlogo Ende
+}% AtBeginDocument Ende
+%
+% PM: Zweitlogo Berechnungen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: templates für TUBAFposter festlegen Anfang
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: templates festlegen: headline Anfang
+\setbeamertemplate{headline}{%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@posterkopfhoehe,sep=0pt,dp=0pt]{headline}
+		\ifthenelse{\equal{\TUBAF@posterorient}{portrait}}{%
+		%%%%\ifbeamer@TUBAF@portrait%\ifportrait
+			\begin{beamercolorbox}[wd=.5\paperwidth,ht=\TUBAF@posterkopfhoehe,sep=0pt,dp=0pt,center]{headline left}
+				\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+					\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@tikzscale\TUBAFwbmBreitewbm}{%TUBAFumrandung%
+						\TUBAFwbm[fg=weiss,scale=\TUBAF@wbmscale]}%
+					}
+				   }{%
+					\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@tikzscale\TUBAFwbmCCLBreitewbm}{%TUBAFumrandung%
+						\TUBAFwbm[fg=weiss,scale=\TUBAF@wbmscale,tracht=250]%
+					}}%
+				}
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=.5\paperwidth,ht=\TUBAF@posterkopfhoehe,sep=\TUBAF@hdlosep,dp=0pt]{headline right}
+				\ifbeamer@TUBAF@zwl
+					\begingroup
+					\addtolength{\TUBAF@posterkopfhoehe}{-2\TUBAF@hdlosep}
+					~\hfill\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@zwlbreite}{%umrandung%\TUBAF@tikzscale\TUBAFwbmBreiteLogo
+						\insertTUBAFZweitlogo%
+					}}\hspace*{\TUBAF@frtlskip}
+					\endgroup
+				\fi
+			\end{beamercolorbox}%
+		   }{%\else
+			\begin{beamercolorbox}[wd=.5\paperwidth,ht=\TUBAF@posterkopfhoehe,sep=0pt,leftskip=\TUBAF@textlmargin,dp=0pt]{headline left}
+				\ifthenelse{\equal{\TUBAFwbmtracht}{einfach}}{%
+					\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@tikzscale\TUBAFwbmBreitewbm}{%umrandung
+						\TUBAFwbm[fg=weiss,scale=\TUBAF@wbmscale]}%
+					}
+				   }{%
+					\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@tikzscale\TUBAFwbmCCLBreitewbm}{%umrandung
+						\TUBAFwbm[fg=weiss,scale=\TUBAF@wbmscale,tracht=250]}%
+					}
+				}
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=.5\paperwidth,ht=\TUBAF@posterkopfhoehe,sep=\TUBAF@hdlosep,dp=0pt]{headline right}
+				\ifbeamer@TUBAF@zwl
+					\begingroup
+					\addtolength{\TUBAF@posterkopfhoehe}{-2\TUBAF@hdlosep}
+					~\hfill\TUBAFBox{\parbox[c][.999\TUBAF@posterkopfhoehe][c]{\TUBAF@zwlbreite}{%umrandung%\TUBAF@tikzscale\TUBAFwbmBreiteLogo
+						\insertTUBAFZweitlogo%
+					}}\hspace*{\TUBAF@frtlskip}
+					\endgroup
+				\fi
+			\end{beamercolorbox}%
+		}%\fi%
+	\end{beamercolorbox}%
+	\vskip-1pt% sonst Abstand
+}
+% poster alles: templates festlegen: headline Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: templates festlegen: frametitle Anfang
+\setbeamertemplate{frametitle}{%
+	%\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@postertlhoehe,sep=\TUBAF@hdlosep,leftskip=\TUBAF@frtlskip,dp=0pt]{frametitle}%
+	\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@frtlskip,dp=0pt]{frametitle}%
+	% Textbereich Titel und Autor Anfang
+	% Optimierung für DIN A1
+	% bei geraden Buchstaben erscheint der Abstand zu groß. 
+	% Eine Korrektur erbingt \hspace*{-.1em}
+	\ifx\insertTUBAFTitel\@empty\inserttitle\else\insertTUBAFTitel\fi%
+	\vskip1em%
+	%\TUBAFvfill
+	\usebeamercolor[fg]{title page author}\usebeamerfont{title page author}%
+	\ifx\insertshortTUBAFAutor\@empty\insertauthor\else\insertTUBAFAutor\fi%\vphantom{Xg}	%  ebenso
+	% Textbereich Titel und Autor Ende
+	\end{beamercolorbox}%
+}
+% poster alles: templates festlegen: frametitle Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: templates festlegen: Ränder Textbereich  Anfang
+%
+\setbeamersize{text margin left=\TUBAF@textlmargin,text margin right=\TUBAF@textlmargin}
+%
+% poster alles: templates festlegen: Ränder Textbereich Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% poster alles: templates festlegen: footline  Anfang
+%
+\setbeamertemplate{footline}{%
+	\ifx\insertTUBAFReferenzen\@empty\else%
+	\begin{beamercolorbox}[wd=\paperwidth,sep=\TUBAF@hdlosep,leftskip=\TUBAF@frtlskip,dp=0pt]{referenzen}%
+		%\TUBAFUmrandung{\parbox{\TUBAF@hdltextwidth}{\insertTUBAFReferenzen}}%Box%
+		\TUBAFBox{\parbox{\linewidth}{\insertTUBAFReferenzen}}%Umrandung
+	\end{beamercolorbox}%
+	\fi%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=\TUBAF@posterfzhoehe,sep=\TUBAF@hdlosep,leftskip=\TUBAF@frtlskip,dp=0pt]{footline}%
+		\TUBAFBox{\parbox[c][\TUBAF@posterfztxthoehe][c]{\linewidth}{%Umrandung%\TUBAF@hdltextwidth
+			\ifx\insertTUBAFInstitut\@empty\insertinstitute\else\insertTUBAFInstitut\fi%
+		}}
+	\end{beamercolorbox}%
+}
+%
+% poster alles: templates festlegen: footline Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% poster alles: templates für TUBAFposter festlegen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}% mode presentation Ende
+%
+}{}
+%
+% Ende des Poster
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%   %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% welche Daten müssen in der Präambel stehen Anfang
+%
+\mode<all>{
+	%\@onlypreamble{\title}
+	%\@onlypreamble{\subtitle}
+	%\@onlypreamble{\author}
+	%\@onlypreamble{\institute}
+	%\@onlypreamble{\date}
+	%\@onlypreamble{\TUBAFconferenceplace}
+	%\@onlypreamble{\TUBAFOrt}
+	%\@onlypreamble{\TUBAFTitelseiteerlaeuterung}
+	\@onlypreamble{\TUBAFTitelseitebilder}% sonst keine Einbindung, da Test auf Inhalt zu Dokumentbeginn fehlschlägt
+	\@onlypreamble{\TUBAFZweitlogo}% sonst keine Einbindung, da Test auf Inhalt zu Dokumentbeginn fehlschlägt
+	%\@onlypreamble{\TUBAFTitel}
+	%\@onlypreamble{\TUBAFUntertitel}
+	%\@onlypreamble{\TUBAFAutor}
+	%\@onlypreamble{\TUBAFInstitut}
+	%\@onlypreamble{\TUBAFReferenzen}
+}
+%
+% welche Daten müssen in der Präambel stehen Ende
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput

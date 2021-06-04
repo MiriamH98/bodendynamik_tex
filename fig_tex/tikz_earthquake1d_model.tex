@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\draw[->] (-2.1, 0.0) -- (-1,0) node[right] {$x$};
+\draw[->] (-2.0, 0.1) -- (-2,-1) node[below] {$z$};
+\draw[fill=black!90!white] (-0.25,0) rectangle (0.25,0.5);
+\draw[fill=black!10!white] (-0.25,0) .. controls (-0.25,-2) and (0.0,-4) .. (0.25,-5) 
+-- (0.75,-5)  .. controls (0.5,-4) and (0.25,-2) .. (0.25,0) --cycle;
+\draw (-2,-4.9) -- (-2,-5.1);
+\draw[->] (-2,-5.0) -- node[above] {$u_\mathrm{rock}(x,t)$} (0.25,-5);
+\end{tikzpicture}

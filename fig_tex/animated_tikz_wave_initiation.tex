@@ -1,0 +1,10 @@
+\begin{animateinline}[draft, autoplay, loop]{10}
+    \multiframe{30}{rDKtime=0.0+1}{   % number of frames, parameter (i-integer, r-real, d-dimension) =  initial value + increment
+\begin{tikzpicture}[scale=2, domain=-5:5, samples=100]
+\tikzmath{\DKpos=0.1*(sign(\rDKtime-5)+1)*\rDKtime;}
+\draw[->] (-5.2,0) -- (5.2,0) node[right] {$z$};
+\draw[->] (0,-0.2) -- (0,2.2) node[above] {$w$};
+\draw plot (\x,{0.5*sign(\x+1+\DKpos)-0.5*sign(\x-1+\DKpos)+0.5*sign(\x+1-\DKpos)-0.5*sign(\x-1-\DKpos)});
+\end{tikzpicture}
+}
+\end{animateinline}

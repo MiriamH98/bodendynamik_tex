@@ -1,0 +1,19 @@
+\begin{tikzpicture}[scale=1.5]
+\clip (-1.1, -0.8) rectangle (2,1.5);
+\coordinate (Null) at (0,0);
+\draw[->] (-1.1, 0) -- (1.25, 0) node[right] {\color{red}Re};
+\draw[->] (0, -1.1) -- (0, 1.25, 0) node[above] {\color{green}Im};
+\draw[name path=Kreis] (0, 0) circle [radius=1];
+\path[name path=Strahl] (0, 0) -- (30:1);
+\path[name path=kStrahl] (0, 0) -- (-30:1);
+\draw[name intersections={of=Kreis and Strahl, by=Zahl}][blue,semithick] (0,0) -- node[above] {$r$} (Zahl);
+\fill[blue] (Zahl) circle[radius=0.03];
+\draw (Zahl) node[anchor=south west] {$z$};
+\draw[blue] (0.45, 0.1) node {$\varphi$};
+\draw[blue,->] (0.6, 0) arc [start angle=0, end angle=30, radius=0.6]; 
+\draw[red, semithick] (Null) -- node[below, fill=white] {$a$} (Null -| Zahl);
+\draw[green, semithick] (Zahl) -- node[right, fill=white] {$b$} (Zahl|- Null);
+\draw[name intersections={of=Kreis and kStrahl, by=kZahl}][blue, dashed] (0,0) -- (kZahl);
+\draw (kZahl) node[anchor=north west] {$z^*$};
+\fill[blue] (kZahl) circle[radius=0.03];
+\end{tikzpicture}

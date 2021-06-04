@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=13cm, 
+    height=6.5cm,
+    axis x line=center, 
+    axis y line=middle, 
+    xlabel={$\kappa H$},
+    x label style={at={(current axis.right of origin)}, right},
+    ylabel={},
+    y label style={at={(current axis.above origin)}, above},
+    samples=100,
+    ymin=0, ymax=4.1,
+    xmin=0, xmax=5,
+    domain=0:5,
+]
+\addplot [mark=none, semithick] {sqrt(1+1/(x^2))};
+\addplot [mark=none, dashed] {1};
+\addplot [mark=none, semithick] {1/sqrt(1+1/(x^2))};
+\draw (axis cs: 4.75, 1.5) node {$\dfrac{c_\mathrm{P}}{c}$};
+\draw (axis cs: 4.75, 0.5) node {$\dfrac{c_\mathrm{G}}{c}$};
+\end{axis}
+\end{tikzpicture}

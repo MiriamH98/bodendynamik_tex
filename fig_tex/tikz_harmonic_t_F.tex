@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=8cm, 
+    height=5cm,
+    axis x line=center, 
+    axis y line=middle, 
+    xlabel={$t$},
+    ylabel={$F$},
+    samples=100,
+    ymin=-1.1, ymax=1.2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {cos(2*deg(x)+10)};
+\end{axis}
+\end{tikzpicture}

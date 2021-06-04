@@ -1,0 +1,13 @@
+\begin{animateinline}[draft, autoplay, loop]{10}
+    \multiframe{36}{rDKtime=0.0+10}{   % number of frames, parameter (i-integer, r-real, d-dimension) =  initial value + increment
+    \begin{tikzpicture}[scale=2]
+\useasboundingbox (-1,0) rectangle (7,4);
+\tikzmath{\DKpos=4+sin(\rDKtime);}    
+%\draw (5,3) node {$t=\rDKtime$  $u=\DKpos$};
+\draw (0, 2) pic [scale=2, thick] {DKbase};
+\draw (0, 3) pic [scale=2, very thick] {DKspring=\DKpos};  
+\draw (0, 1) pic [scale=2, very thick] {DKdashpot=\DKpos};
+\draw[very thick] (\DKpos, 0.5) rectangle +(1.5, 3); 
+    \end{tikzpicture}
+    }
+\end{animateinline}

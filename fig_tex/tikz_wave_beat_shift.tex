@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+\begin{axis}[
+    width=13cm, 
+    height=7cm,
+    axis x line=center, 
+    axis y line=middle, 
+    xlabel={$x$},
+     x label style={at={(current axis.right of origin)}, right},
+    samples=250,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=20,
+    domain=2.5:15,
+    ticks=none
+]
+\addplot [mark=none, semithick, red!20!white] {sin(deg(2*pi*x))};
+\addplot [mark=none, semithick, blue!20!white] {sin(deg(2*pi*x*1.1))};
+\addplot [mark=none, semithick, black!20!white] {sin(deg(2*pi*x))+sin(deg(2*pi*x*1.1))};
+\addplot [mark=none, semithick, dashed, black!20!white] { 2*cos(deg(2*pi*x*0.05))};
+\addplot [mark=none, semithick, dashed, black!20!white] {-2*cos(deg(2*pi*x*0.05))};
+%
+\addplot [mark=none, semithick, red!90!white] {sin(deg(2*pi*x-1.5))};
+\addplot [mark=none, semithick, blue!90!white] {sin(deg(2*pi*x*1.1))};
+\addplot [mark=none, semithick, black!90!white] {sin(deg(2*pi*x-1.5))+sin(deg(2*pi*x*1.1))};
+\addplot [mark=none, semithick, dashed, black!90!white] { 2*cos(deg(2*pi*x*0.05+0.75))};
+\addplot [mark=none, semithick, dashed, black!90!white] {-2*cos(deg(2*pi*x*0.05+0.75))};
+\end{axis}
+\end{tikzpicture}

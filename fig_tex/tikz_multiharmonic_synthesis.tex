@@ -1,0 +1,56 @@
+\begin{tikzpicture}
+\begin{axis}[at={(0cm,1.5cm)},hide axis,
+    width=6cm, 
+    height=4cm,
+    samples=100,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {0.9*cos(2*deg(x)+10)};
+\addplot [mark=none, semithick, blue] {0.8*cos(2*deg(x)-60)};
+\end{axis}
+\begin{axis}[at={(0cm,0cm)},hide axis,
+    width=6cm, 
+    height=4cm,
+    samples=100,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {-0.6*cos(4*deg(x)+80)};
+\addplot [mark=none, semithick, blue] {-0.8*cos(4*deg(x)+10)};
+\end{axis}
+\begin{axis}[at={(0cm,-1.5cm)},hide axis,
+    width=6cm, 
+    height=4cm,
+    samples=100,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {0.3*cos(6*deg(x)+40)};
+\addplot [mark=none, semithick, blue] {0.2*cos(6*deg(x)-70)};
+\end{axis}
+\draw[->, thick] (4.3, 2.3)--(5.5, 1.5);
+\draw[->, thick] (4.3, 1.0)--(5.5, 1.0);
+\draw[->, thick] (4.3,-0.1)--(5.5, 0.5);
+
+\begin{axis}[at={(6cm, 0)}, 
+    width=6cm, 
+    height=4cm,
+    axis x line=center, 
+    axis y line=middle, 
+    samples=100,
+    ymin=-2, ymax=2,
+    xmin=0, xmax=11,
+    domain=0.25*pi:3.25*pi,
+    ticks=none
+]
+\addplot [mark=none, semithick, red] {0.9*cos(2*deg(x)+10)-0.6*cos(4*deg(x)+80)+0.3*cos(6*deg(x)+40)};
+\addplot [mark=none, semithick, blue] {0.8*cos(2*deg(x)-60)-0.8*cos(4*deg(x)+10)+0.2*cos(6*deg(x)-70)};
+\end{axis}
+\end{tikzpicture}

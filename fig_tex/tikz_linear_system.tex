@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\draw (0, 0.21) node {Lineares};
+\draw (0,-0.21) node {System};
+\draw (-1,-0.5) rectangle (1, 0.5);
+\draw[->] (-4, 0) -- (-1, 0);
+\draw[->] ( 1, 0) -- ( 4, 0);
+\draw[visible on=<1>] (-2.5, 0.25) node {$a_1(t)$};
+\draw[visible on=<1>] ( 2.5, 0.25) node {$u_1(t)$};
+\draw[visible on=<2>] (-2.5, 0.25) node {$a_2(t)$};
+\draw[visible on=<2>] ( 2.5, 0.25) node {$u_2(t)$};
+\draw[visible on=<3->] (-2.5, 0.25) node {$a_1(t)+a_2(t)$};
+\draw[visible on=<3->] ( 2.5, 0.25) node {$u_1(t)+u_2(t)$};
+\end{tikzpicture}

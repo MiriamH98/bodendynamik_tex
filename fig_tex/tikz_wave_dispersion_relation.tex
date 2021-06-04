@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+ \draw[->] (-1,0) -- (10,0) node[right] {$\kappa$};
+ \draw[->] (0,-0.5) -- (0,5) node[above] {$\omega$};
+ \draw (0,0) .. controls (3,4) and (8,4.5) .. (10,5);
+ \draw (5,3.68) circle[radius=0.04];
+ \draw[dashed] (0,0) -- node[below,sloped] {$c_\mathrm{P}=\frac{\omega}{\kappa}$} (5,3.68);
+ \draw[dashed] (3,2.89) -- node[above,sloped] {$c_\mathrm{G}=\frac{\mathrm{d}\omega}{\mathrm{d}\kappa}$} (7,4.47);
+\end{tikzpicture}
