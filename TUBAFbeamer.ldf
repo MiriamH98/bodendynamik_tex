@@ -1,0 +1,147 @@
+% copyright 2009-2014 by Thomas Benkert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dieses Werk ist unter einem Creative Commons 
+% Namensnennung - Keine Bearbeitung 3.0 Deutschland Lizenzvertrag lizenziert. 
+% Um die Lizenz anzusehen, gehen Sie bitte zu http://creativecommons.org/licenses/by-nd/3.0/de/ 
+% oder schicken Sie einen Brief an 
+% Creative Commons, 171 Second Street, Suite 300, San Francisco, California 94105, USA.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\ProvidesFile{TUBAFbeamer.ldf}[2014/12/12 v.2.5.0.pre Benkert]
+%
+\typeout{Datei TUBAFbeamer.ldf 2014/12/12 v.2.5.0.pre Thomas Benkert^^J
+	\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space TUBAF-LaTeX: Corporate Design 2013^^J
+	\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space sprachabhaengige Anpassungen des^^J
+	\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space Beamerthemas der TU Bergakademie Freiberg}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \def ist nötig, da nicht alle Befehle in allen Modi definiert sind
+%
+% Sprachanpassungen
+% deutsch
+\addto\captionsgerman{%
+	% allgemein
+	\renewcommand{\figurename}{Abb.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Lektion}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{Aktueller Abschnitt}
+	\def\TUBAFseitenname{Seiten}
+	%	
+}
+% deutsch neu
+\addto\captionsngerman{%
+	% allgemein
+	\renewcommand{\figurename}{Abb.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Lektion}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{Aktueller Abschnitt}
+	\def\TUBAFseitenname{Seiten}
+	%	
+}
+% englisch UK
+% Übersetzung Sprachenzentrum Bergakademie
+\addto\captionsenglish{%
+	% allgemein
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Lesson}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{current section}
+	\def\TUBAFseitenname{pp.}
+	%	
+}
+% englisch USA
+% Übersetzung Sprachenzentrum Bergakademie
+\addto\captionsamerican{%
+	% allgemein
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Lesson}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{current section}
+	\def\TUBAFseitenname{pp.}
+	%	
+}
+% norsk
+% Übersetzung Karsten Opel
+\addto\captionsnorsk{%
+	% allgemein
+	\renewcommand{\figurename}{Figur}
+	\renewcommand{\tablename}{Tabell}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Leksjon}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{~}
+	\def\TUBAFseitenname{sider}
+	%	
+}
+% polnisch
+% Übersetzung von Sprachenzentrum Bergakademie, Kasia Pazola
+\addto\captionspolish{%
+	% allgemein
+	\renewcommand{\figurename}{Rys.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Lekcja}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{~}
+	\def\TUBAFseitenname{stron}
+	%	
+}
+% französisch
+% Übersetzung von  Anja Freitag
+\addto\captionsfrench{%
+	% allgemein
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand{\tablename}{Tab.}
+	% TUBAFbeamer
+	\def\TUBAFlektionsname{Le\c con}
+	\def\TUBAFlektionstrenner{}
+	\def\TUBAFseitentrenner{/}
+	\def\TUBAFname{TU Bergakademie Freiberg}
+	\def\TUBAFshortname{TUBAF}
+	\def\TUBAFopensign{(}
+	\def\TUBAFclosesign{)}
+	\def\TUBAFaktabschn{~}
+	\def\TUBAFseitenname{pages}
+	%	
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\endinput

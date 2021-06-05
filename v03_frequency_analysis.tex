@@ -12,12 +12,12 @@
 \begin{frame}
 \frametitle{Zwischenbilanz}
 
-\input{fig_tex/tikz_damped_1dof_forced}
+\input{fig_tikz/damped_1dof_forced}
 \only<1>{\hfill 
-\input{fig_tex/tikz_harmonic_t_F}
+\input{fig_tikz/harmonic_t_F}
 }
 \only<2>{\hfill 
-\input{fig_tex/tikz_multiharmonic_t_F}
+\input{fig_tikz/multiharmonic_t_F}
 }
 
 \begin{itemize}[<+->]
@@ -31,7 +31,7 @@
 
 \only<1>{
 \begin{center}
-\input{fig_tex/tikz_multiharmonic_analysis}
+\input{fig_tikz/multiharmonic_analysis}
 
 1. Schritt: Eingangssignal (Anregung) zerlegen
 \end{center}
@@ -39,7 +39,7 @@
 
 \only<2>{
 \begin{center}
-\input{fig_tex/tikz_multiharmonic_synthesis}
+\input{fig_tikz/multiharmonic_synthesis}
 
 2. Schritt: Teilprobleme lösen und deren Ausgangssignale (Antwort) addieren
 \end{center}
@@ -57,7 +57,7 @@
 \begin{figure}
    \setlength{\figW}{6.5cm} 
    \setlength{\figH}{5.2cm}
-   \input{fig_tex/pytikz_fft}
+   \input{fig_py2tex/fft}
 \caption*{Leicht verrauschter Zeitverlauf und dessen Spektrum (FFT)}
 \end{figure}
 
@@ -79,10 +79,10 @@ Die Grundidee demonstrieren wir an einem diskreten Signal $\mathbf{s}$.
 \begin{columns}
         \begin{column}[t]{.35\linewidth}
         \only<1>{
-\input{fig_tex/tikz_discrete_ortho_base}
+\input{fig_tikz/discrete_ortho_base}
          }
          \only<2-3>{
-\input{fig_tex/tikz_discrete_some_base}         
+\input{fig_tikz/discrete_some_base}         
          }
         \end{column}
 		\hfill
@@ -113,7 +113,7 @@ Im Grenzübergang (unendlich viele Punkte) lassen sich stetige Funktionen punktw
 
 \bigskip
 
-\input{fig_tex/tikz_continuous_some_base}
+\input{fig_tikz/continuous_some_base}
 
 \bigskip
 
@@ -190,7 +190,7 @@ Rechtecksignal $a(t)=\left\{\begin{array}{ll}
                             \end{array}
   \right.$ 
   \hfill
-\input{fig_tex/tikz_rect_train}
+\input{fig_tikz/rect_train}
  \begin{align*}
  A_0&=&\frac{2}{T} \int_{0}^\frac{T}{2} 1\,\mathrm{d}t&=&\frac{2}{T}\bigl|t\bigr|_{0}^{T/2}&=1, \\[1mm]
  A_k&=& \frac{2}{T} \int_{0}^\frac{T}{2} \cos\left(\frac{2\pi kt}{T}\right) \,\mathrm{d}t  
@@ -210,7 +210,7 @@ Rechtecksignal $a(t)=\left\{\begin{array}{ll}
 \begin{frame}
 \frametitle{Beispiel 2/2}
 \begin{figure}
-\input{fig_tex/tikz_rect_fourier}
+\input{fig_tikz/rect_fourier}
 \caption{Approximation des Rechteckimpulses als Fourierreihe ($k=1,2,3,5$)}
 \end{figure}
 \end{frame}
@@ -233,7 +233,7 @@ Rechtecksignal $a(t)=\left\{\begin{array}{ll}
 \begin{frame}
 \frametitle{Superpositionsprinzip}
 \begin{center}
-\input{fig_tex/tikz_linear_system}
+\input{fig_tikz/linear_system}
 \end{center}
 \uncover<3>{
 Vorgehen für den (allgemein) periodisch erregten Einmassenschwinger 

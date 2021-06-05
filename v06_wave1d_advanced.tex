@@ -25,14 +25,14 @@ Frequenzabhängige Ausbreitungsgeschwindigkeit von Wellen
 \frametitle{Exkurs -- Schwebung}
 \only<1>{
 \begin{figure}
-\input{fig_tex/tikz_wave_beat}
+\input{fig_tikz/wave_beat}
 \caption*{Die Überlagung naheliegender Frequenzen liegt unter einer Einhüllenden}
 \end{figure}
 } %only
 
 \only<2>{
 \begin{figure}
-\input{fig_tex/tikz_wave_beat_shift}
+\input{fig_tikz/wave_beat_shift}
 \caption*{Welle größerer Wellenlänge nach rechts $\leadsto$ Einhüllende nach links}
 \end{figure}
 }
@@ -46,7 +46,7 @@ Frequenzabhängige Ausbreitungsgeschwindigkeit von Wellen
 
 \vspace{-7cm}  
 \begin{figure}
-\hspace{5cm}\animategraphics[draft,loop,autoplay]{10}{fig_img/mikomma/impnorm-}{0}{49}
+\hspace{5cm}\animategraphics[draft,loop,autoplay]{10}{ani_img/mikomma/impnorm-}{0}{49}
 
 \vspace{3cm}
 
@@ -58,7 +58,7 @@ Frequenzabhängige Ausbreitungsgeschwindigkeit von Wellen
 \begin{frame}
 \frametitle{Phasengeschwindigkeit}
 Harmonische Wellen \hfill
-\input{fig_tex/tikz_wave_phase_velocity}
+\input{fig_tikz/wave_phase_velocity}
  \begin{equation*}
   w(z,t)=\hat{w} e^{i(\kappa z-\omega t)}
  \end{equation*}
@@ -74,7 +74,7 @@ wobei eine der beiden Größen, $\omega$ oder $\kappa$, durch die Dispersionbezi
 \begin{frame}
 \frametitle{Gruppengeschwindigkeit}
 Für ein Wellenpaket mit Spektrum $W(k)$ \hfill
-\input{fig_tex/tikz_wave_group_velocity}
+\input{fig_tikz/wave_group_velocity}
 \begin{equation*}
   w(z,t)=\frac{1}{2\pi}\int_\infty^{+\infty} W(k)e^{i(\kappa z-\omega t)}\mathrm{d}k
  \end{equation*}
@@ -92,7 +92,7 @@ Knobelspaß: Herleitung
 \begin{frame}
 \frametitle{Dispersionsbeziehung}
 \begin{figure}
-\input{fig_tex/tikz_wave_dispersion_relation}
+\input{fig_tikz/wave_dispersion_relation}
 \caption*{Phasen- und Gruppengeschwindigkeit}
 \end{figure}
 \end{frame}
@@ -100,7 +100,7 @@ Knobelspaß: Herleitung
 
 \begin{frame}
 \frametitle{Dispersion -- Beispiel 0/3} 
-\input{fig_tex/tikz_wavebar_friction}
+\input{fig_tikz/wavebar_friction}
 \end{frame}
 
 
@@ -109,7 +109,7 @@ Knobelspaß: Herleitung
 \begin{columns}
 \begin{column}[t]{.6\linewidth}
 \begin{figure}
-\includegraphics[width=0.65\textwidth]{fig_img/wavebar_friction}
+\includegraphics[width=0.65\textwidth]{fig_pdf/wavebar_friction}
 \caption*{Dehnstab mit äußerer, verteilter Steifigkeit \cite{Verruijt2010}}
 \end{figure}   
 \end{column}
@@ -149,7 +149,7 @@ Daraus folgen Phasen- und Gruppengeschwindigkeit
 \begin{frame}
 \frametitle{Dispersion -- Beispiel 3/3} 
 \begin{figure}
-\input{fig_tex/tikz_dispersion_example}
+\input{fig_tikz/dispersion_example}
 \caption*{Phasen- und Gruppengeschwindigkeit in Abhängigkeit der Wellenzahl}
 \end{figure}
 \end{frame}
@@ -195,7 +195,7 @@ w(z,t)&=\hat{w}_\mathrm{left}e^{i\bigl(-\kappa_\mathrm{R}(\omega) z-\omega t\big
 
 \begin{frame}
 \frametitle{Meine Skizze}
-\input{fig_tex/tikz_earthquake1d_model}
+\input{fig_tikz/earthquake1d_model}
 
 \end{frame}
 
@@ -203,8 +203,8 @@ w(z,t)&=\hat{w}_\mathrm{left}e^{i\bigl(-\kappa_\mathrm{R}(\omega) z-\omega t\big
 \frametitle{Geometrie}
 
 \begin{figure}
-\includegraphics[width=0.67\textwidth]{fig_img/earthquake_model.pdf}
-\includegraphics[width=0.7\textwidth]{fig_img/earthquake_length_ratio.pdf}
+\includegraphics[width=0.67\textwidth]{fig_pdf/earthquake_model}
+\includegraphics[width=0.7\textwidth]{fig_pdf/earthquake_length_ratio}
 \caption*{Bild oben: weiche Bodenschicht auf steifem Felsgrund\\ Bild unten: Erdbebenwellenlänge im Vergleich zu den Abmessungen \cite{Verruijt2010}}
 \end{figure}
 \end{frame}
@@ -212,7 +212,7 @@ w(z,t)&=\hat{w}_\mathrm{left}e^{i\bigl(-\kappa_\mathrm{R}(\omega) z-\omega t\big
 \begin{frame}
 \frametitle{Bewegungsgleichung}
 \begin{figure}
-\includegraphics[width=0.7\textwidth]{fig_img/earthquake_inf_element.pdf}
+\includegraphics[width=0.7\textwidth]{fig_pdf/earthquake_inf_element}
 \caption*{Freischnitt eines infinitesimalen Bodenelements \cite{Verruijt2010}}
 \end{figure}
 \begin{align*}
@@ -229,7 +229,7 @@ w(z,t)&=\hat{w}_\mathrm{left}e^{i\bigl(-\kappa_\mathrm{R}(\omega) z-\omega t\big
 \frametitle{Stationärer Zustand 1/2}
 \begin{columns}
 \begin{column}[t]{.1\linewidth}
-\input{fig_tex/tikz_earthquake1d_bc}
+\input{fig_tikz/earthquake1d_bc}
 \end{column}
 \begin{column}[b]{.9\linewidth}
 Ansatz
@@ -276,7 +276,7 @@ Als Endergebnis für den gewählten Ansatz erhalten wir
 \begin{frame}
 \frametitle{Berücksichtigung von Auflasten}
 \begin{figure}
-\includegraphics[width=0.525\textwidth]{fig_img/earthquake_top_load.pdf}
+\includegraphics[width=0.525\textwidth]{fig_pdf/earthquake_top_load}
 \caption*{Der dunkle Bereich modelliert ein Gebäude \cite{Verruijt2010}}
 \end{figure}
 \begin{align*}
