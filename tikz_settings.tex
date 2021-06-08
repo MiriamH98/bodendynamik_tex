@@ -1,0 +1,36 @@
+\tikzset{
+%DKspring(length) length=2...10
+DKspring/.pic={
+\coordinate (half_up) at (0.5*0.125*#1-0.5*0.125*2, 0.5*0.125*10-0.5*0.125*#1); %at (0.5*(#1-0.2), 0.5*(1.0-#1));
+\coordinate (full_up)   at ( 0.125*#1-    0.125*2,     0.125*10-    0.125*#1);
+\coordinate (full_down) at ( 0.125*#1-    0.125*2,    -0.125*10+    0.125*#1);
+\draw (0, 0) -- ++(1, 0) -- ++(half_up)
+    -- ++(full_down) -- ++(full_up) 
+    -- ++(full_down) -- ++(full_up)
+    -- ++(full_down) -- ++(full_up)
+    -- ++(full_down) -- ++(half_up)
+    -- ++(1, 0);
+    },   
+%DKdashpot(length) length=02...10    
+DKdashpot/.pic={
+\coordinate (upper_end) at (#1-0.5, 0.5);
+\coordinate (lower_end) at (#1-0.5,-0.5);
+\coordinate (upper_pos) at (#1-1, 0.5);
+\coordinate (lower_pos) at (#1-1,-0.5);
+\coordinate (center_pos) at (#1-1, 0.0);
+\coordinate (center_end) at (#1, 0.0);
+\draw (0, 0) -- ++(1, 0);
+\draw (upper_end) -- (1, 0.5) -- (1, -0.5) -- (lower_end);
+\draw (center_pos) -- (center_end);
+\draw (upper_pos) -- (lower_pos);
+    },
+DKbase/.pic={
+\draw[thick] (0, 1.5) -- (0, -1.5);
+\foreach \y in {-1.5,-1.0,...,1.0} \draw[thin] (0, \y) -- +(-0.5, 0.5);
+},
+ invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+  }
+}

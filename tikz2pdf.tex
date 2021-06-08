@@ -1,0 +1,31 @@
+\documentclass{scrartcl}
+
+\usepackage{amsmath}
+\usepackage{pgfpages}
+\usepackage{siunitx}  
+
+\usepackage{tikz}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=images4jupyter/]
+\usepackage{pgfplots}
+\usetikzlibrary{math}
+%\usetikzlibrary{datavisualization.formats.functions}
+%\usetikzlibrary{datavisualization}
+\usetikzlibrary{intersections}
+\usetikzlibrary{external}
+\usepgfplotslibrary{groupplots,dateplot}
+\pgfplotsset{compat=1.16}
+
+\input{tikz_settings}
+
+\begin{document}
+\tikzsetnextfilename{figure}
+
+\input{fig_tikz/wavebar_friction}
+
+\texttt{rm images4jupyter/*}
+
+\texttt{pdflatex -shell-escape tikz2pdf.tex}
+
+\texttt{pdf2svg figure.pdf figure.svg}
+\end{document}
