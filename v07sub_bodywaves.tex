@@ -15,55 +15,178 @@
 
 
 \begin{frame}
-\frametitle{Ebene Welle}
-in x-Richtung laufende ebene Welle, zwei Lösungen
+\frametitle{Vorbetrachtung}
+\only<1>{
+Wir betrachten zunächst eine in $x$-Richtung laufende, ebene Welle
+\begin{align*}
+ u(x,y,z,t)&=\bar{u}(x-ct),\\
+ v(x,y,z,t)&=\bar{v}(x-ct),\\
+ w(x,y,z,t)&=\bar{w}(x-ct),\\
+\end{align*}
+damit vereinfacht sich die Impulsbilanz zu
+\begin{align*}
+ \rho c^2 \bar{u}'' &= (\lambda+2\mu)\bar{u}'',\\
+ \rho c^2 \bar{v}'' &= \mu \bar{v}'',\\
+ \rho c^2 \bar{w}'' &= \mu \bar{w}''.
+\end{align*}
+}
+
+\only<2>{
+Diese vereinfachte Impulsbilanz 
+\begin{align*}
+ \rho c^2 \bar{u}'' &= (\lambda+2\mu)\bar{u}'',\\
+ \rho c^2 \bar{v}'' &= \mu \bar{v}'',\\
+ \rho c^2 \bar{w}'' &= \mu \bar{w}'',
+\end{align*}
+lässt zwei Lösungen zu
+\begin{itemize}
+ \item Longitudinalwelle $\bar{u}\ne 0$, $\bar{v}=0$, $\bar{w}= 0$ mit $c^2=\frac{\lambda+2\mu}{\rho}$ (P-Welle);
+  \item Transversalwelle $\bar{u}= 0$, $\bar{v}\ne 0$, $\bar{w}\ne 0$ mit $c^2=\frac{\mu}{\rho}$ (S-Welle).
+\end{itemize}
+Anmerkung: Schubmodul $\mu$ und Steifemodul $\lambda+2\mu$
+}
+
+\only<3>{
+\begin{figure}
+\includegraphics[width=0.9\textwidth]{fig_img/p_wave} 
+\includegraphics[width=0.9\textwidth]{fig_img/s_wave} 
+\caption*{Kinematik ebener P-Welle (oben) und ebener S-Welle (unten) \cite{Vrettos2017}}
+\end{figure}
+}
 \end{frame}
 
 
 \begin{frame}
 \frametitle{P-Wellen}
-\begin{figure}
-\includegraphics[width=\textwidth]{fig_img/p_wave} 
-\caption*{\cite{Vrettos2017}}
-\end{figure}
-wasserabhänging und nu
+Erinnerung Impulsbilanz
+\begin{align*}
+ \rho \frac{\partial^2 u}{\partial t^2} &= (\lambda + \mu) \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 v}{\partial y\, \partial x} + \frac{\partial^2 w}{\partial z\,\partial x} \right) + \mu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)
+  &\quad& \bigg| \frac{\partial}{\partial x}
+ \\
+ \rho \frac{\partial^2 v}{\partial t^2} &= (\lambda + \mu) \left( \frac{\partial^2 u}{\partial x\,\partial y} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 w}{\partial z\,\partial x} \right)
+ + \mu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \right)
+ &\quad& \bigg| \frac{\partial}{\partial y}
+ \\
+ \rho \frac{\partial^2 w}{\partial t^2} &= (\lambda + \mu) \left( \frac{\partial^2 u}{\partial x\,\partial z} + \frac{\partial^2 v}{\partial y\, \partial z} + \frac{\partial^2 w}{\partial z^2} \right)
+ + \mu \left( \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2} \right)
+ &\quad& \bigg| \frac{\partial}{\partial z}
+\end{align*}
+\hrule \hfill {\small addieren}
+
+\smallskip
+\begin{equation*}
+ \rho \frac{\partial^2 \varepsilon_V }{\partial t^2} = 
+ (\lambda + 2 \mu) \left( \frac{\partial^2 \varepsilon_V }{\partial x^2} + \frac{\partial^2 \varepsilon_V }{\partial y^2}
+ + \frac{\partial^2 \varepsilon_V }{\partial z^2} \right)
+\end{equation*}
+
 \end{frame}
 
 
 \begin{frame}
 \frametitle{S-Wellen}
-\begin{figure}
-\includegraphics[width=\textwidth]{fig_img/s_wave} 
-\caption*{\cite{Vrettos2017}}
-\end{figure}
-wasserunabhängig
+Erinnerung Impulsbilanz ($x$-, $y$-Richtung)
+\begin{align*}
+ \rho \frac{\partial^2 u}{\partial t^2} &= (\lambda + \mu) \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 v}{\partial y\, \partial x} + \frac{\partial^2 w}{\partial z\,\partial x} \right) + \mu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)
+  &\quad& \bigg| \frac{\partial}{\partial y}
+ \\
+ \rho \frac{\partial^2 v}{\partial t^2} &= (\lambda + \mu) \left( \frac{\partial^2 u}{\partial x\,\partial y} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 w}{\partial z\,\partial x} \right)
+ + \mu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \right)
+ &\quad& \bigg| \frac{\partial}{\partial x}
+\end{align*}
+\hrule \hfill {\small subtrahieren}
+\begin{equation*}
+\rho \frac{\partial^2 \omega_z }{\partial t^2}
+=\mu\left( \frac{\partial^2 \omega_z }{\partial x^2} + \frac{\partial^2 \omega_z }{\partial y^2}
+ + \frac{\partial^2 \omega_z }{\partial z^2} \right)
+\end{equation*}
+mit \ $\omega_z=\frac{\partial v}{\partial x}-\frac{\partial u}{\partial y}$\,. Analog zwei weitere Gleichungen für $\omega_x$ und $\omega_y$.
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Reflektion am Rand}
+\frametitle{Reflexion am Rand}
+\begin{columns}
+\begin{column}[t]{.35\linewidth}
+\input{fig_tikz/wave3d_freeBC}         
+\end{column}
+\begin{column}[t]{.65\linewidth}
+\vspace{-3.75cm}
+
+\only<1>{
+ Einfallende P-Welle
+ \begin{equation*}
+\mathbf{u}_1=\left[\begin{array}{c}
+                    \sin\alpha_1 \\
+                    \cos\alpha_1 \\
+                    0
+                   \end{array}\right]A_1
+                   e^{i \kappa_1(x\sin\alpha_1+y\cos\alpha_1-c_P t)}
+ \end{equation*}
+ Reflektierte P- und SH-Welle
+ \begin{align*}
+ \mathbf{u}_2&=\left[\begin{array}{c}
+                    \sin\alpha_2 \\
+                    -\cos\alpha_2 \\
+                    0
+                   \end{array}\right]
+                   A_2
+                   e^{i \kappa_2(x\sin\alpha_2-y\cos\alpha_2-c_P t)}\\
+\mathbf{u}_3&=\mathbf{e}_z\times\left[\begin{array}{c}
+                    \sin\alpha_3 \\
+                    -\cos\alpha_3 \\
+                    0
+                   \end{array}\right]
+                   A_3
+                   e^{i \kappa_3(x\sin\alpha_3-y\cos\alpha_3-c_S t)}
+ \end{align*}
+ }
+\only<2>{
+ Spannungsfreier Rand
+ \begin{align*}
+  \sigma_{xy}(x,0,z,t)&=0\\
+  \sigma_{yy}(x,0,z,t)&=0
+ \end{align*}
+ Reflektierte P-Welle
+ \begin{align*}
+\alpha_1 &= \alpha_2\\
+\kappa_1 &= \kappa_2
+ \end{align*}
+ Reflektierte SH-Welle
+ \begin{equation*}
+\frac{\sin\alpha_1}{\sin\alpha_3}=\frac{\kappa_3}{\kappa_1}=\frac{c_P}{c_S}
+ \end{equation*}
+ und Amplituden \dots \textsl{Details siehe Übung.}
+ }
+\end{column}
+\end{columns}
 
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Reflektion und Transmission am Übergang}
+\frametitle{Reflexion/Transmission am Übergang}
+\only<1>{
 \begin{figure}
-\includegraphics[width=0.9\textwidth]{fig_img/wave_transition} 
-\caption*{\cite{Vrettos2017}}
+\includegraphics[width=1\textwidth]{fig_img/wave_transition} 
+\caption*{Wellenausbreitung an einem diskontinuierlichen Übergang \cite{Vrettos2017}}
 \end{figure}
+}
 
-Snell
-Totalreflektion
+\only<2>{
+Die Richtungen der transmittierten und reflektierten Wellen lassen sich aus dem Snelliusschen Brechnungsgesetz 
+$\dfrac{\sin\alpha}{c_\mathrm{ein}}
+=\dfrac{\sin\beta}{c_\mathrm{ref}}
+=\dfrac{\sin\gamma}{c_\mathrm{trans}}$ bestimmen.
+
+\vfill
+\begin{center}
+\input{fig_tikz/wave_snellius} 
+\end{center}
+\vfill
+
+Knobelspaß: Wie verteilen sich die Amplituden auf die transmittierten und reflektierten Anteile. Extraspaß: Was bedeuten Lösungen $\sin x >1$?
+}
+
 \end{frame}
-
-\begin{frame}
-\frametitle{Energie}
-\begin{figure}
-\includegraphics[width=0.475\textwidth]{fig_img/wave_geometrical_damping} 
-\caption*{\cite{Schmidt2017}}
-\end{figure}
-Energie und Amplitude
-\end{frame}
-
 

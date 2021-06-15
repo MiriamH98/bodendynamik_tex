@@ -21,24 +21,63 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Mechanische Grundlagen}
-Bodenverhalten, im einfachsten Fall isotrop, linear elastisches
-\begin{align*}
- \sigma = LameFormTensor
-\end{align*}
-\begin{align*}
- \sigma = LameFormComponent
-\end{align*}
+\frametitle{Elastizität}
+Im einfachsten Fall isotropes, linear elastisches Bodenverhalten
+(Lame Konstanten $\lambda$ und $\mu$)
+\begin{equation*}
+ \boldsymbol{\sigma} = \lambda \mathrm{tr}(\boldsymbol{\varepsilon})\mathbf{I} + 2\mu \boldsymbol{\varepsilon},
+\end{equation*}
+komponentenweise ausgeschrieben
+\begin{equation*}
+\left[\begin{array}{ccc}
+        \sigma_{xx} & \sigma_{xy} & \sigma_{xz} \\
+         & \sigma_{yy} & \sigma_{yz} \\
+        \mathrm{sym.} &  & \sigma_{zz} \\
+\end{array}\right]
+=
+\left[\begin{array}{ccc}
+        \lambda\varepsilon_V+2\mu\varepsilon_{xx} & 2\mu\varepsilon_{xy} & 2\mu\varepsilon_{xz} \\
+         & \lambda\varepsilon_V+ 2\mu\varepsilon_{yy} & 2\mu\varepsilon_{yz} \\
+        \mathrm{sym.} &  & \lambda\varepsilon_V+ 2\mu\varepsilon_{zz} \\
+\end{array}\right],
+\end{equation*}
+mit $\varepsilon_V=\mathrm{tr}(\boldsymbol{\varepsilon})=\varepsilon_{xx}+\varepsilon_{yy}+\varepsilon_{zz}=\frac{\partial u}{\partial x}+\frac{\partial v}{\partial y}+\frac{\partial w}{\partial z}$.
+\end{frame}
 
-Impulsbilanz damit
-\begin{align*}
- \rho \ddot{a} =sigmaTensor
-\end{align*}
-\begin{align*}
- \rho \ddot{a} =sigmaComponent
-\end{align*}
 
-
+\begin{frame}
+\frametitle{Impulsbilanz}
+Mit Verschiebungsvektor $\mathbf{u}=[u,v,w]^\mathrm{T}$
+\begin{equation*}
+ \rho \ddot{\mathbf{u}} = \nabla \cdot \boldsymbol{\sigma}
+\end{equation*}
+\only<1>{
+komponentenweise ausgeschrieben
+\begin{align*}
+ \rho \frac{\partial^2 u}{\partial t^2} &= \frac{\partial \sigma_{xx}}{\partial x}
+ + \frac{\partial \sigma_{yx}}{\partial y} 
+ + \frac{\partial \sigma_{zx}}{\partial z} 
+ \\
+ \rho \frac{\partial^2 v}{\partial t^2} &= \frac{\partial \sigma_{xy}}{\partial x}
+ + \frac{\partial \sigma_{yy}}{\partial y} 
+ + \frac{\partial \sigma_{zy}}{\partial z} \\
+ \rho \frac{\partial^2 w}{\partial t^2} &= \frac{\partial \sigma_{xz}}{\partial x}
+ + \frac{\partial \sigma_{yz}}{\partial y} 
+ + \frac{\partial \sigma_{zz}}{\partial z} 
+\end{align*}
+}
+\only<2>{
+isotrop, linear elastisch
+\begin{align*}
+ \rho \frac{\partial^2 u}{\partial t^2} &= (\lambda + \mu)\frac{\partial \varepsilon_V}{\partial x} + \mu \nabla^2 u
+&=&(\lambda + \mu)\frac{\partial \varepsilon_V}{\partial x} + \mu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)
+ \\
+\rho \frac{\partial^2 v}{\partial t^2} &= (\lambda + \mu)\frac{\partial \varepsilon_V}{\partial y} + \mu \nabla^2 v 
+ &=&(\lambda + \mu)\frac{\partial \varepsilon_V}{\partial y} + \mu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} + \frac{\partial^2 v}{\partial z^2} \right)\\
+ \rho \frac{\partial^2 w}{\partial t^2} &= (\lambda + \mu)\frac{\partial \varepsilon_V}{\partial z} + \mu \nabla^2 w
+ &=&(\lambda + \mu)\frac{\partial \varepsilon_V}{\partial z} + \mu \left( \frac{\partial^2 w}{\partial x^2} + \frac{\partial^2 w}{\partial y^2} + \frac{\partial^2 w}{\partial z^2} \right)
+\end{align*}
+} 
 \end{frame}
 
 
@@ -48,16 +87,70 @@ Impulsbilanz damit
 
 \subsection{Abschließende Bemerkungen}
 \begin{frame}
-\frametitle{Zahlenwerte}
-Fels, Sand
+\frametitle{Geometrische Dämpfung}
+
+\only<1>{
+Punktförmige Wellenquelle (idealisiert)
+\begin{itemize}
+\item Raumwellen
+\begin{itemize}
+\item breiten sich kugelförmig aus,
+\item ihre Energie verteilt sich auf einer Kugelfläche $A=4\pi r^2$.
+\end{itemize}
+\item Oberflächenwellen
+\begin{itemize}
+\item breiten sich kreisförmig aus,
+\item ihre Energie verteilt sich auf einem Kreisumfang $U=2\pi r$ .
+\end{itemize}
+\end{itemize}
+Das Quadrat der Amplituden verhält sich proportional zur Energie.
+}
+
+\only<2>{
+\begin{figure}
+\includegraphics[width=0.475\textwidth]{fig_img/wave_geometrical_damping} 
+\caption*{Abnahme der Amplituden mit dem Abstand \cite{Schmidt2017}}
+\end{figure}
+}
 \end{frame}
 
 
 \begin{frame}
+\frametitle{Zahlenwerte}
+\textbf{P-Wellen}
+Geschwindigkeiten abhängig vom Porenwasser (unmöglich in inkompressiblen Medien) im Bereich $\SI{1450}{\metre\per\second}$\dots $\SI{5000}{\metre\per\second}$.
+
+\bigskip
+
+\textbf{S-Wellen}
+Geschwindigkeit nahezu unabhängig von Porenwasser, breitet sich nicht in Fluiden (Erdkern) aus, im Boden Werte $\SI{100}{\metre\per\second}$\dots $\SI{2000}{\metre\per\second}$.
+
+\bigskip
+
+\textbf{Rayleigh-Wellen}
+Langsamer als S-Wellen ($c_\mathrm{R}\approx 0.9 c_\mathrm{S}$) und abhängig von den gemittelten Bodenparameter. Aufgrund der frequenuzabhänigen Eindringtiefe sind diese Wellen dispersiv.
+
+\bigskip
+
+\textbf{Love-Wellen}
+Geschwindigkeit liegt zwischen denen der S-Wellengeschwindigkeiten beider Schichten, ebenfalls dispersiv.
+
+
+\end{frame}
+
+
+
+\begin{frame}
 \frametitle{Weitere Einflussfaktoren}
-Tiefenabhängigkeit, Grundwasser/TPM,...
-Inhomogenitäten
-Beugung, Brechung
+\begin{itemize}
+ \item Tiefen-/druckabhängige Bodenparameter 
+ \item Grundwasserspiegel, Porenfluid
+ \item Anisotrope Gesteinseigenschaften
+ \item Schichtung und kontinuierliche Übergänge
+ \item Lokale Inhomogenitäten (Risse, Einschlüsse)
+ \item \dots
+\end{itemize}
+
 \end{frame}
 
 
