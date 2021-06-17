@@ -5,4 +5,5 @@ tmp_exercise_slides.*
 tikz2pdf.*
 !tikz2pdf.tex
 images4jupyter/*
-
+exercises*.*
+!exercises.tex
