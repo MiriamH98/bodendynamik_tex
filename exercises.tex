@@ -207,7 +207,7 @@ $.}
 
 \begin{minipage}[c]{.49\linewidth}
  \begin{align*}
-     a(t) = \frac{2u_{max}}{T}t \\
+     a(t) = \frac{2a_{max}}{T}t -nT \\
      nT - \frac{T}{2} < t \leq nT + \frac{T}{2}
  \end{align*}
  \end{minipage}
@@ -260,7 +260,7 @@ $\cos(\tilde{w}_k t)$\\
             axis x line=center, 
             axis y line=middle, 
             samples=100,
-            ymin=-1, ymax=1,
+            ymin=-1.1, ymax=1.1,
             xmin=-pi, xmax=pi,
             ytick=\empty,
             xtick={-pi/2,pi/2},
@@ -270,6 +270,9 @@ $\cos(\tilde{w}_k t)$\\
             \addlegendentry{$k=1$};
             \addplot [semithick, blue, domain=-pi:pi] {cos(4*deg(x))};
             \addlegendentry{$k=2$};
+            \draw (axis cs: -1.57,0.98) node {o};
+            \draw (axis cs: -1.57,-1) node {o};
+            \draw (axis cs:  1.57,-1) node {o};
         \end{axis}
     \end{tikzpicture}
     \end{minipage}
@@ -284,7 +287,7 @@ $\cos(\tilde{w}_k t)$\\
             axis x line=center, 
             axis y line=middle, 
             samples=100,
-            ymin=-1, ymax=1,
+            ymin=-1.1, ymax=1.1,
             xmin=-pi, xmax=pi,
             ytick = \empty,
             xtick={-pi/2,pi/2},
@@ -295,6 +298,8 @@ $\cos(\tilde{w}_k t)$\\
             \addlegendentry{$k=1$};
             \addplot [semithick, blue, domain=-pi:pi] {sin(4*deg(x))};
             \addlegendentry{$k=2$};
+            \draw (axis cs: -1.57,0) node {o};
+            \draw (axis cs:  1.57,0) node {o};
         \end{axis}
     \end{tikzpicture}
     \end{minipage}
@@ -315,7 +320,7 @@ $\cos(\tilde{w}_k t)$\\
         B_1 = \cfrac{4a_{max}\cancel{T}}{2\pi\cancel{T}} \qquad \tilde{w}_1 = \cfrac{2\pi}{T} && u_{p1}^{(t)} = u_{C1} \cos(\tilde{w}_k t) + u_{S1} \sin(\tilde{w}_1 t) \\[1em]
         B_2 = \cfrac{4a_{max}}{4\pi} \qquad \tilde{w}_2 = \cfrac{4\pi}{T}&& \underbrace{u_{p2}^{(t)} = u_{C2} \cos(\tilde{w}_k t) + u_{S2} \sin(\tilde{w}_2 t)} \\
         &&\text{Partikuläre Lösung - siehe Übung}\\
-        &&\text{harmonisch erregte Einmassenschwinger}
+        &&\text{harmonisch erregter Einmassenschwinger}
         \end{array}
 \end{align*}\\[2em]
  
@@ -352,6 +357,7 @@ $\cos(\tilde{w}_k t)$\\
      b_2
     \end{bmatrix}\\
  \end{align*}
+ TODO Loesung in gegebenen Groeßen
 \end{solution}
 
 %%% Vorlesung 4 - Dämpfungsmodellierung %%%%
@@ -365,15 +371,15 @@ $\cos(\tilde{w}_k t)$\\
     \begin{minipage}[t]{.49\linewidth}
     geg.:
     \begin{tasks}(1)
-      \task[] $F_D = 2\, \zeta\, \nu\, k\, \hat u\, \sin(a\, t)$
+      \task[] $F_D = 2\, \zeta\, \eta\, k\, \hat u\, \sin(a\, t)$
       \task[] $\dot{u} = \omega\,\hat\, u\, \sin(a\,t)$
     \end{tasks}
     \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
     ges.:
         \begin{tasks}
-            \task dissipierte Energe $\Delta W$ pro Zyklus
-            \task maximal in Feder gespeicherte Engerie $W$
+            \task dissipierte Energie $\Delta W$ pro Zyklus
+            \task maximal in Feder gespeicherte Energie $W$
             \task Dämpfungskapazität $\Psi$
         \end{tasks}
     \end{minipage}
@@ -392,12 +398,12 @@ $\cos(\tilde{w}_k t)$\\
     \begin{minipage}[t]{.49\linewidth}
     ges.:
         \begin{tasks}
-            \task $-\cfrac{G}{G_{max}}$
+            \task $\cfrac{G}{G_{max}}$
             \task $D$
         \end{tasks}
     \end{minipage}
     
-    \begin{center}\fbox{\underline{Hinweis:} Kap. 4.2.4 aus Grundbau-Taschenbuch, siehe Scan}\end{center}
+    \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.4 Grundbau-Taschenbuch}\end{center}
 
 \vspace{1cm}
 
@@ -421,7 +427,7 @@ $\cos(\tilde{w}_k t)$\\
             \task $- G_{max|OC}$
         \end{tasks}
     \end{minipage}
- \begin{center}\fbox{\underline{Hinweis:} Kap. 4.2.4 aus Grundbau-Taschenbuch, siehe Scan}\end{center}
+ \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.2 Grundbau-Taschenbuch}\end{center}
 
  \question{Masing-Hypothese, geometrische Konstruktion}
  \vspace{1em}
