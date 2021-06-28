@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+ \fill[brown!10!white] (-2,0) rectangle (2,2);
+ \fill[black!5!white] (-2,0) rectangle (2,-2);
+ \draw[thick] (-2,0 ) -- (2,0);
+ \draw[->, red] (-1,2) -- (-0.02, 0.04);
+ \draw[->] (-1.5,2) -- (-1, 0);
+ \draw[->] (-1, 0) -- (  2,-1);
+ \draw[->] ( 0, 2) -- (1.5, 0);
+ \draw[->] (1.5, 0) -- (2, 0.67) ;
+ \draw[->, black!10!white] (-1, 0) -- (-0.5,2);
+ \draw[->, red!20!white] (0,0) -- (1, 2);
+ \draw[->, red] (0,-0.04) -- (2,-0.04);
+ \draw[dashed] (0,-2) -- (0,2);
+ \draw[->] (0, 1) arc [start angle=90, end angle=116, radius=1];
+ \draw[red] (103:1.25) node {$\alpha_\mathrm{c}$};
+ \fill (0, 1) circle [radius=0.05];
+ \draw[brown!90!white] (-1.8, 1.75) node {$1$};
+ \draw[black!80!white] (-1.8,-1.75) node {$2$};
+\end{tikzpicture}

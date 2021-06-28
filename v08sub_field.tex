@@ -19,8 +19,85 @@ Die Querdehnung ergibt sich aus
 
 
 \begin{frame}
-\frametitle{Refraktionsseismik}
-siehe Wellen, Transmission
+\frametitle{Refraktionsseismik \only<1>{1/4}\only<2>{2/4}\only<3>{3/4}\only<4>{4/4}}
+
+\only<1>{
+\begin{columns}
+        \begin{column}[t]{.325\linewidth}
+\input{fig_tikz/wave_critical_angle}
+\begin{equation*}
+ \sin\alpha_\mathrm{c}=\frac{c_1}{c_2} %(P,S)
+\end{equation*}
+
+\end{column}
+\begin{column}[t]{.675\linewidth}
+\input{fig_tikz/wave_refraction_seismic}
+\begin{align*}
+ {\color{green} t_A} &= \frac{r}{c_1} \\
+ {\color{red} t_B} &= \frac{2h}{c_1 \cos\alpha_\mathrm{c}} + \frac{r-2h\tan\alpha_\mathrm{c}}{c_2}
+\end{align*}
+\end{column}
+\end{columns}
+}% only
+
+\only<2>{
+\begin{columns}
+        \begin{column}[t]{.5\linewidth}
+        \begin{figure}
+\includegraphics[width=0.95\textwidth]{fig_img/refraktion_laufzeit.png}
+\caption*{Laufzeitdiagramm \cite{Schmidt2017}}
+        \end{figure}
+Voraussetzung $c_2>c_1$
+
+\end{column}
+\begin{column}[t]{.5\linewidth}
+Abstand $r_c$ gleicher Laufzeit
+\begin{align*}
+t_A &= t_B \\
+ \frac{r_c}{c_1}  &= \frac{2h}{c_1 \cos\alpha_\mathrm{c}} + \frac{r_c-2h\tan\alpha_\mathrm{c}}{c_2} \\
+  &= \frac{2h}{c_1 \cos\alpha_\mathrm{c}} + \frac{r_c-2h\tan\alpha_\mathrm{c}}{c_1/\sin\alpha_\mathrm{c}} \\
+ &= \frac{2h}{c_1 \cos\alpha_\mathrm{c}} 
+ + \frac{r_c\sin\alpha_\mathrm{c}}{c_1}
+ - \frac{2h\sin^2\alpha_\mathrm{c}}{c_1 \cos\alpha_\mathrm{c}}  
+\end{align*}
+Zwischenergebnis
+\begin{equation*}
+r_c(1-\sin\alpha_\mathrm{c})=2h\frac{1-\sin^2\alpha_\mathrm{c}}{ \cos\alpha_\mathrm{c}}
+\end{equation*}
+
+\end{column}
+\end{columns}
+}% only
+
+\only<3>{
+\begin{align*}
+ r_c(1-\sin\alpha_\mathrm{c}) &= 2h\frac{1-\sin^2\alpha_\mathrm{c}}{ \cos\alpha_\mathrm{c}} \\
+ r_c(1-\sin\alpha_\mathrm{c}) &= 2h\cos\alpha_\mathrm{c}\\
+ h &= \frac{r_c(1-\sin\alpha_\mathrm{c})}{2\cos\alpha_\mathrm{c}} 
+\end{align*}
+Erinnerung an den kritischen Winkel $\sin\alpha_\mathrm{c}=\frac{c_1}{c_2}$
+\begin{align*}
+ h &=  \frac{r_c(1-c_1/c_2)}{2\sqrt{1-(c_1/c_2)^2}}
+ = \frac{r_c(c_2-c_1)}{2\sqrt{c_2^2-c_1^2}} 
+ = \frac{r_c(c_2-c_1)}{2\sqrt{(c_2-c_1)(c_2+c_1)}} \\
+ h &=\frac{r_c}{2}\sqrt{\frac{c_2-c_1}{c_2+c_1}}   \\ 
+\end{align*}
+}% only
+
+\only<4
+>{
+Erweiterungen: 
+\begin{itemize}
+ \item aus Messung in entgegengesetzter Richtung lässt sich der Neigungswinkel der Bodenschicht bestimmen,
+ \item auch für mehr als zwei Schichten anwendbar.
+\end{itemize}
+Grenzen:
+\begin{itemize}
+ \item die tieferen Schichten müssen höheren Wellengeschwindigkeiten aufweisen ($c_2>c_1$),
+ \item bei P-Wellen stellt der Grundwasserspiegel eine Schichtgrenze dar,
+ \item bei größeren Messentfernungen ist der schnellste Wellenweg gekrümmt (tiefenabhängiger E-Modul).
+\end{itemize}
+}%only
 
 \end{frame}
 
@@ -28,12 +105,55 @@ siehe Wellen, Transmission
 \begin{frame}
 \frametitle{Bohrlochmessungen}
 
-Cross-hole, Up-hole, Down-hole
+\only<1>{
+\begin{figure}
+ \includegraphics[width=0.71\textwidth]{fig_img/cross_hole.png}
+ \caption*{Cross-hole Messung \cite{Schmidt2017}}
+\end{figure}
+}%only
+
+
+\only<2>{
+\begin{figure}
+ \includegraphics[width=0.71\textwidth]{fig_img/down_hole.png}
+ \caption*{Down-hole Messung \cite{Schmidt2017}}
+\end{figure}
+}%only
+
+\only<3>{
+\begin{figure}
+ \includegraphics[width=0.71\textwidth]{fig_img/up_hole.png}
+ \caption*{Up-hole Messung \cite{Schmidt2017}}
+\end{figure}
+}%only
+
+
 \end{frame}
 
 
 \begin{frame}
 \frametitle{R-Wellen Dispersionsmessung}
-0.3 lambda
+
+\only<1>{
+\begin{figure}
+ \includegraphics[width=\textwidth]{fig_img/rayleigh_measure_principle.png}
+ \caption*{\cite{Vrettos2017}}
+\end{figure}
+Einfache Inversionsregel: Die Rayleigh-Wellengeschwindigkeit entspricht den Bodeneigenschaften in einer Tiefe $z=-\frac{\lambda_\mathrm{R}}{2}$.
+}%only
+
+\only<2>{
+ \includegraphics[width=0.9\textwidth]{fig_img/rayleigh_measure_velocity.png} \cite{Vrettos2017}
+}%only
+
+\only<3>{
+\begin{itemize}
+ \item Besonders aussagekräftig um die Schwingungsübertragung eines Geländes zu charakterisieren, 
+ \item Materialdämpfung kann mit ermittelt werden,
+ \item weitgehend unabhängig vom Grundwasserspiegel.
+ \item Nachteile: Platzbedarf, starke Schwingungsquelle nötig und nicht geeignet um dünne Schichten zu identifizieren.
+\end{itemize}
+
+}%only
 
 \end{frame}
