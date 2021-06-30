@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        width = \linewidth,
+        height = 5cm,
+        axis x line=center,
+        axis y line=middle,
+        samples=100,
+        ymin=-1.1, ymax=1.1,
+        xmin=-pi, xmax=pi,
+        ytick = \empty,
+        xtick={-pi/2,pi/2},
+        xticklabels={$-T/2$,$T/2$}
+        %legend style={draw=none}
+        ]
+        \addplot [semithick, green, domain=-pi:pi] {sin(2*deg(x))};
+        \addlegendentry{$k=1$};
+        \addplot [semithick, blue, domain=-pi:pi] {sin(4*deg(x))};
+        \addlegendentry{$k=2$};
+        \draw (axis cs: -1.57,0) node {o};
+        \draw (axis cs:  1.57,0) node {o};
+    \end{axis}
+\end{tikzpicture}
