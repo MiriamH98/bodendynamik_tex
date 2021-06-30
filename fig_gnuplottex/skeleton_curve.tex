@@ -1,0 +1,11 @@
+\begin{gnuplot}[terminal=epslatex, terminaloptions={size 15cm,10cm}]
+    set xr [-10:10]
+    set yr [-1:1]
+    set xl '$\cfrac{\cfrac{\gamma}{\gamma_r}}{1+|\cfrac{\gamma}{\gamma_r}|}$' offset 0,-2
+    set yl '$\frac{\tau}{\tau_r}$'
+    unset key
+    set grid
+    set zeroaxis
+    set title 'Skelettkurve'
+    plot x/((1+abs(x)))
+\end{gnuplot}

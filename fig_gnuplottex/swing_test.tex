@@ -1,0 +1,26 @@
+\begin{figure}[h]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions={size 15cm,5cm}]
+       set zeroaxis
+       unset border
+       set xtics axis
+       unset ytics
+       unset key
+
+       set xr [0:3*pi]
+       set yr [-1:1]
+       set xl "t" offset 27,7,0
+       set yl "u" offset 2,6,0 rotate by 0
+
+       set xtics ("$t_{max1}$" pi/4, "$t_{max2}$" pi/4+2*pi)
+
+       set label 1 "" at pi/4,1 point pointtype 7 pointsize 2 lc 0
+       set label 2 "" at pi/4+2*pi,1 point pointtype 7 pointsize 2 lc 0
+
+       set arrow 1 from 0,0 to graph 0, first 1 filled head
+       set arrow 2 from 0,0 to first 0, graph 0 filled head
+       set arrow 3 from 0,0 to graph 1,.5 filled head
+
+       plot cos(x-pi/4) w l lc 0
+    \end{gnuplot}
+\end{figure}
