@@ -15,6 +15,8 @@
 
 \begin{frame}
 \frametitle{Erschütterungsemission {\normalsize durch Verkehr}}
+
+\only<1>{
 Logarithmische Darstellung der Partikelgeschwindigkeit \cite{studer2008bodendynamik}
 \begin{equation*}
  L_v=\mathrm{dB}(v)=20\log\left(\frac{v}{v_\mathrm{ref}}\right)
@@ -22,11 +24,15 @@ Logarithmische Darstellung der Partikelgeschwindigkeit \cite{studer2008bodendyna
 bezogen auf den Referenzwert $v_\mathrm{ref}=\SI{1e-6}{\milli\metre\per\second}$ (ISO 1683).
 Damit folgende Übertragungsverluste und -verstärkungen
 \begin{equation*}
-L_\mathrm{immision}=L_\mathrm{emision}
+L_\mathrm{immission}=L_\mathrm{emission}
 \underbrace{-\Delta L_{v,\mathrm{geom}}-\Delta L_{v,\mathrm{mat}}- \Delta L_{v,\mathrm{refl}}}_{\text{Verluste im Übertragungsmedium}}
 \underbrace{-\Delta L_{v,\mathrm{koppl}}-\Delta L_{v,\mathrm{empf}}}_{\text{Verluste/Verst. am Empfänger}}
 \end{equation*}
-TODO fig 5.6 \cite{studer2008bodendynamik}
+}
+
+\only<2>{
+\includegraphics[width=\textwidth]{fig_img/tunnelspektrum} 
+}
 \end{frame}
 
 
@@ -36,75 +42,84 @@ Speziell für Spreng- und Rammerschütterungen \cite{studer2008bodendynamik} ist
 \begin{equation*}
  v=cW^\alpha r^\beta.
 \end{equation*}
-TODO Details
-
-Maschinen sind Punktequellen und werden nach der gleichen Formel geschätzt \cite{studer2008bodendynamik}.
+\begin{description}
+ \item[$v$] Partikelgeschwindigkeit
+ \item[$c$] Koeffizient für Sprengstofftyp (experimentell bestimmt)
+ \item[$W$] Sprengstoffgewicht
+ \item[$\alpha$] Skalierungsfaktor ($\alpha\approx1/3$)
+ \item[$r$] Abstand Quelle -- Empfänger
+ \item[$\beta$] Skalierungsfaktor ($\beta=-2$ für Punktquelle)
+\end{description}
+Maschinen werden nach der gleichen Formel geschätzt \cite{studer2008bodendynamik}.
 \end{frame}
 
 
 \begin{frame}
-\frametitle{Erschütterungseinwirkung}
-
-TODO fig 5.11 \cite{studer2008bodendynamik} % Belästigung (subjektiv) vor Schädigung
-TODO fig 5.12 \cite{studer2008bodendynamik} % Messort entscheidend
-
+\frametitle{Erschütterungseinwirkung} %TODO KB Wert
+\includegraphics[width=0.88\textwidth]{fig_img/grenzwerte} 
+%\cite{studer2008bodendynamik} % Belästigung (subjektiv) vor Schädigung
 \end{frame}
 
 \begin{frame}
 \frametitle{Erschütterungseinwirkung {\normalsize auf Bauwerke}}
-Deutschland DIN 4150-3 (1999) Erschütterungen im Bauwesen, Einwirkungen
-auf bauliche Anlagen.
- VDI 2716 (2001 mit Berichtigungen 2003) Luft- und Körperschall
-bei Schienenbahnen des öffentlichen Personennahverkehrs
+Länderspezifische Richtlinien (Deutschland: DIN 4150-3)
 
-Kennwert Partikelgeschwindigkeitsvektor
+Richt- und Grenzwerte beziehen sich meist auf die Partikelgeschwindigkeit und werden unterteilt nach
+\begin{description}
+ \item[Häufigkeitsklassen]: gelegentlich, häufig, permanent
+ \item[Empfindlichkeitsklassen]: sehr wenig, wenig, normal, erhöht empfindlich  
+ \item[Frequenz]: $<\SI{30}{\hertz}$, $\SI{30}{\hertz}$--$\SI{60}{\hertz}$, $>\SI{60}{\hertz}$
+\end{description}
 
-Schweiz
-Häufigkeitsklassen: gelegentlich, häufig, permanent
-Empfindlichkeitsklassen: sehr wenig/wenig/normal/erhöht empfindlich 
-Richtwerte
-\cite{studer2008bodendynamik}
+\bigskip
 
+Beispiel (nach SN 640312a) für häufige Vorgänge, normale Empfindlichkeit und eine Frequenz von $\SI{45}{\hertz}$ beträgt der Richtwert $v=\SI{8}{\milli\metre\per\second}$.
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Erschütterungseinwirkung {\normalsize auf Menschen}}
-Kriterien \cite{studer2008bodendynamik}
-Deutschland  DIN 4150-2 (1999) Erschütterungen im Bauwesen, Einwirkungen
-auf Menschen in Gebäuden. DIN Deutsches Institut für Normung
-VDI 2057 (2002) Einwirkung mechanischer Schwingungen auf den
-Menschen, Blatt 1, 2 und 3, VDI Verein Deutscher Ingenieure
-
-Schwingung und (primär, sekundär) Schall (unterschiedlich gewichtet in Normen)
-TODO fig 5.16 \cite{studer2008bodendynamik}
+\includegraphics[width=0.99\textwidth]{fig_img/grenzwerte_schall} 
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Erschütterungseinwirkung{\normalsize auf Geräte}}
-ISO 8569:1996 Mechanical vibration and shock – Measurement and evaluation of
-shock and vibration effects on sensitive equipment in buildings
-\cite{studer2008bodendynamik}
-
-\end{frame}
+%\begin{frame}
+%\frametitle{Erschütterungseinwirkung{\normalsize auf Geräte}}
+%ISO 8569:1996 Mechanical vibration and shock – Measurement and evaluation of
+%shock and vibration effects on sensitive equipment in buildings
+%\cite{studer2008bodendynamik}
+%\end{frame}
 
 
 \begin{frame}
 \frametitle{Erschütterungsreduktion}
-\cite{studer2008bodendynamik}
-
-Quelle: optimiertes Sprengschema, Maschinenfundamente, Unterschottermatten, Zusatzmassen/fundament
-
-Übertragungsmedium: Schlitze TODO fig 6.19
-
-Empfänger: Auflagerung/Fundament, Schwingungstilger (2dof)
+\begin{description}
+ \item[Quelle:] optimiertes Sprengschema, Maschinenfundamente, Unterschottermatten, Zusatzmassen
+ 
+ \item[Übertragungsmedium:] \includegraphics[width=0.49\textwidth]{fig_img/schlitz}
+ 
+ \item[Empfänger:] Auflagerung/Fundament, Schwingungstilger 
+\end{description}
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Beispiel}
-4.3.3 \cite{haupt1986bodendynamik}
+
+\only<1>{
+\begin{figure}
+\includegraphics[width=0.7\textwidth]{fig_img/beispiel_ramme} 
+\caption*{Messpunktanordnung \cite{haupt1986bodendynamik}}
+\end{figure}
+}%only
+
+\only<2>{
+\begin{figure}
+\includegraphics[width=0.66\textwidth]{fig_img/beispiel_ruettelwalze} 
+\caption*{Geschwindigkeitsignal in drei Raumrichtungen \cite{haupt1986bodendynamik}}
+\end{figure}
+}%only
+
 \end{frame}
 
 
