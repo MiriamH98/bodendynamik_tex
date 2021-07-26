@@ -21,11 +21,14 @@
 \begin{document}
 \tikzsetnextfilename{figure}
 
-\input{fig_tikz/wave3d_freeBC}
+% --- ENTER TIKZ FILE --- 
+\input{fig_tikz/resonant_column}
+% --- ##### #### #### ---
 
 \texttt{rm images4jupyter/*}
 
 \texttt{pdflatex -shell-escape tikz2pdf.tex}
 
 \texttt{pdf2svg images4jupyter/figure.pdf images4jupyter/figure.svg}
+
 \end{document}
