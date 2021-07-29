@@ -1,6 +1,6 @@
 #!/bin/bash
 IMGDIR="./images4jupyter"
-JUPDIR="../soil_dynamics_ipynb/Images"
+JUPDIR="../soil_dynamics/Images"
 rm ${IMGDIR}/*
 pdflatex -shell-escape tikz2pdf.tex  &&  pdf2svg ${IMGDIR}/figure.pdf ${IMGDIR}/figure.svg  &&  mv -i ${IMGDIR}/figure.svg ${JUPDIR}
 
