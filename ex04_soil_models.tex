@@ -1,0 +1,89 @@
+\question{Dämpfungskapazität des äquivalent-linearen Modells}
+ \vspace{1em}
+
+    \begin{minipage}[t]{.49\linewidth}
+    geg.:
+    \begin{tasks}(1)
+      \task[] $F_D = 2\, \zeta\, \eta\, k\, \hat u\, \sin(a\, t)$
+      \task[] $\dot{u} = \omega\,\hat\, u\, \sin(a\,t)$
+    \end{tasks}
+    \end{minipage}
+    \begin{minipage}[t]{.49\linewidth}
+    ges.:
+        \begin{tasks}
+            \task dissipierte Energie $\Delta W$ pro Zyklus
+            \task maximal in Feder gespeicherte Energie $W$
+            \task Dämpfungskapazität $\Psi$
+        \end{tasks}
+    \end{minipage}
+\vspace{1cm}
+
+ \question{Schubmodul und Dämpfung bei mittleren Dehnungen}
+  \vspace{1em}
+
+     \begin{minipage}[t]{.49\linewidth}
+    geg.:
+    \begin{tasks}(1)
+      \task[] $\hat\gamma = 0,5\%$
+      \task[] $I_p = 10 \%$
+    \end{tasks}
+    \end{minipage}
+    \begin{minipage}[t]{.49\linewidth}
+    ges.:
+        \begin{tasks}
+            \task $\cfrac{G}{G_{max}}$
+            \task $D$
+        \end{tasks}
+    \end{minipage}
+
+    \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.4 Grundbau-Taschenbuch}\end{center}
+
+\vspace{1cm}
+
+ \question{Schubmodul bei sehr kleinen Dehnungen}
+  \vspace{1em}
+
+     \begin{minipage}[t]{.49\linewidth}
+    geg.:
+    \begin{tasks}(2)
+      \task[] $e = 2,0$
+    \task[] $I_p = 0,6$
+    \task[] $P_a = 100 kPa$
+    \task[] $\bar \sigma' = 1 MPa$
+    \task[] $OCR = 5$
+    \end{tasks}
+    \end{minipage}
+    \begin{minipage}[t]{.49\linewidth}
+    ges.:
+        \begin{tasks}
+            \task $- G_{max|NC}$
+            \task $- G_{max|OC}$
+        \end{tasks}
+    \end{minipage}
+ \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.2 Grundbau-Taschenbuch}\end{center}
+
+ \question{Masing-Hypothese, geometrische Konstruktion}
+ \vspace{1em}
+ \begin{tasks}
+ \task Zeichnen sie die Skelettkurve (punktweise Berechnung).
+\task Konstruieren sie für $\cfrac{\hat \gamma}{\gamma_r}=2$ (Faktor 2) die Hysterese-Äste.
+ \end{tasks}
+ \begin{align*}
+ \cfrac{\tau}{\tau_m} = \cfrac{\cfrac{\gamma}{\gamma_r}}{1+|\cfrac{\gamma}{\gamma_r}|}
+ \end{align*}
+    \begin{figure}[!h]
+        \centering
+        \input{fig_gnuplottex/skeleton_curve.tex}
+        \label{fig:Skelettkurve}
+        \vfill
+    \end{figure}
+
+    \newpage
+
+    \begin{figure}[!ht]
+    \centering
+        \begin{minipage}[t]{\textwidth}
+        \centering
+            \input{fig_gnuplottex/graph_template.tex}
+        \end{minipage}
+    \end{figure}

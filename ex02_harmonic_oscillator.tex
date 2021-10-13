@@ -1,0 +1,136 @@
+\question{erzwungene, ungedämpfte Schwingung}
+\vspace{1em}
+
+\begin{minipage}[t]{.49\linewidth}
+geg.:
+\begin{tasks}(2)
+    \task[] $m = \SI{3}{\kilo\gram}$
+    \task[] $k = \SI{10}{\newton\per\meter}$
+    \task[] $F(t) = \hat{F} \sin{\omega t}$
+    \task[] $\hat{F} = \SI{5}{\newton}$
+    \task[] $\omega = \SI{10}{\radian\per\second}$
+    \task[] $t=\SI{0}{\second}$
+    \task[] $u_0 = \SI{0.1}{m}$
+    \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
+\end{tasks}
+\end{minipage}
+\begin{minipage}[t]{.49\linewidth}
+ges.:
+\begin{tasks}
+    \task $u(t)$
+\end{tasks}
+\end{minipage}
+
+\begin{solution}
+    \begin{alignat*}{2}
+        &(c = \SI{0}{\newton\second\per\meter}, F_C = \SI{0}{\newton}, F_S = \hat{F} = \SI{5}{\newton})\\
+        &\omega_0 = \sqrt{k/m} &&= \SI{1.826}{\radian\per\second} \\
+        &\zeta = \frac{c}{2\sqrt{k/m}} &&= 0 \\
+        &\eta = \omega/\omega_0 &&= 5.477\\
+        &V = (1-\eta^2)^{-1} &&=  0.0345 \\
+        &u_C = -2V^2\zeta\eta\hat{F}/k &&= \SI{0}{\meter} \\
+        &u_S = V^2(1-\eta^2)\hat{F}/k &&= \SI{-0.0172}{\meter}
+    \end{alignat*}
+
+    \begin{align*}
+        u_0 &= C_1 + u_C \\
+        \dot{u}_0 &= \omega_0 C_2+\omega u_S\\
+        &\rightsquigarrow \\
+        C_1 &=  u_0 - U_C = \SI{0.1}{\meter}\\
+        C_2 &= \frac{\dot{u}_0 - \omega u_S}{\omega_0} = \SI{0.0944}{\meter} \\
+        \vspace{1cm}
+        \end{align*}
+        \begin{equation*}
+            \begin{split}
+        u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)}
+        \end{split}
+        \end{equation*}
+        \fbox{\textbf{Anmerkung:} Das Einschwingen dauert im  ungedämpften Fall unendlich lang.}
+\end{solution}
+    
+    
+   %%%%%%%%% Übungsaufgabe 2 %%%%%%%%%
+
+    \question{erzwungene, gedämpfte Schwingung}
+
+     \begin{minipage}[t]{.49\linewidth}
+        geg.:
+        \begin{tasks}(2)
+           \task[] $m = \SI{3}{\kilo\gram}$
+           \task[] $c = \SI{1}{\newton\second\per\meter}$
+           \task[] $k = \SI{10}{\newton\per\meter}$
+            \task[] $F(t) = \hat{F} \sin{\omega t}$
+           \task[] $\hat{F} = \SI{5}{\newton}$
+           \task[] $\omega = \SI{10}{\radian\per\second}$
+           \task[] $t=\SI{0}{\second}$
+           \task[] $u_0 = \SI{0.1}{m}$
+           \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
+           \task[] $t_0 = \SI{0}{\second}$
+        \end{tasks}
+        \end{minipage}
+        \begin{minipage}[t]{.49\linewidth}
+        ges.:
+        \begin{tasks}
+            \task $u(t)$
+        \end{tasks}
+        \end{minipage}\\
+        \vspace{1cm}
+        \underline{Zusatzfrage:} Wie ändert sich die Lösung, wenn die Anregung zusätzlich einen Konstantanteil enthält $F(t) = F_{DC} +\hat{F} \sin{(\omega t)}$ (Stichwort \textit{statische Ruhelage}) ?
+
+        \begin{solution}
+        HIER BITTE NOCH LÖSUNG NACHTRAGEN
+        \end{solution}
+        
+         \input{fig_gnuplottex/swing_test.tex}
+
+ \question{Ausschwingversuch}
+
+     \begin{minipage}[t]{.49\linewidth}
+        geg.:
+        \begin{tasks}(1)
+           \task[] $m = \SI{3}{\kilo\gram}$
+           \task[] $u(t_{max1}) = \SI{0.10}{\meter}$
+           \task[] $u(t_{max2}) = \SI{0.08}{\meter}$
+           \task[] $t_{max2}-t_{max1} = 1$
+        \end{tasks}
+        \end{minipage}
+        \begin{minipage}[t]{.49\linewidth}
+        ges.:
+        \begin{tasks}
+            \task $c ~,~ k$
+        \end{tasks}
+        \end{minipage}\\
+        \vspace{1cm}
+        \fbox{\underline{Hinweis:} Nutzen Sie das logarithmische Dekrement $\Lambda = \log \frac{u(t_{max1})}{u(t_{max2})}$ als Zwischenergebnis.}
+
+        \begin{solution}
+        HIER BITTE NOCH LÖSUNG NACHTRAGEN\vfill
+        \end{solution}
+
+     %%%%%%%%% Übungsaufgabe 4 %%%%%%%%%
+
+ \question{Schwingsaitenwaage}
+
+
+
+     \begin{minipage}[t]{.49\linewidth}
+        geg.:
+        \begin{tasks}(1)
+           \task[] $m = \SI{3}{\kilo\gram}$
+           \task[] $\omega_0 = \SI{10}{\radian\per\second}$
+           \task[] $0 < \zeta < 1$
+        \end{tasks}
+        \end{minipage}
+        \begin{minipage}[t]{.49\linewidth}
+        ges.:
+        \begin{tasks}
+            \task $k$
+        \end{tasks}
+        \end{minipage}\\
+        \vspace{1cm}
+        \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
+hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
+Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
+
+
