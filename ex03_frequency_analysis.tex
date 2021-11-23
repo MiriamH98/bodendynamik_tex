@@ -74,12 +74,20 @@ $.}
 \end{align*}\\[2em]
 
  \textbf{Anpassung der Gesamtlösung an die Anfangsbedingungen}
-
+    
+    Die Gesamtlösung setzt sich additiv aus der Lösung der homogenen Gleichung und der bereits bestimmten Partikulärlösung zusammen
     \begin{align*}
-    u(t_0) &= u_0 \quad,\quad \dot{u}(t_0) = \dot{u}_0\\
-    u_0 &= C_1\cos(w_1 t_0)e^{-\delta t_0} + C_2 \sin(w_1 t_0)e^{-\delta t_0} + u_p(t_0)\\
-    \intertext{\flushleft Lineares Gleichungssystem der Struktur:}
-    &\qquad \begin{bmatrix}
+     u(t) &= C_1\cos(\omega_1 t)e^{-\delta t} + C_2 \sin(\omega_1 t)e^{-\delta t} + u_p(t),\\
+     \dot{u}(t) &= TODO.
+    \end{align*}
+    Mit den Anfangsbedingungen
+    \begin{align*}
+    u(t_0) &= u_0 \\
+    \dot{u}(t_0) &= \dot{u}_0
+    \end{align*}
+    liegen zwei Gleichungen mit zwei Unbekannten vor
+    \begin{align*}
+    \begin{bmatrix}
      A_{11} & A_{12}\\
      A_{21} & A_{22}
     \end{bmatrix}
@@ -87,11 +95,21 @@ $.}
      C_1 \\
      C_2
     \end{bmatrix}
-    =
+    &=
     \begin{bmatrix}
     b_1 \\
     b_2
-    \end{bmatrix} \\[1em]
+    \end{bmatrix} \\
+    \intertext{mit}
+    A_{11}&= TODO,\\
+    A_{12}&= TODO,\\
+    A_{21}&= TODO,\\
+    A_{22}&= TODO,\\
+    b_{1}&= TODO,\\
+    b_{2}&= TODO.
+    \end{align*}
+    Aufgelöst nach den gesuchten Koeffizienten lautet dieses Gleichungssystem
+    \begin{align*}
     &\begin{bmatrix}
     C_1 \\
     C_2
@@ -106,5 +124,9 @@ $.}
      b_2
     \end{bmatrix}\\
  \end{align*}
- TODO Loesung in gegebenen Groeßen
+ Als Gesamtlösung folgt
+ \begin{equation*}
+ u(t)=TODO Loesung in gegebenen Groessen.  
+ \end{equation*}
+
 \end{solution}
