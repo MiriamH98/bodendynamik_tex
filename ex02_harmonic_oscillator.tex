@@ -25,7 +25,7 @@ ges.:
     \begin{alignat*}{2}
         &(c = \SI{0}{\newton\second\per\meter}, F_C = \SI{0}{\newton}, F_S = \hat{F} = \SI{5}{\newton})\\
         &\omega_0 = \sqrt{k/m} &&= \SI{1.826}{\radian\per\second} \\
-        &\zeta = \frac{c}{2m\sqrt{k/m}} &&= 0 \\
+        &\zeta = \frac{c}{2\sqrt{mk}} &&= 0 \\
         &\eta = \omega/\omega_0 &&= 5.477\\
         &V = (1-\eta^2)^{-1} &&=  0.0345 \\
         &u_C = -2V^2\zeta\eta\hat{F}/k &&= \SI{0}{\meter} \\
@@ -40,6 +40,7 @@ ges.:
         C_2 &= \frac{\dot{u}_0 - \omega u_S}{\omega_0} = \SI{0.0944}{\meter} \\
         \vspace{1cm}
     \end{align*}
+
     \begin{equation*}
         \begin{split}
             u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)}
@@ -81,12 +82,18 @@ ges.:
     \begin{solution}
         \begin{alignat*}{2}
             &\omega_0 = \sqrt{k/m} &&= \SI{1.826}{\radian\per\second} \\
-            &\zeta = \frac{c}{2m\sqrt{k/m}} &&= 0.029 \text{Bitte nochmal berechnen!} \\
+            &\zeta = \frac{c}{2\sqrt{mk}} &&= 0.091 \\
             &\eta = \omega/\omega_0 &&= 5.477\\
             &V = \frac{1}{\sqrt{(1 - \eta^2)^2 + (2\zeta\eta)^2}} &&= 0.034\\
             &\text{da: } a(t) = \frac{F(t)}{k} \sin(\omega t) = \hat{a} \cos(\psi_a) \cos(\omega t) + \hat{a} \sin{\psi_a} \sin{\omega t} \\
-            &u_c = V^2((1-\eta^2)a_c - 2 \zeta \eta a_s) \\
-            &u_s = V^2((1 - \eta^2)a_s + 2 \zeta \eta a_c) \\
+            &F_c = 0 && F_s = \SI{5}{\newton} \\
+            &a_c = \frac{F_c}{k} &&= \SI{0}{\newton}\\ 
+            &a_s = \frac{F_s}{k} &&= 0.2 m^{-1} \\
+            &a= a_c \sin(\omega t) + a_s \sin(\omega t) &&= 0 \\
+            &\psi = \arctan(\frac{2\zeta \eta}{1-\eta^2}) &&= \SI{3.107}{\radian}\\
+            &u_c = V^2((1-\eta^2)a_c - 2 \zeta \eta a_s) &&= \SI{-0.0006}{\meter}\\
+            &u_s = V^2((1 - \eta^2)a_s + 2 \zeta \eta a_c) &&= \SI{-0.0172}{\meter}\\
+            &u_p(t)= u_c \cos(\omega t) + u_s \sin(\omega t) &&= \\
         \end{alignat*}
     \end{solution}
         
@@ -94,13 +101,14 @@ ges.:
 
 \question{Ausschwingversuch}
 
-     \begin{minipage}[t]{.49\linewidth}
+    \begin{minipage}[t]{.49\linewidth}
         geg.:
         \begin{tasks}(1)
            \task[] $m = \SI{3}{\kilo\gram}$
            \task[] $u(t_{max1}) = \SI{0.10}{\meter}$
            \task[] $u(t_{max2}) = \SI{0.08}{\meter}$
-           \task[] $t_{max2}-t_{max1} = 1$
+           \task[] $T_{id} = t_{max2}-t_{max1} = 1$
+           \task[] $N = 1$
         \end{tasks}
         \end{minipage}
         \begin{minipage}[t]{.49\linewidth}
@@ -108,14 +116,20 @@ ges.:
         \begin{tasks}
             \task $c ~,~ k$
         \end{tasks}
-        \end{minipage}\\
-        \vspace{1cm}
-        
-        \fbox{\underline{Hinweis:} Nutzen Sie das logarithmische Dekrement $\Lambda = \log \frac{u(t_{max1})}{u(t_{max2})}$ als Zwischenergebnis.}
+    \end{minipage}\\
+    \vspace{1cm}
 
-        \begin{solution}
-        HIER BITTE NOCH LÖSUNG NACHTRAGEN\vfill
-        \end{solution}
+    \fbox{\underline{Hinweis:} Nutzen Sie das logarithmische Dekrement $\Lambda = \log \frac{u(t_{max1})}{u(t_{max2})}$ als Zwischenergebnis.}
+
+    \begin{solution}
+        \begin{alignat*}{2}
+            &\omega_{1_{id}} = \frac{2 \pi}{T_{id}} &&= 2 \pi\\
+            &\Delta_{id} = \frac{1}{N \cdot T_{id} } \cdot \ln{\frac{u_1}{u_2}} &&= \text{??}\\
+            &c_{id} = 2 \cdot \Delta_{id} \cdot m &&= \SI{1.339}{\newton \second \per \meter}\\
+            &\omega_{0_{id^2}} = \omega_{1_{id}}^2 + \Delta_{id}^2 &&= \\
+            &k_{id} = \omega_{0_{id^2}} \cdot m &&= \\
+        \end{alignat*}
+    \end{solution}
 
      %%%%%%%%% Übungsaufgabe 4 %%%%%%%%%
 
@@ -127,8 +141,9 @@ ges.:
     geg.:
     \begin{tasks}(1)
         \task[] $m = \SI{3}{\kilo\gram}$
-        \task[] $\omega_0 = \SI{10}{\radian\per\second}$
+        \task[] $\omega_{measured} = \SI{10}{\radian\per\second}$
         \task[] $0 < \zeta < 1$
+        \task[] $\zeta_{measured} = 0.1$
     \end{tasks}
     \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
@@ -137,10 +152,26 @@ ges.:
         \task $k$
     \end{tasks}
 \end{minipage}\\
-    \vspace{1cm}
-    \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+\vspace{1cm}
+
+\underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
 Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
 hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
 Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
+
+\begin{solution}
+    \begin{alignat*}{2}
+        &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
+        &k_{ungedämpft} = m \cdot \omega_{measured}^2 &&= \SI{300000}{\newton \per \meter} \\
+        &\text{gedämpfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
+        &\omega_{gedämpft} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+        &k_{gedämpft} = m \cdot \omega_{gedämpft}^2 &&= \SI{303030}{\newton \per \meter}\\
+        &\Delta = 100 \cdot \frac{|k_{gedämpft} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 1.01 \%\\
+        &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
+        &\omega_{MA} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+        &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306122}{\newton \per \meter}\\
+        &\Delta = 100 \cdot \frac{|k_{MA} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 2.04 \% \\ 
+    \end{alignat*}
+\end{solution}
 
 
