@@ -93,7 +93,7 @@ ges.:
             &\psi = \arctan(\frac{2\zeta \eta}{1-\eta^2}) &&= \SI{3.107}{\radian}\\
             &u_c = V^2((1-\eta^2)a_c - 2 \zeta \eta a_s) &&= \SI{-0.0006}{\meter}\\
             &u_s = V^2((1 - \eta^2)a_s + 2 \zeta \eta a_c) &&= \SI{-0.0172}{\meter}\\
-            &u_p(t)= u_c \cos(\omega t) + u_s \sin(\omega t) &&= \\
+            &u_p(t)= u_c \cos(\omega t) + u_s \sin(\omega t) &&= -0.0006 \cdot \cos{10t} - 0.0172 \cdot \sin{10t}\\
         \end{alignat*}
     \end{solution}
         
@@ -124,14 +124,14 @@ ges.:
     \begin{solution}
         \begin{alignat*}{2}
             &\omega_{1_{id}} = \frac{2 \pi}{T_{id}} &&= 2 \pi\\
-            &\Delta_{id} = \frac{1}{N \cdot T_{id} } \cdot \ln{\frac{u_1}{u_2}} &&= \text{??}\\
+            &\Delta_{id} = \frac{1}{N \cdot T_{id} } \cdot \ln{\frac{u_1}{u_2}} &&= 0.223\\
             &c_{id} = 2 \cdot \Delta_{id} \cdot m &&= \SI{1.339}{\newton \second \per \meter}\\
-            &\omega_{0_{id^2}} = \omega_{1_{id}}^2 + \Delta_{id}^2 &&= \\
+            &\omega_{0_{id^2}} = \omega_{1_{id}}^2 + \Delta_{id}^2 &&= 39.528\\
             &k_{id} = \omega_{0_{id^2}} \cdot m &&= \SI{118.585}{\newton \per \meter}\\
         \end{alignat*}
     \end{solution}
 
-     %%%%%%%%% Übungsaufgabe 4 %%%%%%%%%
+%%%%%%%%% Übungsaufgabe 4 %%%%%%%%%
 
 \question{Schwingsaitenwaage}
 
@@ -139,9 +139,9 @@ ges.:
     geg.:
     \begin{tasks} (1)
         \task[] $m = \SI{3}{\kilo\gram}$
-        \task[] $\omega_{measured} = \SI{10}{\radian\per\second}$
+        \task[] $\omega_{gemessen} = \SI{10}{\radian\per\second}$
         \task[] $0 < \zeta < 1$
-        \task[] $\zeta_{measured} = 0.1$
+        \task[] $\zeta_{gemessen} = 0.1$
     \end{tasks}
     \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
@@ -160,15 +160,15 @@ Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
 \begin{solution}
     \begin{alignat*}{2}
         &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
-        &k_{ungedämpft} = m \cdot \omega_{measured}^2 &&= \SI{300000}{\newton \per \meter} \\
-        &\text{gedämpfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
-        &\omega_{gedämpft} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
-        &k_{gedämpft} = m \cdot \omega_{gedämpft}^2 &&= \SI{303030}{\newton \per \meter}\\
-        &\Delta = 100 \cdot \frac{|k_{gedämpft} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 1.01 \%\\
+        &k_{ungedaempft} = m \cdot \omega_{gemessen}^2 &&= \SI{300.000}{\newton \per \meter} \\
+        &\text{gedaempfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
+        &\omega_{gedaempft} = \frac{\omega_{gemessen}}{\sqrt{1-\zeta_{gemessen}^2}} &&= 10.05\\
+        &k_{gedaempft} = m \cdot \omega_{gedaempft}^2 &&= \SI{303.030}{\newton \per \meter}\\
+        &\Delta = 100 \cdot \frac{|k_{gedaempft} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 1.01 \%\\
         &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
-        &\omega_{MA} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
-        &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306122}{\newton \per \meter}\\
-        &\Delta = 100 \cdot \frac{|k_{MA} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 2.04 \% \\ 
+        &\omega_{MA} = \frac{\omega_{gemessen}}{\sqrt{1-2\zeta_{gemessen}^2}} &&= 10.102\\
+        &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306.122}{\newton \per \meter}\\
+        &\Delta = 100 \cdot \frac{|k_{MA} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 2.04 \% \\ 
     \end{alignat*}
 \end{solution}
 
