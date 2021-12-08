@@ -20,23 +20,25 @@ $.}
      c &= \frac{2a_{max}}{T} \\
      \tilde{w}_k &= \frac{2\pi k}{T}
  \end{align*}
- \end{minipage}
+\end{minipage}
 
  \textbf{\raggedright Darstellung der Anregung als Fourierreihe ($N=2$)}
 
 \vspace{1em}
 
-     \begin{align*}
-        \intertext{\flushleft Benötigte Integrale:}
-        \int x \sin(ax) \dd{x} &= \frac{\sin(ax) - x \cos(ax)}{a} \\
-        \int x \cos(ax) \dd{x} &= \frac{\cos(ax) + x \sin(ax)}{a}
-     \end{align*}
+\begin{align*}
+    \intertext{\flushleft Benötigte Integrale:}
+    \int x \sin(ax) \dd{x} &= \frac{\sin(ax) - x \cos(ax)}{a} \\
+    \int x \cos(ax) \dd{x} &= \frac{\cos(ax) + x \sin(ax)}{a}
+\end{align*}
+
 \dotfill
- \begin{align*}
-     A_0 &=  \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} a(t)\dd{t} = \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} ct \dd{t} = \frac{2}{T} \,\Big|\, \frac{c}{2}t^2\,\Big|_{t = -\frac{T}{2}}^{\frac{T}{2}} = \uuline{0}\\
-     A_k &= \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} a(t) \cos(\overbrace{\frac{2\pi k}{T}}^{\tilde{w}_k}t)\dd{t} = \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} ct \cos(\tilde{w}_k t) \dd{t} \\
-     &= \frac{2}{T} \,\Big|\,\frac{c}{\tilde{w}_k} (\cos(\tilde{w}_k t) + t \sin(\tilde{w}_k t))\,\Big|_{t = -\frac{T}{2}}^{\frac{T}{2}} = \uuline{0}
- \end{align*}
+
+\begin{align*}
+    A_0 &=  \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} a(t)\dd{t} = \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} ct \dd{t} = \frac{2}{T} \,\Big|\, \frac{c}{2}t^2\,\Big|_{t = -\frac{T}{2}}^{\frac{T}{2}} = \uuline{0}\\
+    A_k &= \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} a(t) \cos(\overbrace{\frac{2\pi k}{T}}^{\tilde{w}_k}t)\dd{t} = \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} ct \cos(\tilde{w}_k t) \dd{t} \\
+    &= \frac{2}{T} \,\Big|\,\frac{c}{\tilde{w}_k} (\cos(\tilde{w}_k t) + t \sin(\tilde{w}_k t))\,\Big|_{t = -\frac{T}{2}}^{\frac{T}{2}} = \uuline{0}
+\end{align*}
 
 
 \begin{minipage}[t]{.49\linewidth}
@@ -50,10 +52,10 @@ $.}
     $\sin(\tilde{w}_k t)$\\
 
     \input{fig_tikz/harmonic_sin_w_t.tex}
-    \end{minipage}
- \vspace{1em}
+\end{minipage}
+\vspace{1em}
 
-    \begin{align*}
+\begin{align*}
      B_k &= \frac{2}{T} \int\limits_{-\frac{2}{T}}^{\frac{2}{T}} ct \sin(\tilde{w}_k t) \dd{t} = \frac{2}{T}\,\Big|\, \frac{c}{\tilde{w}_k}(\sin(\tilde{w}_k t)-t\cos(\tilde{w}_k t))\,\Big|_{t={-\frac{2}{T}}}^{t=\frac{2}{t}} \\
      &= \frac{-2c}{\tilde{w}_k} \cos(\tilde{w}_k\frac{T}{2}) =
      \left\{
@@ -73,7 +75,7 @@ $.}
     \end{array}
 \end{align*}\\[2em]
 
- \textbf{Anpassung der Gesamtlösung an die Anfangsbedingungen}
+\textbf{Anpassung der Gesamtlösung an die Anfangsbedingungen}
     
     Die Gesamtlösung setzt sich additiv aus der Lösung der homogenen Gleichung und der bereits bestimmten Partikulärlösung zusammen
     \begin{align*}

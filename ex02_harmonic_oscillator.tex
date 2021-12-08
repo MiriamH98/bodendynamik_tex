@@ -1,58 +1,61 @@
 \question{Erzwungene, ungedämpfte Schwingung}
 \vspace{1em}
 
-\begin{minipage}[t]{.49\linewidth}
-geg.:
-\begin{tasks}(2)
-    \task[] $m = \SI{3}{\kilo\gram}$
-    \task[] $k = \SI{10}{\newton\per\meter}$
-    \task[] $F(t) = \hat{F} \sin{\omega t}$
-    \task[] $\hat{F} = \SI{5}{\newton}$
-    \task[] $\omega = \SI{10}{\radian\per\second}$
-    \task[] $t=\SI{0}{\second}$
-    \task[] $u_0 = \SI{0.1}{m}$
-    \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
-\end{tasks}
-\end{minipage}
-\begin{minipage}[t]{.49\linewidth}
-ges.:
-\begin{tasks}
-    \task $u(t)$
-\end{tasks}
-\end{minipage}
+    \input{fig_tikz/undamped_1dof_forced.tex}
 
-\begin{solution}
-    \begin{alignat*}{2}
-        &(c = \SI{0}{\newton\second\per\meter}, F_C = \SI{0}{\newton}, F_S = \hat{F} = \SI{5}{\newton})\\
-        &\omega_0 = \sqrt{k/m} &&= \SI{1.826}{\radian\per\second} \\
-        &\zeta = \frac{c}{2\sqrt{mk}} &&= 0 \\
-        &\eta = \omega/\omega_0 &&= 5.477\\
-        &V = (1-\eta^2)^{-1} &&=  0.0345 \\
-        &u_C = -2V^2\zeta\eta\hat{F}/k &&= \SI{0}{\meter} \\
-        &u_S = V^2(1-\eta^2)\hat{F}/k &&= \SI{-0.0172}{\meter}
-    \end{alignat*}
+    \begin{minipage}[t]{.49\linewidth}
+    geg.:
+    \begin{tasks}(2)
+        \task[] $m = \SI{3}{\kilo\gram}$
+        \task[] $k = \SI{10}{\newton\per\meter}$
+        \task[] $F(t) = \hat{F} \sin{\omega t}$
+        \task[] $\hat{F} = \SI{5}{\newton}$
+        \task[] $\omega = \SI{10}{\radian\per\second}$
+        \task[] $t=\SI{0}{\second}$
+        \task[] $u_0 = \SI{0.1}{m}$
+        \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
+    \end{tasks}
+    \end{minipage}
+    \begin{minipage}[t]{.49\linewidth}
+    ges.:
+    \begin{tasks}
+        \task $u(t)$
+    \end{tasks}
+    \end{minipage}
 
-    \begin{align*}
-        u_0 &= C_1 + u_C \\
-        \dot{u}_0 &= \omega_0 C_2+\omega u_S\\
-        &\rightsquigarrow \\
-        C_1 &=  u_0 - U_C = \SI{0.1}{\meter}\\
-        C_2 &= \frac{\dot{u}_0 - \omega u_S}{\omega_0} = \SI{0.0944}{\meter} \\
-        \vspace{1cm}
-    \end{align*}
+    \begin{solution}
+        \begin{alignat*}{2}
+            &(c = \SI{0}{\newton\second\per\meter}, F_C = \SI{0}{\newton}, F_S = \hat{F} = \SI{5}{\newton})\\
+            &\omega_0 = \sqrt{k/m} &&= \SI{1.826}{\radian\per\second} \\
+            &\zeta = \frac{c}{2\sqrt{mk}} &&= 0 \\
+            &\eta = \omega/\omega_0 &&= 5.477\\
+            &V = (1-\eta^2)^{-1} &&=  0.0345 \\
+            &u_C = -2V^2\zeta\eta\hat{F}/k &&= \SI{0}{\meter} \\
+            &u_S = V^2(1-\eta^2)\hat{F}/k &&= \SI{-0.0172}{\meter}
+        \end{alignat*}
 
-    \begin{equation*}
-        \begin{split}
-            u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)}
-        \end{split}
-    \end{equation*}
-        \fbox{\textbf{Anmerkung:} Das Einschwingen dauert im  ungedämpften Fall unendlich lang.}
-\end{solution}
-    
+        \begin{align*}
+            u_0 &= C_1 + u_C \\
+            \dot{u}_0 &= \omega_0 C_2+\omega u_S\\
+            &\rightsquigarrow \\
+            C_1 &=  u_0 - U_C = \SI{0.1}{\meter}\\
+            C_2 &= \frac{\dot{u}_0 - \omega u_S}{\omega_0} = \SI{0.0944}{\meter} \\
+            \vspace{1cm}
+        \end{align*}
+
+        \begin{equation*}
+            \begin{split}
+                u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)}
+            \end{split}
+        \end{equation*}
+            \fbox{\textbf{Anmerkung:} Das Einschwingen dauert im  ungedämpften Fall unendlich lang.}
+    \end{solution}
     
 %%%%%%%%% Übungsaufgabe 2 %%%%%%%%%
 
 \question{Erzwungene, gedämpfte Schwingung}
+
+    \input{fig_tikz/damped_1dof_forced.tex}
 
     \begin{minipage}[t]{.49\linewidth}
         geg.:
@@ -97,9 +100,11 @@ ges.:
         \end{alignat*}
     \end{solution}
         
-\input{fig_gnuplottex/swing_test.tex}
+%\input{fig_gnuplottex/swing_test.tex}
 
 \question{Ausschwingversuch}
+
+    \input{fig_tikz/vibrational_sensor_t_u.tex}
 
     \begin{minipage}[t]{.49\linewidth}
         geg.:
@@ -135,41 +140,42 @@ ges.:
 
 \question{Schwingsaitenwaage}
 
-\begin{minipage}[t]{.49\linewidth}
-    geg.:
-    \begin{tasks} (1)
-        \task[] $m = \SI{3}{\kilo\gram}$
-        \task[] $\omega_{gemessen} = \SI{10}{\radian\per\second}$
-        \task[] $0 < \zeta < 1$
-        \task[] $\zeta_{gemessen} = 0.1$
-    \end{tasks}
-    \end{minipage}
+    %\input{fig_img/magnitude_response.png}
+
     \begin{minipage}[t]{.49\linewidth}
-    ges.:
-    \begin{tasks}
-        \task$k$
-    \end{tasks}
-\end{minipage}\\
-\vspace{1cm}
+        geg.:
+        \begin{tasks} (1)
+            \task[] $m = \SI{3}{\kilo\gram}$
+            \task[] $\omega_{gemessen} = \SI{10}{\radian\per\second}$
+            \task[] $0 < \zeta < 1$
+            \task[] $\zeta_{gemessen} = 0.1$
+        \end{tasks}
+        \end{minipage}
+        \begin{minipage}[t]{.49\linewidth}
+        ges.:
+        \begin{tasks}
+            \task$k$
+        \end{tasks}
+    \end{minipage}\\
+    \vspace{1cm}
 
-\underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
-Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
-hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
-Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
+    \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+    Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
+    hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
+    Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
 
-\begin{solution}
-    \begin{alignat*}{2}
-        &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
-        &k_{ungedaempft} = m \cdot \omega_{gemessen}^2 &&= \SI{300.000}{\newton \per \meter} \\
-        &\text{gedaempfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
-        &\omega_{gedaempft} = \frac{\omega_{gemessen}}{\sqrt{1-\zeta_{gemessen}^2}} &&= 10.05\\
-        &k_{gedaempft} = m \cdot \omega_{gedaempft}^2 &&= \SI{303.030}{\newton \per \meter}\\
-        &\Delta = 100 \cdot \frac{|k_{gedaempft} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 1.01 \%\\
-        &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
-        &\omega_{MA} = \frac{\omega_{gemessen}}{\sqrt{1-2\zeta_{gemessen}^2}} &&= 10.102\\
-        &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306.122}{\newton \per \meter}\\
-        &\Delta = 100 \cdot \frac{|k_{MA} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 2.04 \% \\ 
-    \end{alignat*}
-\end{solution}
-
+    \begin{solution}
+        \begin{alignat*}{2}
+            &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
+            &k_{ungedaempft} = m \cdot \omega_{gemessen}^2 &&= \SI{300.000}{\newton \per \meter} \\
+            &\text{gedaempfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
+            &\omega_{gedaempft} = \frac{\omega_{gemessen}}{\sqrt{1-\zeta_{gemessen}^2}} &&= 10.05\\
+            &k_{gedaempft} = m \cdot \omega_{gedaempft}^2 &&= \SI{303.030}{\newton \per \meter}\\
+            &\Delta = 100 \cdot \frac{|k_{gedaempft} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 1.01 \%\\
+            &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
+            &\omega_{MA} = \frac{\omega_{gemessen}}{\sqrt{1-2\zeta_{gemessen}^2}} &&= 10.102\\
+            &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306.122}{\newton \per \meter}\\
+            &\Delta = 100 \cdot \frac{|k_{MA} - k_{ungedaempft}|}{k_{ungedaempft}} &&= 2.04 \% \\ 
+        \end{alignat*}
+    \end{solution}
 
