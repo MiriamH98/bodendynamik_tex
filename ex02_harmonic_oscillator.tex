@@ -143,6 +143,7 @@
     %\input{fig_img/magnitude_response.png}
 
     \begin{minipage}[t]{.49\linewidth}
+
         geg.:
         \begin{tasks} (1)
             \task[] $m = \SI{3}{\kilo\gram}$
@@ -158,6 +159,34 @@
         \end{tasks}
     \end{minipage}\\
     \vspace{1cm}
+
+    ges.:
+    \begin{tasks}
+        \task$k$
+    \end{tasks}
+\end{minipage}\\
+\vspace{1cm}
+
+\underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
+hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
+Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
+
+\begin{solution}
+    \begin{alignat*}{2}
+  %      &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
+  %      &k_{ungedämpft} = m \cdot \omega_{measured}^2 &&= \SI{300000}{\newton \per \meter} \\
+  %      &\text{gedämpfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
+  %      &\omega_{gedämpft} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+  %      &k_{gedämpft} = m \cdot \omega_{gedämpft}^2 &&= \SI{303030}{\newton \per \meter}\\
+  %      &\Delta = 100 \cdot \frac{|k_{gedämpft} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 1.01 \%\\
+  %      &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
+  %      &\omega_{MA} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+  %      &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306122}{\newton \per \meter}\\
+        &\Delta = 100 \cdot \frac{|k_{MA} - k_\mathrm{ungedaempft}|}{k_{ungedaempft}} &&= 2.04 \% \\ 
+    \end{alignat*}
+\end{solution}
+
 
     \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
     Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
