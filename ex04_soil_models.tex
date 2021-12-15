@@ -1,76 +1,112 @@
-\question{Dämpfungskapazität des äquivalent-linearen Modells}
- \vspace{1em}
+\begin{questions}
+    \question{Dämpfungskapazität des äquivalent-linearen Modells}
+    \vspace{1em}
+
+        \begin{minipage}[t]{.49\linewidth}
+        geg.:
+            \begin{tasks} (1)
+                \task[] $F_D = 2\, \zeta\, \eta\, k\, \hat u\, \sin(a\, t)$
+                \task[] $\dot{u} = \omega\,\hat u\, \sin(a\,t)$
+            \end{tasks}
+        \end{minipage}
+        \begin{minipage}[t]{.49\linewidth}
+        ges.:
+            \begin{tasks}
+                \task[] dissipierte Energie $\Delta W$ pro Zyklus
+                \task[] maximal in Feder gespeicherte Energie $W$
+                \task[] Dämpfungskapazität $\Psi$
+            \end{tasks}
+        \end{minipage}
+    \vspace{1cm}
+
+    \begin{solution}
+        \begin{align*}
+            W_D &= \int_{0}^{T} -F_D \dot{u} \dd{t}\\
+            \intertext{für $\phi = [0, 2\pi]$} \\
+            W_D &= \int_{0}^{2 \pi} F_D \dot{u} \dd{t} &&= 2 \pi \hat{u}^2 \eta k \zeta\\
+            \intertext{Maximale, in Feder gespeicherte Energie:} \\
+            W_{F_{\max}} &= 0.5 k \hat{u}^2 \\
+            \intertext{Dämpfungskapazität:} \\
+            \psi &= \frac{W_D}{W_{F_{\max}}} &&= 4.0 \pi \eta \zeta \\
+        \end{align*}
+
+    \end{solution}
+
+
+\question{Schubmodul und Dämpfung bei mittleren Dehnungen}
+    \vspace{1em}
 
     \begin{minipage}[t]{.49\linewidth}
     geg.:
-    \begin{tasks}(1)
-      \task[] $F_D = 2\, \zeta\, \eta\, k\, \hat u\, \sin(a\, t)$
-      \task[] $\dot{u} = \omega\,\hat\, u\, \sin(a\,t)$
-    \end{tasks}
-    \end{minipage}
-    \begin{minipage}[t]{.49\linewidth}
-    ges.:
-        \begin{tasks}
-            \task dissipierte Energie $\Delta W$ pro Zyklus
-            \task maximal in Feder gespeicherte Energie $W$
-            \task Dämpfungskapazität $\Psi$
+        \begin{tasks} (1)
+            \task[] $\hat\gamma = 0,5\%$
+            \task[] $I_p = 10 \%$
         \end{tasks}
     \end{minipage}
-\vspace{1cm}
-
- \question{Schubmodul und Dämpfung bei mittleren Dehnungen}
-  \vspace{1em}
-
-     \begin{minipage}[t]{.49\linewidth}
-    geg.:
-    \begin{tasks}(1)
-      \task[] $\hat\gamma = 0,5\%$
-      \task[] $I_p = 10 \%$
-    \end{tasks}
-    \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
     ges.:
         \begin{tasks}
-            \task $\cfrac{G}{G_{max}}$
-            \task $D$
+            \task[] $\cfrac{G}{G_{\max}}$
+            \task[] $D$
         \end{tasks}
     \end{minipage}
 
     \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.4 Grundbau-Taschenbuch}\end{center}
 
+    \begin{solution}
+        \begin{align*}
+            \frac{G}{G_\max} &= \frac{1.03}{1+\frac{19 \gamma^{0.8}}{1+ \frac{I_P}{15.0}^{1.3}}} \leq 1  && \gamma \leq 1 \%\\
+            D &= 2 + \frac{24.5 - 0.2 I_P}{1 + \frac{1}{7.4 - 0.1 I_P} \gamma^{0.8}} \leq 1 && \gamma \leq 1 \%, I_P \leq 50 \% \\
+            \intertext{mit gegebenen Werten:} \\
+            \frac{G}{G_\max} &= 0.809\\
+            D &= 26.432\\
+        \end{align*}
+    \end{solution}
 \vspace{1cm}
 
- \question{Schubmodul bei sehr kleinen Dehnungen}
-  \vspace{1em}
+\question{Schubmodul bei sehr kleinen Dehnungen}
+\vspace{1em}
 
      \begin{minipage}[t]{.49\linewidth}
-    geg.:
-    \begin{tasks}(2)
-      \task[] $e = 2,0$
-    \task[] $I_p = 0,6$
-    \task[] $P_a = 100 kPa$
-    \task[] $\bar \sigma' = 1 MPa$
-    \task[] $OCR = 5$
-    \end{tasks}
+        geg.:
+        \begin{tasks} (2)
+            \task[] $n = 0.5$
+            \task[] $e = 2.0$
+            \task[] $I_p = 0.6$
+            \task[] $P_a = 100 kPa$
+            \task[] $\bar \sigma' = 1 MPa$
+            \task[] $OCR = 5$
+            \task[] $S = 625$
+        \end{tasks}
     \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
     ges.:
         \begin{tasks}
-            \task $- G_{max|NC}$
-            \task $- G_{max|OC}$
+            \task[] $- G_{\max|NC}$
+            \task[] $- G_{\max|OC}$
         \end{tasks}
     \end{minipage}
- \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.2 Grundbau-Taschenbuch}\end{center}
+    \begin{center}\fbox{\underline{Hinweis:} siehe Kap. 4.2.2 Grundbau-Taschenbuch}\end{center}
 
- \question{Masing-Hypothese, geometrische Konstruktion}
- \vspace{1em}
- \begin{tasks}
- \task Zeichnen sie die Skelettkurve (punktweise Berechnung).
-\task Konstruieren sie für $\cfrac{\hat \gamma}{\gamma_r}=2$ (Faktor 2) die Hysterese-Äste.
- \end{tasks}
- \begin{align*}
- \cfrac{\tau}{\tau_m} = \cfrac{\cfrac{\gamma}{\gamma_r}}{1+|\cfrac{\gamma}{\gamma_r}|}
- \end{align*}
+    \begin{solution}
+        \begin{align*}
+            F_e &= \frac{1}{0.3 + 0.7 e^2} &&= 0.323\\
+            G_{\max | NC} &= S\ F_e\ P_a\ (\frac{\bar \sigma'}{P_a})^n &&= \SI{63.76}{\mega \pascal} \\
+            k &= \frac{I_P}{(1+ 3 I_P^2)^{0.5}} &&= 0.416 \\
+            G_{\max | OC} &= G_{\max | NC}\cdot OCR^k &&= \SI{124.54}{\mega \pascal}\\
+        \end{align*}
+    \end{solution}
+
+
+\question{Masing-Hypothese, geometrische Konstruktion}
+\vspace{1em}
+    \begin{tasks}
+        \task[] Zeichnen sie die Skelettkurve (punktweise Berechnung).
+        \task[] Konstruieren sie für $\cfrac{\hat \gamma}{\gamma_r}=2$ (Faktor 2) die Hysterese-Äste.
+    \end{tasks}
+    \begin{align*}
+        \cfrac{\tau}{\tau_m} = \cfrac{\cfrac{\gamma}{\gamma_r}}{1+|\cfrac{\gamma}{\gamma_r}|}
+    \end{align*}
     \begin{figure}[!h]
         \centering
         \input{fig_gnuplottex/skeleton_curve.tex}
@@ -87,3 +123,5 @@
             \input{fig_gnuplottex/graph_template.tex}
         \end{minipage}
     \end{figure}
+
+\end{questions}

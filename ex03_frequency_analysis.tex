@@ -1,12 +1,12 @@
- \question{Berechnen Sie die Antwort des gedämpften Einmassenschwingers aus Aufgabe 2 TODO fix reference
+\question{Berechnen Sie die Antwort des gedämpften Einmassenschwingers aus Aufgabe 2 TODO fix reference
 (letzte Übung) auf das Sägezahnsignal $(T = \SI{1}{\second}, u_{max} = - u_{min} = \SI{0.1}{\meter})$,
 welches durch eine Fourierreihe bis $N = 2$ approximiert werden soll. Als
-Anfangsbedingungen gelten: $u(-T/2) = \SI{0}{\meter}, \hat{u}(-T/2) = \SI{0}{\meter\per\second}
+Anfangsbedingungen gelten: $u(-T/2) = \SI{0}{\meter}, \dot{u}(-T/2) = \SI{0}{\meter\per\second}
 $.}
 
 \begin{minipage}[c]{.49\linewidth}
  \begin{align*}
-     a(t) = \frac{2a_{max}}{T}t -nT \\
+     a(t) = \frac{2a_{\max}}{T}t -nT \\
      nT - \frac{T}{2} < t \leq nT + \frac{T}{2}
  \end{align*}
  \end{minipage}
@@ -17,7 +17,7 @@ $.}
 \begin{minipage}[c]{.49\linewidth}
  \begin{align*}
      a(t) &= ct \\
-     c &= \frac{2a_{max}}{T} \\
+     c &= \frac{2a_{\max}}{T} \\
      \tilde{w}_k &= \frac{2\pi k}{T}
  \end{align*}
 \end{minipage}
@@ -45,7 +45,7 @@ $.}
 
       $\cos(\tilde{w}_k t)$\\
 
-      \input{fig_tikz/harmonic_cos_w_t.tex}
+    \input{fig_tikz/harmonic_cos_w_t.tex}
 \end{minipage}
 \begin{minipage}[t]{.49\linewidth}
 
@@ -68,8 +68,8 @@ $.}
 \begin{align*}
      \begin{array}{lcl}
         a = \overbrace{B_1\sin(\tilde{w}_1 t)}^{a_1(t)} + \overbrace{B_1\sin(\tilde{w}_2 t)}^{a_2(t)} & \rightsquigarrow & u_p(t) = u_{p1}(t) + u_{p2}(t) \\[1em]
-        B_1 = \cfrac{4a_{max}\cancel{T}}{2\pi\cancel{T}} \qquad \tilde{w}_1 = \cfrac{2\pi}{T} && u_{p1}^{(t)} = u_{C1} \cos(\tilde{w}_k t) + u_{S1} \sin(\tilde{w}_1 t) \\[1em]
-        B_2 = \cfrac{4a_{max}}{4\pi} \qquad \tilde{w}_2 = \cfrac{4\pi}{T}&& \underbrace{u_{p2}^{(t)} = u_{C2} \cos(\tilde{w}_k t) + u_{S2} \sin(\tilde{w}_2 t)} \\
+        B_1 = \cfrac{4a_{\max}\cancel{T}}{2\pi\cancel{T}} \qquad \tilde{w}_1 = \cfrac{2\pi}{T} && u_{p1}^{(t)} = u_{C1} \cos(\tilde{w}_k t) + u_{S1} \sin(\tilde{w}_1 t) \\[1em]
+        B_2 = \cfrac{4a_{\max}}{4\pi} \qquad \tilde{w}_2 = \cfrac{4\pi}{T}&& \underbrace{u_{p2}^{(t)} = u_{C2} \cos(\tilde{w}_k t) + u_{S2} \sin(\tilde{w}_2 t)} \\
         &&\text{Partikuläre Lösung - siehe Übung}\\
         &&\text{harmonisch erregter Einmassenschwinger}
     \end{array}
@@ -107,31 +107,34 @@ $.}
         A_{12}&= - \delta \cos(\omega_1 t) \exp(-\delta t),\\
         A_{21}&= \cos(\omega_1 t) \exp(-\delta t),\\
         A_{22}&= \sin(\omega_1 t) \exp(-\delta t),\\
-        b_{1}&= -u_{C_1} \tilde{\omega_k} \sin(\tilde{\omega_k}t) + u_{S_1} \tilde{\omega_1} \cos(\tilde{\omega_1}t),\\
-        b_{2}&= -u_{C_2} \tilde{\omega_k} \sin(\tilde{\omega_k}t) + u_{S_2} \tilde{\omega_2} \cos(\tilde{\omega_2}t).
+        b_{1}&= -u_{C_1} \tilde{\omega_1} \sin(\tilde{\omega_1}t) + u_{S_1} \tilde{\omega_1} \cos(\tilde{\omega_1}t),\\
+        b_{2}&= -u_{C_2} \tilde{\omega_2} \sin(\tilde{\omega_2}t) + u_{S_2} \tilde{\omega_2} \cos(\tilde{\omega_2}t).
     \end{align*}
 
-    \begin{align*}
-        T_a &= \SI{9}{\second} \\
-        k &=  \SI{10}{\newton \per \second} \\
-        c &= \SI{1}{\newton \second \per \meter} \\
-        a_{C_1} &= 0 \\
-        a_{S_1} &= 1 \\
-        \omega &= \frac{2 \pi}{T_a} &&= 0.698 \\
-        \omega_0 &= \sqrt{\frac{k}{m}} &&= 1.826\\
-        \zeta &= \frac{c}{2 \sqrt{km}} &&= 0.091\\
-        \eta &= \frac{\omega}{\omega_0} &&= 0.382\\
-        V &= \frac{1.0}{\sqrt{(1-\eta^2)^2 - (2 \zeta \eta)^2}} &&= 1.608\\
-        u_{C_1}  &= V^2 ((1-\eta^2) a_{c_1} - 2 \zeta \eta a_{s_1}) &&= -0.095 \\ 
-        u_{S_1} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= 1.163 \\  
-        u_{p_1}(t) &= -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t)\\
-        a_{C_2} &= \SI{0.2}{\meter} \\
-        a_{S_2} &= \SI{0.0}{\meter} \\
-        u_{C_2} &= V^2 ((1-\eta^2) a_{C_2} - 2 \zeta \eta a_{S_2}) &&= 0.442\\
-        u_{S_2} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= -0.036\\
-        u_{p_2}(t) &= 0.442 \cos(1.396t) -0.036 \sin(1.396 t) \\
-    \end{align*}
-
+    \begin{solution}  
+        \begin{align*}
+            t_0 &= \SI{0.5}{\second}\\
+            T_a &= \SI{9}{\second} \\
+            k &=  \SI{10}{\newton \per \second} \\
+            c &= \SI{1}{\newton \second \per \meter} \\
+            a_{C_1} &= 0 \\
+            a_{S_1} &= 1 \\
+            \omega &= \frac{2 \pi}{T_a} &&= 0.698 \\
+            \omega_0 &= \sqrt{\frac{k}{m}} &&= 1.826\\
+            \zeta &= \frac{c}{2 \sqrt{km}} &&= 0.091\\
+            \eta &= \frac{\omega}{\omega_0} &&= 0.382\\
+            V &= \frac{1.0}{\sqrt{(1-\eta^2)^2 - (2 \zeta \eta)^2}} &&= 1.608\\
+            u_{C_1}  &= V^2 ((1-\eta^2) a_{c_1} - 2 \zeta \eta a_{s_1}) &&= -0.095 \\ 
+            u_{S_1} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= 1.163 \\  
+            u_{p_1}(t) &= u_{C_1} \cos(\omega t) + u_{S_1} \sin(\omega t) &&= -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t)\\
+            a_{C_2} &= \SI{0.2}{\meter} \\
+            a_{S_2} &= \SI{0.0}{\meter} \\
+            u_{C_2} &= V^2 ((1-\eta^2) a_{C_2} - 2 \zeta \eta a_{S_2}) &&= 0.442\\
+            u_{S_2} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= -0.036\\
+            u_{p_2}(t) &= u_{C_2} \cos(2\omega t) + u_{S_2} \sin(2\omega t) &&= 0.442 \cos(1.396t) -0.036 \sin(1.396 t) \\
+        \end{align*}
+    \end{solution}
+    
     Aufgelöst nach den gesuchten Koeffizienten lautet dieses Gleichungssystem
     \begin{align*}
     &\begin{bmatrix}
