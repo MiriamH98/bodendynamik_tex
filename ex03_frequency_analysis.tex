@@ -1,5 +1,5 @@
 \question{Berechnen Sie die Antwort des gedämpften Einmassenschwingers aus Aufgabe 2 TODO fix reference
-(letzte Übung) auf das Sägezahnsignal $(T = \SI{1}{\second}, u_{max} = - u_{min} = \SI{0.1}{\meter})$,
+(letzte Übung) auf das Sägezahnsignal $(T = \SI{1}{\second}, u_{\max} = - u_{\min} = \SI{0.1}{\meter})$,
 welches durch eine Fourierreihe bis $N = 2$ approximiert werden soll. Als
 Anfangsbedingungen gelten: $u(-T/2) = \SI{0}{\meter}, \dot{u}(-T/2) = \SI{0}{\meter\per\second}
 $.}
@@ -68,8 +68,8 @@ $.}
 \begin{align*}
      \begin{array}{lcl}
         a = \overbrace{B_1\sin(\tilde{w}_1 t)}^{a_1(t)} + \overbrace{B_1\sin(\tilde{w}_2 t)}^{a_2(t)} & \rightsquigarrow & u_p(t) = u_{p1}(t) + u_{p2}(t) \\[1em]
-        B_1 = \cfrac{4a_{\max}\cancel{T}}{2\pi\cancel{T}} \qquad \tilde{w}_1 = \cfrac{2\pi}{T} && u_{p1}^{(t)} = u_{C1} \cos(\tilde{w}_k t) + u_{S1} \sin(\tilde{w}_1 t) \\[1em]
-        B_2 = \cfrac{4a_{\max}}{4\pi} \qquad \tilde{w}_2 = \cfrac{4\pi}{T}&& \underbrace{u_{p2}^{(t)} = u_{C2} \cos(\tilde{w}_k t) + u_{S2} \sin(\tilde{w}_2 t)} \\
+        B_1 = \cfrac{4a_{\max}\cancel{T}}{2\pi\cancel{T}} \qquad \tilde{w}_1 = \cfrac{2\pi}{T} && u_{p1}^{(t)} = u_{C1} \cos(\tilde{w}_1 t) + u_{S1} \sin(\tilde{w}_1 t) \\[1em]
+        B_2 = \cfrac{4a_{\max}}{4\pi} \qquad \tilde{w}_2 = \cfrac{4\pi}{T}&& \underbrace{u_{p2}^{(t)} = u_{C2} \cos(\tilde{w}_2 t) + u_{S2} \sin(\tilde{w}_2 t)} \\
         &&\text{Partikuläre Lösung - siehe Übung}\\
         &&\text{harmonisch erregter Einmassenschwinger}
     \end{array}
@@ -123,7 +123,7 @@ $.}
             \omega_0 &= \sqrt{\frac{k}{m}} &&= 1.826\\
             \zeta &= \frac{c}{2 \sqrt{km}} &&= 0.091\\
             \eta &= \frac{\omega}{\omega_0} &&= 0.382\\
-            V &= \frac{1.0}{\sqrt{(1-\eta^2)^2 - (2 \zeta \eta)^2}} &&= 1.608\\
+            V &= \frac{1.0}{\sqrt{{(1-\eta^2)}^2 - {(2 \zeta \eta)}^2}} &&= 1.608\\
             u_{C_1}  &= V^2 ((1-\eta^2) a_{c_1} - 2 \zeta \eta a_{s_1}) &&= -0.095 \\ 
             u_{S_1} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= 1.163 \\  
             u_{p_1}(t) &= u_{C_1} \cos(\omega t) + u_{S_1} \sin(\omega t) &&= -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t)\\
@@ -132,28 +132,44 @@ $.}
             u_{C_2} &= V^2 ((1-\eta^2) a_{C_2} - 2 \zeta \eta a_{S_2}) &&= 0.442\\
             u_{S_2} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &&= -0.036\\
             u_{p_2}(t) &= u_{C_2} \cos(2\omega t) + u_{S_2} \sin(2\omega t) &&= 0.442 \cos(1.396t) -0.036 \sin(1.396 t) \\
+            \omega_1 &= \omega_0 \cdot \sqrt{1 - \zeta^2} &&= 1.818\\
+            &\text{aus Aufgabe 4:} \\
+            \delta &= 1.01 \% &&= 0.0101\\
         \end{align*}
     \end{solution}
     
     Aufgelöst nach den gesuchten Koeffizienten lautet dieses Gleichungssystem
     \begin{align*}
+        &\begin{bmatrix}
+            C_1 \\
+            C_2
+        \end{bmatrix}
+        = \cfrac{1}{A_{11}A_{22}-A_{12}A_{21}}
+        \begin{bmatrix}
+            A_{22} & -A_{12}\\
+            -A_{21} & A_{11}
+        \end{bmatrix}
+        \begin{bmatrix}
+            b_1 \\
+            b_2
+        \end{bmatrix}\\
+        &A_{11} = -1.427, A_{12} = -6.176 \cdot 10^{-3}, b_1 = 0.786, \\
+        &A_{21} = 0.611, A_{22} = 0.785, b_2 = -0.435, \\
+    \end{align*}
+
     &\begin{bmatrix}
-    C_1 \\
-    C_2
+        C_1 \\
+        C_2
     \end{bmatrix}
-    = \cfrac{1}{A_{11}A_{22}-A_{12}A_{21}}
-    \begin{bmatrix}
-     A_{22} & -A_{12}\\
-     -A_{21} & A_{11}
+    =
+    &\begin{bmatrix}
+        -0.784 \\
+        0.053
     \end{bmatrix}
-    \begin{bmatrix}
-     b_1 \\
-     b_2
-    \end{bmatrix}\\
- \end{align*}
- Als Gesamtlösung folgt
- \begin{equation*}
- u(t)=TODO Loesung in gegebenen Groessen.  
- \end{equation*}
+
+    Als Gesamtlösung folgt
+    \begin{equation*}
+        u(t)= -0.784 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.053 \sin(1.818 t) \exp(-0.0101 t) + u_p(t)
+    \end{equation*}
 
 \end{solution}
