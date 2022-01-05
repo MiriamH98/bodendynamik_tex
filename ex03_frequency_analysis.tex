@@ -1,17 +1,17 @@
-\question{Berechnen Sie die Antwort des gedämpften Einmassenschwingers aus Aufgabe 2 TODO fix reference
-(letzte Übung) auf das Sägezahnsignal $(T = \SI{1}{\second}, u_{\max} = - u_{\min} = \SI{0.1}{\meter})$,
+\question{Berechnen Sie die Antwort des gedämpften Einmassenschwingers aus Aufgabe~\ref{question_harmonic_oscillator} auf das Sägezahnsignal $(T = \SI{1}{\second}, u_{\max} = - u_{\min} = \SI{0.1}{\meter})$,
 welches durch eine Fourierreihe bis $N = 2$ approximiert werden soll. Als
 Anfangsbedingungen gelten: $u(-T/2) = \SI{0}{\meter}, \dot{u}(-T/2) = \SI{0}{\meter\per\second}
 $.}
 
-\begin{minipage}[c]{.49\linewidth}
- \begin{align*}
-     a(t) = \frac{2a_{\max}}{T}t -nT \\
+\begin{tabular}{cc}
+ \input{fig_tikz/sawtooth.tex} 
+ &
+     $\begin{array}{l}
+     a(t) = \frac{2a_{\max}}{T}t -nT\\[2mm]
      nT - \frac{T}{2} < t \leq nT + \frac{T}{2}
- \end{align*}
- \end{minipage}
+     \end{array}$
+\end{tabular}   
      
-     \input{fig_tikz/sawtooth.tex}
 
 \begin{solution}
 \begin{minipage}[c]{.49\linewidth}
@@ -22,8 +22,6 @@ $.}
  \end{align*}
 \end{minipage}
 
- \textbf{\raggedright Darstellung der Anregung als Fourierreihe ($N=2$)}
-
 \vspace{1em}
 
 \begin{align*}
@@ -32,7 +30,7 @@ $.}
     \int x \cos(ax) \dd{x} &= \frac{\cos(ax) + x \sin(ax)}{a}
 \end{align*}
 
-\dotfill
+a) Darstellung der Anregung als Fourierreihe ($N=2$)
 
 \begin{align*}
     A_0 &=  \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} a(t)\dd{t} = \frac{2}{T} \int\limits_{-\frac{T}{2}}^{\frac{T}{2}} ct \dd{t} = \frac{2}{T} \,\Big|\, \frac{c}{2}t^2\,\Big|_{t = -\frac{T}{2}}^{\frac{T}{2}} = \uuline{0}\\
@@ -75,7 +73,7 @@ $.}
     \end{array}
 \end{align*}\\[2em]
 
-\textbf{Anpassung der Gesamtlösung an die Anfangsbedingungen}
+b) Anpassung der Gesamtlösung an die Anfangsbedingungen
     
     Die Gesamtlösung setzt sich additiv aus der Lösung der homogenen Gleichung und der bereits bestimmten Partikulärlösung zusammen
     \begin{align*}
@@ -106,8 +104,10 @@ $.}
         \begin{bmatrix}
         b_1 \\
         b_2
-        \end{bmatrix} \\
-        \intertext{mit}
+        \end{bmatrix} 
+        \end{align*}
+        mit den Koeffizienten $A_{ij}$ und der rechten Seite $b_i$
+        \begin{align*}
             A_{11}&= -\omega_1 \sin(\omega_1 t) \exp(-\delta t),\\
             A_{12}&= - \delta \cos(\omega_1 t) \exp(-\delta t),\\
             A_{21}&= \cos(\omega_1 t) \exp(-\delta t),\\
@@ -115,9 +115,8 @@ $.}
             b_{1}&= -u_{C_1} \tilde{\omega_1} \sin(\tilde{\omega_1}t) + u_{S_1} \tilde{\omega_1} \cos(\tilde{\omega_1}t),\\
             b_{2}&= -u_{C_2} \tilde{\omega_2} \sin(\tilde{\omega_2}t) + u_{S_2} \tilde{\omega_2} \cos(\tilde{\omega_2}t).
     \end{align*}
-
-  \begin{solution}  
-        \begin{align*}
+    Es ergeben sich die folgenden Zahlenwerte
+            \begin{align*}
             t_0 &= \SI{0.5}{\second}\\
             T_a &= \SI{9}{\second} \\
             k &=  \SI{10}{\newton \per \second} \\
@@ -138,11 +137,10 @@ $.}
             u_{S_2} &= V^2 ((1-\eta^2) a_{s_1} - 2 \zeta \eta a_{c_1}) &= -0.036\\
             u_{p_2}(t) &= u_{C_2} \cos(2\omega t) + u_{S_2} \sin(2\omega t) &= 0.442 \cos(1.396t) -0.036 \sin(1.396 t) \\
             \omega_1 &= \omega_0 \cdot \sqrt{1 - \zeta^2} &= 1.818\\
-            \intertext{aus Aufgabe 4:} \\
+            \intertext{aus Aufgabe\ref{question_harmonic_oscillator}} \\
             \delta &= 1.01 \% &= 0.0101\\
         \end{align*}
-    
-    Aufgelöst nach den gesuchten Koeffizienten lautet dieses Gleichungssystem
+            Aufgelöst nach den gesuchten Koeffizienten lautet dieses Gleichungssystem
     \begin{align*}
         &\begin{bmatrix}
             C_1 \\
@@ -157,38 +155,32 @@ $.}
             b_1 \\
             b_2
         \end{bmatrix}
-
-        &\begin{tasks} (2)
-            \task[] A_{11} = -1.427
-            \task[] A_{12} = -0.006
-            \task[] A_{21} = 0.611
-            \task[] A_{22} = 0.785
-            \task[] b_1 = 0.786
-            \task[] b_2 = -0.435
-        \end{tasks}
-
-        &\begin{bmatrix}
+        \end{align*}
+            $A_{11} = -1.427$,
+            $A_{12} = -0.006$,
+            $A_{21} = 0.611$,
+            $A_{22} = 0.785$,
+            $b_1 = 0.786$,
+            $b_2 = -0.435$.
+    \begin{align*}
+        \begin{bmatrix}
             C_1 \\
             C_2
         \end{bmatrix}
-        = \cfrac{1}{-1.427 * 0.785 + 0.006 * 0.611}
-
+        = \cfrac{1}{-1.427 \cdot 0.785 + 0.006 \cdot 0.611}
         \begin{bmatrix}
             0.785 & 0.006 \\
             0.611 & -1.427
         \end{bmatrix}
-
         \begin{bmatrix}
             -0.550 \\
             0.438
-        \end{bmatrix}
-          
+        \end{bmatrix}          
     \end{align*}
-
-    Als Gesamtlösung folgt
-    \begin{equation*}
-        u(t) = -0.550 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.438 \sin(1.818 t) \exp(-0.0101 t) + u_p(t) \\
-        u_p(t) = u_{p_1}(t) + u_{p_2}(t) = -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t) + 0.442 \cos(1.396t) -0.036 \sin(1.396 t)
-    \end{equation*}
-
+        Als Gesamtlösung folgt
+    \begin{align*}
+        u(t) &= -0.550 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.438 \sin(1.818 t) \exp(-0.0101 t) + u_p(t) \\
+        u_p(t) &= u_{p_1}(t) + u_{p_2}(t) \\
+        & = -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t) + 0.442 \cos(1.396t) -0.036 \sin(1.396 t)
+    \end{align*}
 \end{solution}
