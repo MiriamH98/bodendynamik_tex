@@ -80,35 +80,40 @@ $.}
     Die Gesamtlösung setzt sich additiv aus der Lösung der homogenen Gleichung und der bereits bestimmten Partikulärlösung zusammen
     \begin{align*}
         u(t) &= C_1\cos(\omega_1 t)e^{-\delta t} + C_2 \sin(\omega_1 t)e^{-\delta t} + u_p(t),\\
-        \dot{u}(t) &= -C_1 \exp(-\delta t) \cdot (\omega_1 \sin(\omega_1 t) + \delta \cos(\omega_1 t)) + C_2 \exp(-\delta t) \cdot (\cos(\omega_1 t) + \sin(\omega_1 t)) + \dot{u_p}(t).
+        \dot{u}(t) &= -C_1 \exp(-\delta t) \cdot (\omega_1 \sin(\omega_1 t) + \delta \cos(\omega_1 t)) \\ 
+        &+ C_2 \exp(-\delta t) \cdot (\cos(\omega_1 t) + \sin(\omega_1 t)) + \dot{u_p}(t).\\
     \end{align*}
+
     Mit den Anfangsbedingungen
+
     \begin{align*}
         u(t_0) &= u_0 \\
         \dot{u}(t_0) &= \dot{u}_0
     \end{align*}
+
     liegen zwei Gleichungen mit zwei Unbekannten vor
+
     \begin{align*}
-    \begin{bmatrix}
-        A_{11} & A_{12}\\
-        A_{21} & A_{22}
-    \end{bmatrix}
-    \begin{bmatrix}
-        C_1 \\
-        C_2
-    \end{bmatrix}
-    &=
-    \begin{bmatrix}
-    b_1 \\
-    b_2
-    \end{bmatrix} \\
-    \intertext{mit}
-        A_{11}&= -\omega_1 \sin(\omega_1 t) \exp(-\delta t),\\
-        A_{12}&= - \delta \cos(\omega_1 t) \exp(-\delta t),\\
-        A_{21}&= \cos(\omega_1 t) \exp(-\delta t),\\
-        A_{22}&= \sin(\omega_1 t) \exp(-\delta t),\\
-        b_{1}&= -u_{C_1} \tilde{\omega_1} \sin(\tilde{\omega_1}t) + u_{S_1} \tilde{\omega_1} \cos(\tilde{\omega_1}t),\\
-        b_{2}&= -u_{C_2} \tilde{\omega_2} \sin(\tilde{\omega_2}t) + u_{S_2} \tilde{\omega_2} \cos(\tilde{\omega_2}t).
+        \begin{bmatrix}
+            A_{11} & A_{12}\\
+            A_{21} & A_{22}
+        \end{bmatrix}
+        \begin{bmatrix}
+            C_1 \\
+            C_2
+        \end{bmatrix}
+        &=
+        \begin{bmatrix}
+        b_1 \\
+        b_2
+        \end{bmatrix} \\
+        \intertext{mit}
+            A_{11}&= -\omega_1 \sin(\omega_1 t) \exp(-\delta t),\\
+            A_{12}&= - \delta \cos(\omega_1 t) \exp(-\delta t),\\
+            A_{21}&= \cos(\omega_1 t) \exp(-\delta t),\\
+            A_{22}&= \sin(\omega_1 t) \exp(-\delta t),\\
+            b_{1}&= -u_{C_1} \tilde{\omega_1} \sin(\tilde{\omega_1}t) + u_{S_1} \tilde{\omega_1} \cos(\tilde{\omega_1}t),\\
+            b_{2}&= -u_{C_2} \tilde{\omega_2} \sin(\tilde{\omega_2}t) + u_{S_2} \tilde{\omega_2} \cos(\tilde{\omega_2}t).
     \end{align*}
 
     \begin{solution}  
@@ -153,23 +158,25 @@ $.}
             b_1 \\
             b_2
         \end{bmatrix}\\
-        &A_{11} = -1.427, A_{12} = -6.176 \cdot 10^{-3}, b_1 = 0.786, \\
-        &A_{21} = 0.611, A_{22} = 0.785, b_2 = -0.435, \\
+        A_{11} = -1.427, A_{12} = -0.006 \\
+        A_{21} = 0.611, A_{22} = 0.785 \\
+        b_1 = 0.786 \\
+        b_2 = -0.435\\
+        &\begin{bmatrix}
+            C_1 \\
+            C_2
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            -0.784 \\
+            0.053
+        \end{bmatrix}   
     \end{align*}
-
-    &\begin{bmatrix}
-        C_1 \\
-        C_2
-    \end{bmatrix}
-    =
-    &\begin{bmatrix}
-        -0.784 \\
-        0.053
-    \end{bmatrix}
 
     Als Gesamtlösung folgt
     \begin{equation*}
-        u(t)= -0.784 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.053 \sin(1.818 t) \exp(-0.0101 t) + u_p(t)
+        u(t) = -0.784 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.053 \sin(1.818 t) \exp(-0.0101 t) + u_p(t) \\
+        u_p(t) = u_{p_1}(t) + u_{p_2}(t) = -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t) + 0.442 \cos(1.396t) -0.036 \sin(1.396 t)
     \end{equation*}
 
 \end{solution}
