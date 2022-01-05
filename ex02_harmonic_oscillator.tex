@@ -1,3 +1,5 @@
+\begin{questions}
+
 \question{Erzwungene, ungedämpfte Schwingung}
 \vspace{1em}
 
@@ -5,22 +7,22 @@
 
     \begin{minipage}[t]{.49\linewidth}
     geg.:
-    \begin{tasks}(2)
-        \task[] $m = \SI{3}{\kilo\gram}$
-        \task[] $k = \SI{10}{\newton\per\meter}$
-        \task[] $F(t) = \hat{F} \sin{\omega t}$
-        \task[] $\hat{F} = \SI{5}{\newton}$
-        \task[] $\omega = \SI{10}{\radian\per\second}$
-        \task[] $t=\SI{0}{\second}$
-        \task[] $u_0 = \SI{0.1}{m}$
-        \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
-    \end{tasks}
+        \begin{tasks} (2)
+            \task[] $m = \SI{3}{\kilo\gram}$
+            \task[] $k = \SI{10}{\newton\per\meter}$
+            \task[] $F(t) = \hat{F} \sin{\omega t}$
+            \task[] $\hat{F} = \SI{5}{\newton}$
+            \task[] $\omega = \SI{10}{\radian\per\second}$
+            \task[] $t=\SI{0}{\second}$
+            \task[] $u_0 = \SI{0.1}{m}$
+            \task[] $\dot{u}_0 = \SI{0}{\meter\per\second}$
+        \end{tasks}
     \end{minipage}
     \begin{minipage}[t]{.49\linewidth}
-    ges.:
-    \begin{tasks}
-        \task $u(t)$
-    \end{tasks}
+        ges.:
+        \begin{tasks}
+            \task[] $u(t)$
+        \end{tasks}
     \end{minipage}
 
     \begin{solution}
@@ -45,10 +47,10 @@
 
         \begin{equation*}
             \begin{split}
-                u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)}
+                u(t) = \SI{0.1}{\meter} \cos{(\SI{1.826}{\radian\per\second} t)} +\SI{0.0944}{\meter} \sin{((\SI{1.826}{\radian\per\second} t))} \\ - \SI{0.0172}{\meter}\sin{(\SI{10}{\radian\per\second} t)} \\
             \end{split}
         \end{equation*}
-            \fbox{\textbf{Anmerkung:} Das Einschwingen dauert im  ungedämpften Fall unendlich lang.}
+        \fbox{\textbf{Anmerkung:} Das Einschwingen dauert im  ungedämpften Fall unendlich lang.}
     \end{solution}
     
 %%%%%%%%% Übungsaufgabe 2 %%%%%%%%%
@@ -110,9 +112,9 @@
         geg.:
         \begin{tasks} (1)
            \task[] $m = \SI{3}{\kilo\gram}$
-           \task[] $u(t_{max1}) = \SI{0.10}{\meter}$
-           \task[] $u(t_{max2}) = \SI{0.08}{\meter}$
-           \task[] $T_{id} = t_{max2}-t_{max1} = 1$
+           \task[] $u(t_{\max1}) = \SI{0.10}{\meter}$
+           \task[] $u(t_{\max2}) = \SI{0.08}{\meter}$
+           \task[] $T_{id} = t_{\max2}-t_{\max1} = 1$
            \task[] $N = 1$
         \end{tasks}
         \end{minipage}
@@ -124,7 +126,7 @@
     \end{minipage}\\
     \vspace{1cm}
 
-    \fbox{\underline{Hinweis:} Nutzen Sie das logarithmische Dekrement $\Lambda = \log \frac{u(t_{max1})}{u(t_{max2})}$ als Zwischenergebnis.}
+    \fbox{\underline{Hinweis:} Nutzen Sie das logarithmische Dekrement $\Lambda = \log \frac{u(t_{\max1})}{u(t_{\max2})}$ als Zwischenergebnis.}
 
     \begin{solution}
         \begin{alignat*}{2}
@@ -150,8 +152,8 @@
             \task[] $0 < \zeta < 1$
             \task[] $\zeta_{gemessen} = 0.1$
         \end{tasks}
-        \end{minipage}
-        \begin{minipage}[t]{.49\linewidth}
+    \end{minipage}
+    \begin{minipage}[t]{.49\linewidth}
         ges.:
         \begin{tasks}
             \task$k$
@@ -159,14 +161,41 @@
     \end{minipage}\\
     \vspace{1cm}
 
+<<<<<<< HEAD
+\vspace{1cm}
+
 \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
+hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
+Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
+
+    \begin{solution}
+        \begin{alignat*}{2}
+    %      &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
+    %      &k_{ungedämpft} = m \cdot \omega_{measured}^2 &&= \SI{300000}{\newton \per \meter} \\
+    %      &\text{gedämpfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
+    %      &\omega_{gedämpft} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+    %      &k_{gedämpft} = m \cdot \omega_{gedämpft}^2 &&= \SI{303030}{\newton \per \meter}\\
+    %      &\Delta = 100 \cdot \frac{|k_{gedämpft} - k_{ungedämpft}|}{k_{ungedämpft}} &&= 1.01 \%\\
+    %      &\text{maximale Antwortamplitude bei der Anregungsfrequenz  } \omega_{MA} = \omega_0 \sqrt{1-2 \zeta^2} \\
+    %      &\omega_{MA} = \frac{\omega_{measured}}{\sqrt{1-\zeta_{measured}^2}} &&= \\
+    %      &k_{MA} = m \cdot \omega_{MA}^2 &&= \SI{306122}{\newton \per \meter}\\
+            &\Delta = 100 \cdot \frac{|k_{MA} - k_\mathrm{ungedaempft}|}{k_{ungedaempft}} &&= 2.04 \% \\ 
+        \end{alignat*}
+    \end{solution}
+
+
+    \underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+=======
+\underline{Zusatzfrage:} Je nach Messprinzip, wird entweder die ungedämpfte
+>>>>>>> dfcf2d9f4d8e7bf2f092fd241a3dbdcdf0f9c51e
     Eigenfrequenz, die gedämpfte Eigenfrequenz oder die maximale Anwortamplitude
     hervorrufende Anregungsfrequenz direkt erfasst. Wie groß ist für $\zeta = 0.1$ der
     Fehler bei der Schätzung von $k$, wenn man diese Frequenzen gleichsetzt?
 
     \begin{solution}
         \begin{alignat*}{2}
-            &\text{ungedämpfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
+            &\text{ungedaempfte Eigenkreisfrequenz  } \omega_0 = \sqrt{\frac{k}{m}} \\
             &k_{ungedaempft} = m \cdot \omega_{gemessen}^2 &&= \SI{300.000}{\newton \per \meter} \\
             &\text{gedaempfte Eigenfrequenz  } \omega_1 = \omega_0 \sqrt{1-\zeta^2} \\
             &\omega_{gedaempft} = \frac{\omega_{gemessen}}{\sqrt{1-\zeta_{gemessen}^2}} &&= 10.05\\
@@ -179,3 +208,4 @@
         \end{alignat*}
     \end{solution}
 
+\end{questions}

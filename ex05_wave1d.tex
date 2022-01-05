@@ -15,11 +15,19 @@
 
 \input{fig_tikz/semi_inf_rod.tex}
 
-Am Anfang $(t=0)$ ist er undeformiert und in Ruhe. Lösen Sie diese Aufgabe, indem Sie auf dem gedanklich über den Rand verlängerten Stab eine nach rechts laufende Welle annehmen, welche genau die vorgegebene Randbewegung erzeugt. Interpretieren Sie die Parameter dieses Verlaufs physikalisch, Stichwort "Wellenlänge".
+Am Anfang $(t=0)$ ist er undeformiert und in Ruhe. Lösen Sie diese Aufgabe, indem Sie auf dem gedanklich über den Rand verlängerten Stab eine nach rechts laufende Welle annehmen, welche genau die vorgegebene Randbewegung erzeugt. Interpretieren Sie die Parameter dieses Verlaufs physikalisch, Stichwort ``Wellenlänge".
 }
 
 \begin{solution}
-\flushleft HIER BITTE NOCH LÖSUNG NACHTRAGEN
+    
+    \begin{align*}
+        \intertext{Aus dem D'alembertschen Wellenansatz mit $t = 0$}
+        &w_0(z) = \Psi(z) + \Phi(z)
+        &\dot{w_0}(z) = c\Psi^{'}(z)-c\Psi^{'}(z)
+        \intertext{folgt:}
+        &\Psi(z) = C_1 \cos(\kappa z) + C_2 \sin(\kappa z)
+        &\Phi(z) = R_1 \cos(\kappa z) + R_2 \sin(\kappa z)
+    \end{align*}
 \end{solution}
 
 \question{Berechnen Sie das Reflektionsverhalten diskreter Elemente am Rand: Feder, Dämpfer und Masse.
@@ -36,14 +44,35 @@ Nehmen Sie dazu eine einfallende nach links laufende Welle $w_{ein}(z,t) = C_1 \
 }\\[2em]
 
 \fbox{Hinweis ($z=0$):}
-\begin{tasks}(3)
-    \task[] $kw = EAw''$
-    \task[] $c\dot w = EAw'$
-    \task[] $m\ddot w = EAw'$
+\begin{tasks} (3)
+    \task[] $kw = EAw'$
+    \task[] $c\dot w = (EA)w'$
+    \task[] $m\ddot w = (EA)w'$
     \task[] Feder-RB
     \task[] Dämpfer-RB
     \task[] Masse-RB
 \end{tasks}
+
+\fbox{Hinweis: Der Punkt steht für die Ableitung nacht, der Apostroph für die Ableitung nach z}
+
+\begin{solution}
+    \begin{align*}
+        \intertext{Für Federn gilt:}
+        &0 = kw - EA  w^{'}
+        &R_1 = \frac{C_1 {(EA)}^2 \kappa^2 - C_1 k^2 + 2C_2 (EA) k \kappa}{{(EA)}^2 \kappa^2 + k^2}
+        &R_2 = \frac{2C_1 (EA) k \kappa - C_2 {(EA)}^2 \kappa^2 + C_2 k^2}{{(EA)}^2 \kappa^2 + k^2}
+
+        \intertext{Für Dämpfer gilt:}
+        &0= c \dot{w} - EA  w^{'}
+        &R_1 = \frac{C_1 (EA) \kappa - C_1 c w}{(EA) \kappa + cw}
+        &R_2 = \frac{-C_2 (EA) \kappa + C_2 cw}{(EA) \kappa + cw}
+
+        \intertext{Für die masse gilt:}
+        &0 = m \ddot{w} - (EA) w^{'}
+        &R_1 = \frac{C_1 {(EA)}^2 \kappa^2 - C_1 m^2 \omega^4 - 2C_2 (EA) \kappa m \omega^2}{{(EA)}^2 \kappa + m^2 \omega^4}
+        &R_2 = \frac{-2C_1 (EA) \kappa m \omega^2 - C_2 {(EA)}^2 \kappa^2 + C_2 m^2 \omega^4}{{(EA)}^2 \kappa + m^2 \omega^4}
+    \end{align*}
+\end{solution}
 
 \question{Resonant Column}
 
