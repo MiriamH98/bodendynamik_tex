@@ -157,25 +157,38 @@ $.}
         \begin{bmatrix}
             b_1 \\
             b_2
-        \end{bmatrix}\\
-        A_{11} = -1.427, A_{12} = -0.006 \\
-        A_{21} = 0.611, A_{22} = 0.785 \\
-        b_1 = 0.786 \\
-        b_2 = -0.435\\
+        \end{bmatrix}
+
+        &\begin{tasks} (2)
+            \task[] A_{11} = -1.427
+            \task[] A_{12} = -0.006
+            \task[] A_{21} = 0.611
+            \task[] A_{22} = 0.785
+            \task[] b_1 = 0.786
+            \task[] b_2 = -0.435
+        \end{tasks}
+
         &\begin{bmatrix}
             C_1 \\
             C_2
         \end{bmatrix}
-        =
+        = \cfrac{1}{-1.427 * 0.785 + 0.006 * 0.611}
+
         \begin{bmatrix}
-            -0.784 \\
-            0.053
-        \end{bmatrix}   
+            0.785 & 0.006 \\
+            0.611 & -1.427
+        \end{bmatrix}
+
+        \begin{bmatrix}
+            -0.550 \\
+            0.438
+        \end{bmatrix}
+          
     \end{align*}
 
     Als Gesamtlösung folgt
     \begin{equation*}
-        u(t) = -0.784 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.053 \sin(1.818 t) \exp(-0.0101 t) + u_p(t) \\
+        u(t) = -0.550 \cos{1.818 t} \cdot \exp(-0.0101 t) + 0.438 \sin(1.818 t) \exp(-0.0101 t) + u_p(t) \\
         u_p(t) = u_{p_1}(t) + u_{p_2}(t) = -0.095 \cos(0.698 t) + 1.163 \sin(0.698 t) + 0.442 \cos(1.396t) -0.036 \sin(1.396 t)
     \end{equation*}
 
