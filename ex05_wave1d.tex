@@ -53,10 +53,28 @@ Nehmen Sie dazu eine einfallende nach links laufende Welle $w_{ein}(z,t) = C_1 \
     \task[] Masse-RB
 \end{tasks}
 
-\fbox{Hinweis: Der Punkt steht für die Ableitung nach der Zeit $t$, der Apostroph für die Ableitung nach der räumlichen Koordinate $z$.}
+\fbox{
+    \begin{minipage}[t]{\textwidth}
+        Hinweis: Der Punkt steht für die Ableitung nach der Zeit $t$, \\der Apostroph für die Ableitung nach der räumlichen Koordinate $z$.
+    \end{minipage}}
 
 \begin{solution}
-    
+        \intertext{Ableitungen der Funktion $w$:}
+        \begin{align*}
+            \dot{w} &= -C_1 \omega \sin(\kappa z + \omega t) + C_2 \omega \cos(\kappa z + \omega t) \\
+                    & R_1 \omega \sin(\kappa z - \omega t) - R_2 \omega \cos(\kappa z - \omega t) \\
+            ddot{w} &= - C_1 \omega^2 \cos(\kappa z + \omega t) - C_2 \omega^2 \sin(\kappa z + \omega t) \\
+                    & -R_1 \omega^2 \cos(\kappa z - \omega t) - R_2 \omega^2 \sin(\kappa z - \omega t) \\
+            w^{'} &= -C_1 \kappa \sin(\kappa z + \omega t) + C_2 \kappa \cos(\kappa z + \omega t) \\
+                  & -R_1 \kappa \sin(\kappa z - \omega t) + R_2 \kappa \cos(\kappa z - \omega t)
+        \end{align*}
+
+        Schrittweise Berechnung der Reflektion: \\
+        1\) Anfangsbedingung: $z=0$ \\
+        2\) Ausklammern der Sinus- und Cosinus-Ausdrücke (am besten in Matrixform)\\
+        3\) Aus den erhaltenen Koeffizienten der Sinus- und Cosinusfunktionen kann nun nach $R_1$ und $R_2$ umgestellt werden.
+            Dabei ergibt sich $R_1$ aus den Koeffizienten des Kosinus und $R_2$ aus den Sinuskoeffizienten.\\
+
         Feder:
         \begin{align*}
         0 &= kw - EA  w^{'}\\
