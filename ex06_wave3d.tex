@@ -1,19 +1,21 @@
 \question{Wellenreflektion} 
+
+
 \input{fig_tikz/wave3d_freeBC}
 
 In einem linear elastischen, isotropen Kontinuum Elastizitätsmodul $E$ und Querkontraktionszahl $\nu$ trifft eine ebene P-Welle
 \begin{equation*}
     \mathbf{u}_1(\mathbf{r},t)=\mathbf{n}_1 A_1 \cos\bigl(\kappa_1 (\mathbf{n}_1\cdot \mathbf{r}-c_\mathrm{P}t)\bigr) 
     \quad \text{mit} \quad
-    \mathbf{u}=[u_1,v_1,w_1]^\mathrm{T}
+    \mathbf{u}={[u_1,v_1,w_1]}^\mathrm{T}
     \quad \text{und} \quad
-    \mathbf{r}=[x,y,z]^\mathrm{T}
+    \mathbf{r}={[x,y,z]}^\mathrm{T}
 \end{equation*}
 auf einen freien Rand. Die entsprechende Randbedingung lautet
 \begin{equation*}
     \sigma_{xy}(\mathbf{r}_\mathrm{R},t) = \sigma_{yy}(\mathbf{r}_\mathrm{R},t) = 0
     \quad \text{mit} \quad
-    \mathbf{r}_\mathrm{R}=[x,0,z]^\mathrm{T}. 
+    \mathbf{r}_\mathrm{R}={ [x,0,z] }^\mathrm{T}. 
 \end{equation*}
 Die Ausbreitungsrichtung $\mathbf{n}_1=[\sin\alpha_1, \cos\alpha_1, 0]^\mathrm{T}$, Amplitude $A_1$ und Wellenzahl $\kappa_1$ der einfallenden Welle sind vorgegeben.
 Gesucht sind die Darstellungen der reflektierten Wellen
@@ -23,24 +25,19 @@ Gesucht sind die Darstellungen der reflektierten Wellen
     \mathbf{n}_2=[\sin\alpha_2,\, -\cos\alpha_2,\, 0]^\mathrm{T}, \\
     \mathbf{u}_3(\mathbf{r},t) &= \mathbf{e}_z\times\mathbf{n}_3 A_3 \cos\bigl(\kappa_3 (\mathbf{n}_3\cdot \mathbf{r}-c_\mathrm{S}t)\bigr)
     \quad \text{mit} \quad 
-    \mathbf{n}_3=[\sin\beta,\, -\cos\beta,\, 0]^\mathrm{T}
-    \quad \text{und} \quad
-    \mathbf{e}_z=[0,0,1]^\mathrm{T}.
+    \mathbf{n}_3=[\sin\beta,\, -\cos\beta,\, 0]^\mathrm{T} \\
+    &\text{und} \quad
+    \mathbf{e}_z={[0,0,1]}^\mathrm{T}.
 \end{align*}
 
- geg/ges.: TODO siehe V06aufgabe.pdf (handschriftlich), vormals V07aufgabe.pdf
 
-\begin{minipage}[t]{\textwidth}
+\begin{minipage}[t]{\linewidth}
     geg.:
-    \begin{tasks} (2)
+    \begin{tasks}
         \task[] elastisches Kontinuum:
-        \task[] %Platzhalter für Struktur im Dokument
-        \task[] $\Lambda = \frac{E v}{(1-2v)(1+v)}$
-        \task[] $\mu = \frac{E}{2(1+v)}$
+        \task[] $\Lambda = \frac{E v}{(1-2v)(1+v)}$ \qquad $\mu = \frac{E}{2(1+v)}$ 
         \task[] einfallende P-Welle:
-        \task[] %Platzhalter
-        \task[] $w_1 = A_1 n_1 \exp(i \kappa_1(n_1 r-c_p t))$ 
-        \task[] mit: $n_1 = 
+        \task[] $w_1 = A_1 n_1 \exp(i \ \kappa_1(n_1 r-c_p t))$ \qquad \text{mit:} $n_1 = 
                 \begin{bmatrix}
                     \sin(\alpha_1) \\
                     \cos(\alpha_1) \\
@@ -49,15 +46,14 @@ Gesucht sind die Darstellungen der reflektierten Wellen
                     x \\ y \\ 0
                 \end{bmatrix}$
         \task[] spannungsfreier Rand $y = 0$:
-        \task[] %Platzhalter
         \task[] $\sigma_{xy} (x,0,z,t) = \sigma_{yy} (x,0,z,t) = 0$
     \end{tasks}
 \end{minipage}
 
-\begin{minipage}[t]{.49\linewidth}
+\begin{minipage}[t]{\linewidth}
     ges.:
     \begin{tasks}
-
+        \task[] Test
     \end{tasks}
 \end{minipage}
 
@@ -72,9 +68,9 @@ Gesucht sind die Darstellungen der reflektierten Wellen
     komplexe Darstellung der Wellenausbreitung aller drei Wellen:
 
     \begin{align*}
-        &P_{in_{complex}} = \hat{A_{P_{in}}} \exp(\phi_{P_{in}}) \\
-        &P_{ref_{complex}} = \hat{A_{P_{ref}}} \exp(\phi_{P_{ref}}) \\
-        &S_{ref_{complex}} = \hat{A_{S_{ref}}} \exp(\phi_{S_{ref}})
+        &P_{in_{complex}} = \hat{A}_{P_{in}} \exp(\phi_{P_{in}}) \\
+        &P_{ref_{complex}} = \hat{A}_{P_{ref}} \exp(\phi_{P_{ref}}) \\
+        &S_{ref_{complex}} = \hat{A}_{S_{ref}} \exp(\phi_{S_{ref}})
     \end{align*}
 
     Verschiebungen in Richtung (x,y):
@@ -104,14 +100,14 @@ Gesucht sind die Darstellungen der reflektierten Wellen
     Auswertungen der Spannungen am Rand:
 
     \begin{align*}
-        &\sigma_{xy_{Rand}} &&= \frac{\sigma_{xy_{Pin}} \exp(-\phi_{P_{in}})}{i} + \frac{\sigma_{xy_{Pref}} \exp(-\phi_{P_{ref}})}{i}
+        \sigma_{xy_{Rand}} &= \frac{\sigma_{xy_{Pin}} \exp(-\phi_{P_{in}})}{i} + \frac{\sigma_{xy_{Pref}} \exp(-\phi_{P_{ref}})}{i}
                             + \frac{\sigma_{xy_{Sref}} \exp(-\phi_{S_{ref}})}{i} \\
-                            &&= \mu (\hat{A_{P_{in}}} \kappa_P \sin(2\alpha) - \hat{A_{P_{ref}}} \kappa_P \sin(2 \alpha) 
-                            - \hat{A_{S_{ref}}} \kappa_S \cos(2\beta))\\
-        &\sigma_{yy_{Rand}} &&= \frac{\sigma_{yy_{Pin}} \exp(-\phi_{P_{in}})}{i} + \frac{\sigma_{yy_{Pref}} \exp(-\phi_{P_{ref}})}{i}
+                           &= \mu (\hat{A}_{P_{in}} \kappa_P \sin(2\alpha) - \hat{A}_{P_{ref}} \kappa_P \sin(2 \alpha) 
+                            - \hat{A}_{S_{ref}} \kappa_S \cos(2\beta))\\
+        \sigma_{yy_{Rand}} &= \frac{\sigma_{yy_{Pin}} \exp(-\phi_{P_{in}})}{i} + \frac{\sigma_{yy_{Pref}} \exp(-\phi_{P_{ref}})}{i}
                             + \frac{\sigma_{yy_{Sref}} \exp(-\phi_{S_{ref}})}{i} \\
-                            &&= \hat{A_{P_{in}}} \kappa_P (\Lambda + 2 \mu \cos[2](\alpha)) + \hat{A_{P_{ref}}} \kappa_P (\Lambda + 2 \mu \cos[2](\alpha))
-                            - \hat{A_{S_{ref}}} \kappa_S \mu \sin(2\beta)
+                           &= \hat{A}_{P_{in}} \kappa_P (\Lambda + 2 \mu \cos[2](\alpha)) + \hat{A}_{P_{ref}} \kappa_P (\Lambda + 2 \mu \cos[2](\alpha))
+                            - \hat{A}_{S_{ref}} \kappa_S \mu \sin(2\beta)
     \end{align*}
 
     Die Amplituden der reflektierten Wellen sind beide winkelabhängig. Um diese zu berechnen, löst man nun die Randbedingungen nach 
@@ -123,6 +119,7 @@ Gesucht sind die Darstellungen der reflektierten Wellen
         }{
             \Lambda \cos(2 \beta) + \mu \sin(2 \alpha) \sin(2\beta) + 2 \mu \cos[2](\alpha) \cos(2 \beta)
         } \\
+        \\
         &A_{S_{ref}} = \frac{
             2 A_{P_{in}} \kappa_P (\Lambda \sin(2 \alpha) + \mu \sin(2 \alpha) + \frac{\mu \sin(4 \alpha)}{2})
         }{
