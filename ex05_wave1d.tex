@@ -40,8 +40,9 @@ Am Anfang $(t=0)$ ist er undeformiert und in Ruhe. Lösen Sie diese Aufgabe, ind
 
 \input{fig_tikz/discrete_boundary_impedance}
 
-Nehmen Sie dazu eine einfallende nach links laufende Welle $w_{ein}(z,t) = C_1 \cos(kz+\omega t)$ an und berechnen Sie die reflektierende Welle $w_{ref}(z,t)=R_1\cos(kz-\omega t) + R_2 \sin(kz-\omega t)$.
-}\\[2em]
+Nehmen Sie dazu eine einfallende nach links laufende Welle $w_{ein}(z,t) = C_1 \cos(kz+\omega t)$ an und 
+berechnen Sie die reflektierende Welle $w_{ref}(z,t)=R_1\cos(kz-\omega t) + R_2 \sin(kz-\omega t)$. \\
+\qquad
 
 \fbox{Hinweis ($z=0$):}
 \begin{tasks} (3)
@@ -53,27 +54,45 @@ Nehmen Sie dazu eine einfallende nach links laufende Welle $w_{ein}(z,t) = C_1 \
     \task[] Masse-RB
 \end{tasks}
 
-\fbox{Hinweis: Der Punkt steht für die Ableitung nach der Zeit $t$, der Apostroph für die Ableitung nach der räumlichen Koordinate $z$.}
+\fbox{
+    \begin{minipage}[t]{\textwidth}
+        Hinweis: Der Punkt steht für die Ableitung nach der Zeit $t$, \\der Apostroph für die Ableitung nach der räumlichen Koordinate $z$.
+    \end{minipage}}
 
 \begin{solution}
-    
+        Ableitungen der Funktion $w$:
+        \begin{align*}
+            \dot{w} &= -C_1 \omega \sin(\kappa z + \omega t) + C_2 \omega \cos(\kappa z + \omega t) \\
+                     &+ R_1 \omega \sin(\kappa z - \omega t) - R_2 \omega \cos(\kappa z - \omega t) \\
+            \ddot{w} &= - C_1 \omega^2 \cos(\kappa z + \omega t) - C_2 \omega^2 \sin(\kappa z + \omega t) \\
+                     &-R_1 \omega^2 \cos(\kappa z - \omega t) - R_2 \omega^2 \sin(\kappa z - \omega t) \\
+            w^{'} &= -C_1 \kappa \sin(\kappa z + \omega t) + C_2 \kappa \cos(\kappa z + \omega t) \\
+                   &-R_1 \kappa \sin(\kappa z - \omega t) + R_2 \kappa \cos(\kappa z - \omega t)
+        \end{align*}
+
+        Schrittweise Berechnung der Reflektion: \\
+        1. Anfangsbedingung: $z=0$ \\
+        2. Ausklammern der Sinus- und Cosinus-Ausdrücke (am besten in Matrixform)\\
+        3. Aus den erhaltenen Koeffizienten der Sinus- und Cosinusfunktionen kann nun nach $R_1$ und $R_2$ umgestellt werden.
+            Dabei ergibt sich $R_1$ aus den Koeffizienten des Kosinus und $R_2$ aus den Sinuskoeffizienten.\\
+
         Feder:
         \begin{align*}
-        0 &= kw - EA  w^{'}\\
-        R_1 &= \frac{C_1 {(EA)}^2 \kappa^2 - C_1 k^2 + 2C_2 (EA) k \kappa}{{(EA)}^2 \kappa^2 + k^2}\\
-        R_2 &= \frac{2C_1 (EA) k \kappa - C_2 {(EA)}^2 \kappa^2 + C_2 k^2}{{(EA)}^2 \kappa^2 + k^2}
+            0 &= kw - EA  w^{'}\\
+            R_1 &= \frac{C_1 {(EA)}^2 \kappa^2 - C_1 k^2 + 2C_2 (EA) k \kappa}{{(EA)}^2 \kappa^2 + k^2}\\
+            R_2 &= \frac{2C_1 (EA) k \kappa - C_2 {(EA)}^2 \kappa^2 + C_2 k^2}{{(EA)}^2 \kappa^2 + k^2}
         \end{align*}
         Dämpfer:
         \begin{align*}
-        0 &= c \dot{w} - EA  w^{'}\\
-        R_1 &= \frac{C_1 (EA) \kappa - C_1 c w}{(EA) \kappa + cw}\\
-        R_2 &= \frac{-C_2 (EA) \kappa + C_2 cw}{(EA) \kappa + cw}
+            0 &= c \dot{w} - EA  w^{'}\\
+            R_1 &= \frac{C_1 (EA) \kappa - C_1 c w}{(EA) \kappa + cw}\\
+            R_2 &= \frac{-C_2 (EA) \kappa + C_2 cw}{(EA) \kappa + cw}
         \end{align*}
         Masse:
         \begin{align*}
-        0 &= m \ddot{w} - (EA) w^{'}\\
-        R_1 &= \frac{C_1 {(EA)}^2 \kappa^2 - C_1 m^2 \omega^4 - 2C_2 (EA) \kappa m \omega^2}{{(EA)}^2 \kappa + m^2 \omega^4}\\
-        R_2 &= \frac{-2C_1 (EA) \kappa m \omega^2 - C_2 {(EA)}^2 \kappa^2 + C_2 m^2 \omega^4}{{(EA)}^2 \kappa + m^2 \omega^4}
+            0 &= m \ddot{w} - (EA) w^{'}\\
+            R_1 &= \frac{C_1 {(EA)}^2 \kappa^2 - C_1 m^2 \omega^4 - 2C_2 (EA) \kappa m \omega^2}{{(EA)}^2 \kappa + m^2 \omega^4}\\
+            R_2 &= \frac{-2C_1 (EA) \kappa m \omega^2 - C_2 {(EA)}^2 \kappa^2 + C_2 m^2 \omega^4}{{(EA)}^2 \kappa + m^2 \omega^4}
     \end{align*}
 \end{solution}
 
