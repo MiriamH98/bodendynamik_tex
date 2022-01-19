@@ -14,6 +14,46 @@ aus dem Bemessungsspektrum.
     geg:
     \begin{tasks} (2)
         \task[] Erdbebenzone 3
+        \task[] $a_{gR} = \SI{0.8}{\metre\per\second^2}$
         \task[] Bedeutungskategorie \romannum{3}
+        \task[] $\gamma = 1.2$
+        \task[] Untergrundklasse B-R
+        \task[]
+        \task[] Duktilitätsklasse 1
+        \task[] $q = 1.5$
+        \task[] Masse: $m =\SI{80}{\tonne}$
+        \task[] Gesamthöhe: $h = 6m$
     \end{tasks}
 \end{minipage}
+
+Formeln und Parameter aus [Schmidt, Buchmaier, Vogt-Beyer: Grundlagen der Geotechnik, 5. Auflage, S.725f.]
+
+\begin{align*}
+    &0 < T \leqq T_B: &&S_d(T) = a_{gR} \gamma_l S [1 + \frac{T}{T_B}(\frac{2.5}{q} -1)] \\
+    &T_B \leqq T \leqq T_C: &&S_d(T) = a_{gR} \gamma_l S \frac{2.5}{q} \\
+    &T_C \leqq T \leqq T_D: &&S_d(T) = a_{gR} \gamma_l S \frac{2.5}{q} \frac{T_C}{T} \\
+    &T_D \leqq T \leqq 4s: &&S_d(T) = a_{gR} \gamma_l S \frac{2.5}{q} \frac{T_C T_D}{T^2} \\
+\end{align*}
+
+Anhand der Untergrundklasse B-R lassen sich folgende Parameter ablesen:
+\begin{tasks} (4)
+    \task[] $S = 1.25$
+    \task[] $T_B in s = 0.05$
+    \task[] $T_C in s = 0.25$
+    \task[] $T_D in s = 2.0$
+\end{tasks}
+
+Nach \textit{DIN EN 1198-1} lässt sich die Gesamterdbebenkraft $F_b$ bestimmen.
+
+\begin{align}
+    F_b &= S_d(T_1) m \lambda
+\end{align}
+
+$T_1$ wird näherungsweise bestimmt durch:
+\begin{align}
+    T_1 &= C_t h^{\frac{3}{4}}
+\end{align}
+
+\begin{solution}
+    
+\end{solution}
