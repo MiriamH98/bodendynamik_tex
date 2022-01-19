@@ -9,3 +9,5 @@ exercises*.*
 !exercises.tex
 ex[0-9][0-9]*.*
 !ex[0-9][0-9]*.tex
+clipboard.tex
+
