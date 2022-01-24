@@ -1,10 +1,3 @@
-Erdbebenersatzkraft anhand des Bemessungsspektrums
-
-\smallskip
-
-TODO Aufgabe V09aufgabe.pdf (handschriftlich)
-
-
 \question{Erdbebenbemessungspektren}
 
 Ermitteln Sie für ein zweigeschossiges Gastronomiegebäude in Holzbauweise die Gesamterdbebenkraft in horizontaler Richtung
@@ -55,5 +48,44 @@ $T_1$ wird näherungsweise bestimmt durch:
 \end{align}
 
 \begin{solution}
+    Werte für $C_t$ aus [Schmidt, Buchmaier, Vogt-Beyer: Grundlagen der Geotechnik, 5. Auflage, S.725f.]:
+    \\
+    Für biegesteife räumliche Stahlrahmen:
+    \begin{align}
+        C_t &= 0.085  
+    \end{align}
+
+    Für biegesteife räumliche Stahlbetonrahmen und ausmittig ausgesteifte Stahlrahmen:\\
     
+    \begin{align}
+        C_t &= 0.075 
+    \end{align}
+
+    Für alle anderen Tragwerke:
+
+    \begin{align}
+        C_t &= 0.05 
+    \end{align}
+
+    In diesem Fall wird ein $C_t$-Wert von 0.05 angenommen. \\
+    Dementprechend ergibt sich für $T_1$:
+
+    \begin{align*}
+        T_1 &= 0.05 \cdot {(6m)}^{\frac{3}{4}} &= 0.19
+    \end{align*}
+
+    Um die Gesamterdbebenkraft berechnen zu können, brauchen wir zunächst die Ordinate des Bemessungsspektrums $S_d(T_1)$.
+    Aufgrund des Wertes von $T_1$ lässt sich von den oben definierten Gleichungen folgende bestimmen: 
+
+    \begin{align}
+        S_d(T_1) &= a_{gR} \cdot \gamma_l \cdot S \cdot \frac{2.5}{q}\\
+        \text{mit: } S &= 1.25 \\
+        S_d(T_1) &= 2 
+    \end{align}
+
+    Daraus folgt:
+
+    \begin{align}
+        F_b &= S_d(T_1) \cdot m \cdot \lambda &= \SI{160.000}{\kilo \newton}
+    \end{align}
 \end{solution}
