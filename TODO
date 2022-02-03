@@ -6,8 +6,10 @@ tex handwritten lecture slides (V04)
 
 tex scanned figures 
 ex04: "Skelettkurve" and "Masing Hypothese"
-V02: "Verschiedene Modelle des selben Bauwerks", "Amplitude of forced vibration", "Phase angle of forces vibration" 
-V05: "reflection and transmission (velocity)", "reflection and transmission (stress)", "pile in soil with friction", "Soft soil on hard base rock", "Element of column", "Soil layer with surface load", 
-V06: animations instead of figures for P-/S-waves and Rayleigh-/Love-waves, "Reflexion und Refraktion an einer Trennfläche...", "soft layer on a stiff half space"
-V07: "Laufzeitdiagramm"
-V08: "Bauwerke, die als Einmassenschwinger modelliert werden können"
+
+V02: haus1dof.pdf, magnitude_response.png, phase_response.png
+V05: transition_z_v.pdf, transition_z_sigma.pdf, wavebar_friction.pdf, earthquake_model.pdf, earthquake_inf_element.pdf, earthquake_top_load.pdf 
+V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png), wave_transition.png, love_wave_configuration.png
+V07: refraction_runtime.png
+V08: einmassenmodell_erdbeben.png, bemessungsspektrum.png
+
