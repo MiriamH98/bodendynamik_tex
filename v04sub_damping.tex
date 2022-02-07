@@ -15,8 +15,9 @@
 
                 \begin{column}[t]{.5 \linewidth}
                         Federkraft: \\
-                        $F_F = k u = k \hat{u} \cos(\overbrace{\omega t - \psi_u}^\varphi)$ \\
-                        Dämpferkraft: 
+                        $F_F = k u = k \hat{u} \cos(\overbrace{\omega t - \psi_u}^\varphi)$ 
+                        \vspace{0.3cm} \\
+                        Dämpferkraft: \\
                         $F_D = c \dot{u} = -c \hat{u} \sin(\overbrace{\omega t - \psi_u}^\varphi)$ \\
                 \end{column}
         \end{columns}
@@ -25,15 +26,17 @@
 \begin{frame}
         Federarbeit pro Zyklus: \\
         $W_F = \int_{+u}^{-\hat{u}} -F_F \ du + \int_{-\hat{u}}^{+\hat{u}} -F_F \ du 
-        = \int_{+\hat{u}}^{-\hat{u}} -ku \ du + \int_{-\hat{u}}^{+\hat{u}} -ku \ du = 0$ \\
-        Dämpferarbeit (dissipierte Energie) pro Zyklus: \\
-        $W_D = \int_{\hat{u}}^{-\hat{u}} -F_D \ du + \int_{\hat{u}}^{-\hat{u}} -F_D \ du$ \\
+        = \int_{+\hat{u}}^{-\hat{u}} -ku \ du + \int_{-\hat{u}}^{+\hat{u}} -ku \ du = 0$ 
+        \vspace{0.4cm} \\
+
+        Dämpferarbeit (dissipierte Energie) pro Zyklus: \vspace{-0.5cm}
         \begin{columns}
                 \begin{column}[t]{.7 \textwidth}
                         \begin{align*}
+                                W_D &= \int_{\hat{u}}^{-\hat{u}} -F_D \ du + \int_{\hat{u}}^{-\hat{u}} -F_D \ du \\
                                 &= \int_{0}^{\pi} -c \omega \hat{u} \sin^{2}(\varphi) d\varphi
                                 + \int_{\pi}^{2\pi} -c \omega \hat{u} \sin^{2}(\varphi) d\varphi \\
-                                &= -c \omega \hat{u}^2 |0.5 \varphi| \\
+                                &= -c \omega \hat{u}^2 \left|0.5 \varphi \right|_{0}^{2 \pi} \\
                         \end{align*}
                 \end{column}
                 \begin{column}[t]{.3 \textwidth}
@@ -46,12 +49,73 @@
 \end{frame}
 
 \begin{frame}
+        \vspace{-1.5cm}
         \begin{align*}
                 W_D = -c \omega \pi \hat{u}^2 \quad \rightarrow \quad
-                \text{Dämpfungskapazität }\psi = \frac{W_D}{\underbrace{0.5 k \hat{u}^2}}\\
+                \text{Dämpfungskapazität }\psi = \frac{W_D \footnotemark}{\underbrace{0.5 k \hat{u}^2}_{\footnotemark}}\\
         \end{align*}
-        Ansatz: $F_D = -k_c \hat{u} \sin(\omega t - \psi_u)$ \\
-        \fbox{Das funktioniert nur bei harmonischer Bewegung im eingeschwungenen Zustand} \\
+        Ansatz: $F_D = -k_c \hat{u} \sin(\omega t - \psi_u)$ \vspace{0.2cm}\\
+        \fbox{\parbox{\textwidth}{Das funktioniert nur bei harmonischer Bewegung im eingeschwungenen Zustand}} \\
+
+        \footnotetext[1]{pro Zyklus dissipierte Energie}
+        \footnotetext[2]{maximal in Feder gespeicherte Energie}
+\end{frame}
+
+\begin{frame}
+        \frametitle{Einmassenschwinger mit hysteretischer Dämpfung} 
+        Nach dem gleichen Vorgehen wie für den viskosen Dämpfer ergibt sich für die hysteretische Dämpfung. \\
+        Vergrößerungsfunktion: $V = \frac{1}{\sqrt{(1 - \eta^2)^2 + (2\zeta_n)^2}}$ \\
+        Phasendifferenz: $\Psi = \frac{2 \zeta_n}{1-\eta^2}$ \\
+        Die Herleitung wurde übersprungen, sie wird nächste Woche mittels komplexer Rechnung elegant nachgeht. \vspace{0.5cm} \\
+\end{frame}
+
+\begin{frame}
+        \fbox{\parbox[]{\textwidth}{
+                \underline{Anmerkung:} Setzt man $\zeta _n = \zeta \eta$ stimmen die Ausdrücke für $V$, $\Psi$ mit denen des viskosen Dämpfers.
+                Der Unterschied ist: \\
+                viskoser Dämpfer: $2\zeta = \frac{c}{m \omega_0} = \frac{c \omega_0}{k} = \text{const.}$ \\
+                hyteretischer Dämpfer: $2\zeta_n = \frac{k_c}{m \omega_0} = \frac{c \omega}{k} = \text{const.}$}}
+\end{frame}
+
+\begin{frame}
+        \frametitle{Einmassenschwinger, Leistungsbetrachtung}
+        \vspace{-0.8cm}
+        \begin{align*}
+                &F = \hat{F} \sin(\omega t) &\Psi_f = \Psi_a = 0 \\
+                &u = \hat{u} \sin(\omega t - \Psi)  &\dot{u} = \hat{u} \omega \cos(\omega t - \Psi)   
+        \end{align*} \vspace{-0.5cm}
+        Arbeitselement: $dW = F du = F \dot{u} dt$ mit Leistung $P(t) = F \dot{u} $ \vspace{0.5cm}
+        \begin{align*}
+                P(t) &= \hat{F} \sin(\omega t) \hat{u} \omega \cos(\omega t - \Psi) \\
+                &= 0.5 \omega \hat{F} \hat{u} (\underbrace{\sin(2\omega t - \Psi)}_{\footnotemark} + \underbrace{\sin(\Psi)}_{\footnotemark})
+        \end{align*}  
+
+        \footnotetext[3]{$=\sin(2 \omega t -\Psi) \cos(\Psi) - \cos(2 \omega t) \sin(\Psi) \rightarrow$ Scheinleistung}
+        \footnotetext[4]{Federmittelwert $\rightarrow$ Wirkleistung}
+
+\end{frame}
+
+\begin{frame}
+        \begin{columns}
+                \begin{column}[t]{0.2 \textwidth}
+                        1 Periode 
+                        \vspace{0.65cm}\\
+                        viskos 
+                        \vspace{0.24cm}\\
+                        hyteretisch
+                \end{column}
+
+                \begin{column}[t]{0.8 \textwidth}
+                        $W= \int_{0}^{T} 0.5 \omega \hat{F} \hat{u} \sin(\Psi) dt = 0.5 \omega T \hat{F} \hat{u} \sin(\Psi)$ \\
+                        $= \pi \hat{F} \hat{u} \sin(\Psi)$ \hspace{0.2cm} mit $\omega T = \frac{2 \pi}{T} T$ \\
+                        $\tan(\Psi) = \frac{2 \zeta \eta}{1-\eta^2}$ \hspace{0.5cm} $\sin(\Psi) = \frac{2 \zeta \eta}{\sqrt{(1+\eta^2)^2 + (2 \zeta \eta)^2}}$\footnotemark \\
+                        $\tan(\Psi) = \frac{2 \zeta \eta}{1-\eta^2}$ \hspace{0.5cm} $\sin(\Psi) = \frac{2 \zeta}{\sqrt{(1+\eta^2)^2 + (2 \zeta \eta)^2}}$\footnotemark \\
+                        $\hat{u} = V \hat{a} = V \frac{\hat{F}}{k}$
+                \end{column}
+        \end{columns}
+
+        \footnotetext[5]{keine Dämpfung}
+        \footnotetext[6]{TODO\: Dominik (in v04\_vorläufig nicht lesbar)}
 \end{frame}
 
 \begin{frame}
