@@ -1,4 +1,15 @@
 get familiar with exam document class (Philip Hirschhorn, MIT)
-tex exercises (solutions either from Jupyter-notebooks or handwritten)
-tex handwritten lecture slides 
-tex scanned figures, possibly ask authors for originals (bitmap, tikz)
+
+check exercises (DK)
+
+tex handwritten lecture slides (V04)
+
+tex scanned figures 
+ex04: "Skelettkurve" and "Masing Hypothese"
+
+V02: haus1dof.pdf, magnitude_response.png, phase_response.png
+V05: transition_z_v.pdf, transition_z_sigma.pdf, wavebar_friction.pdf, earthquake_model.pdf, earthquake_inf_element.pdf, earthquake_top_load.pdf 
+V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png), wave_transition.png, love_wave_configuration.png
+V07: refraction_runtime.png
+V08: einmassenmodell_erdbeben.png, bemessungsspektrum.png
+
