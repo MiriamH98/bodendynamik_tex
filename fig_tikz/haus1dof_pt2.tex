@@ -1,0 +1,45 @@
+
+\begin{tikzpicture}
+    \draw[black,thick] (0,0) -- (2, 0) -- (2, 1.2); 
+
+    %Schraffur einfügen
+    \fill[pattern = north east lines] (0, -0.1) rectangle (2, 0);
+    \fill[pattern = north east lines] (2, 0) rectangle (2.1 , 1.2);
+
+    \draw[black, thick] (0, 0.5) rectangle (1.25, 1.1);
+    \draw[black, thick] (0.625, 1.1) -- (0.625, 3.5);
+
+    %zigzag Linie, unten 
+    \draw[black, thick] (0.3, 0.4) -- (0.3, 0.5);
+    \draw[black, thick] (0.3, 0) -- (0.3, 0.1);
+    \draw[black, thick, decorate, decoration = {zigzag, segment length = 1mm}] (0.3, 0.1) -- (0.3, 0.4);
+
+    %neben zigzag, unten
+    \draw[black, thick] (0.75, 0) -- (0.75, 0.25);
+    \draw[black,thick] (0.75, 0.5) -- (0.75, 0.35);
+    \draw[black,thick] (0.68, 0.35) -- (0.82, 0.35);
+    \draw[black, thick] (0.65, 0.4) -- (0.65, 0.25) -- (0.85, 0.25) -- (0.85, 0.4);
+
+    %zigzag Linie, rechts
+    \draw[black, thick] (1.25 , 1.0) -- (1.35, 1.0);
+    \draw[black, thick] (1.9, 1.0) -- (2.0, 1.0);
+    \draw[black, thick, decorate, decoration = {zigzag, segment length = 1mm}] (1.35, 1.0) -- (1.9,1.0);
+    
+    %unterhalb zigzag rechts
+    \draw[black, thick] (1.25 , 0.65) -- (1.4, 0.65);
+    \draw[black, thick] (1.55, 0.65) -- (2.0 , 0.65);
+    \draw[black, thick] (1.4, 0.72) -- (1.4, 0.58);
+    \draw[black, thick] (1.37 , 0.55) -- (1.55 , 0.55) -- (1.55 , 0.75) -- (1.37, 0.75);
+    
+    %Kugeln
+    \filldraw[black] (0.625, 3.5) circle (4pt);
+    \filldraw[black] (0.625, 2.5) circle (4pt);
+    \filldraw[black] (0.625, 1.5) circle (4pt);
+
+    %bend line
+    %\tikz[every to/ .style = {bend left}]
+    \draw[black, thick, dashed, style = {bend left = 5}] (0.625, 1.1) to (1.25 , 3.6);
+
+    \draw[->] (2.1, 0) -- (2.4, 0);
+    \draw (2.25, 0.2) node {$u$};
+\end{tikzpicture}
