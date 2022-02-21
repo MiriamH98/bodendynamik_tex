@@ -5,9 +5,8 @@
     \draw[black, thick] (10, 1) -- (0, 1) -- (0,0) -- (10, 0);
 
     %Schraffur
-    \fill[pattern = crosshatch dots] (0, 0) rectangle (5, 1);
-    \fill[pattern = dots] (5, 0) rectangle (10, 1);
-
+    \fill[pattern = densely dots] (0, 0) rectangle (5, 1);
+    \fill[pattern = loosely dots] (5, 0) rectangle (10, 1);
     
     \draw[->] (-0.5, 0.8) -- (0, 0.8);
     \draw[->] (-0.5, 0.5) -- (0, 0.5);
@@ -15,7 +14,6 @@
 
     \draw[black, thick, dotted] (5, 1.5) -- (5, -20.5);
     \draw[->, thick] (5, -20.5) -- (5, -21) node[right] {$t$};
-
 
     %Diagramm 1:
     \draw[->, thick] (0, -2.5) -- (0, -1.0) node[left] {$v$};
@@ -40,7 +38,7 @@
     %Diagramm 5:
     \draw[->, thick] (0, -12.5) -- (0, -11) node[left] {$v$};
     \draw[->, thick] (0, -12.5) -- (10, -12.5) node[right] {$z$};
-    \draw[thick] (3.6, -12.5) -- (3.6, -12.15) -- (5, - 12.15) -- (5, -12.5);
+    \draw[thick] (3.6, -12.5) -- (3.6, -12.15) -- (5, -12.15) -- (5, -12.5);
     \draw[thick] (5, -12.5) -- (5, -11.25) -- (5.45, -11.25) -- (5.45, -12.5);
 
     %Diagramm 6:
@@ -53,7 +51,7 @@
     \draw[->, thick] (0, -17.5) -- (0, -16) node[left] {$v$};
     \draw[->, thick] (0, -17.5) -- (10, -17.5) node[right] {$z$};
     \draw[thick] (1.2, -17.5) -- (1.2, -17.15) -- (2.6, -17.15) -- (2.6, -17.5);
-    \draw[thick] (5.8, -15) -- (5.8, -13.75) -- (6.25, -13.75) -- (6.25, -15);
+    \draw[thick] (5.8, -17.5) -- (5.8, -16.25) -- (6.25, -16.25) -- (6.25, -17.5);
 
     %Diagramm 8:
     \draw[->, thick] (0, -20) -- (0, -18.5) node[left] {$v$};
