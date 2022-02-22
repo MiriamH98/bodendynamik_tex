@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+    \draw[black, thick] (0,0) -- (10, 0);
+
+    \node at (5, 1) {Soft soil on hard base rock};
+
+    \fill[pattern = loosely dots] (0, -5) rectangle (10, 0);
+    \fill[pattern = densely dots] (0, -7.5) rectangle (10, -5);
+
+    \draw[->, thick] (5,0) -- (5, -8) node[right] {$z$};
+    \draw[<->] (7.5, 0) -- (7.5, -5) node[right, midway] {$h$};
+\end{tikzpicture}
