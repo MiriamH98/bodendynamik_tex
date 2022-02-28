@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{tikz}
+
+
+\begin{document}
+    \begin{tikzpicture}[]
+        
+        %Diagramm
+        \draw[->, thick] (0,0) -- (0, 6) node[rotate = 90] at (-0.35, 4) {Laufzeit $[ms]$};
+        \draw[->, thick] (0,0) -- (10,0) node[below] {$r[m]$};
+
+        \draw[black, thick, domain = 0:5] plot (\x,  \x) ;
+        \draw[black, thick, loosely dashed, domain = 0:2] plot (\x, {0.25*\x + 1.5});
+        \draw[black, thick, domain = 2:8] plot (\x, {0.25*\x + 1.5});
+        \draw[black, thick, dashed] (2,0) -- (2,2);
+
+
+    \end{tikzpicture}
+\end{document}
+
