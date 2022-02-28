@@ -14,7 +14,9 @@
         height = 6 cm,
         axis x line = center,
         axis y line = center,
+        domain = -15:15,
+        samples = 100
         ]
-    \addplot[mark=none, semithick, black, dashed]{\frac{x}{1 + \left\lvert x \right\rvert}};
+    \addplot[mark=none, semithick, black, dashed]{x/(1+abs(x))};
     \end{axis}
 \end{tikzpicture}
