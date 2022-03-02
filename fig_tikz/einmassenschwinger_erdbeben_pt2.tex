@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+    \begin{tikzpicture}[pencildraw/.style={
+        black,
+        decorate,
+        decoration={random steps,segment length=3pt,amplitude=1pt}
+        }]
+
+        %Building
+        \draw[black, thick] (0, -4.5) rectangle (1.5, -4);
+        \draw[black, thick] (0.3, -4) -- (0.3, 0.9);
+        \draw[black, thick] (1.2, -4) -- (1.2, 0.9);
+        \draw[black, thick] (-0.15, 2) -- (0, 0.9) -- (1.5, 0.9) -- (1.65, 2);
+        \draw[black, thick] (-0.5, 2) -- (2,2);
+
+        %Text
+        \draw[-{Straight Barb}, red, ultra thick] (-2,1) -- (-0.5, 1);
+        \node[font = \bfseries, text = red, align = left] at (-1.5,0.8) {$F_{ersatz}$};
+        \node at (-1,2) {b)};
+
+        %Ground
+        \draw[black, thick] (-1, -4) -- (2.5, -4);
+        \draw[pencildraw] (2.5, -4) arc (0:-180:1.75);
+        \draw[pattern = north east lines, draw = none] (-1, -4.15) rectangle (0, -4);
+        \draw[pattern = north east lines, draw = none] (1.5, -4.15) rectangle (2.5, -4);
+
+        
+    \end{tikzpicture}
+\end{document}
