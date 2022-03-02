@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{tikz}
+
+\begin{document}
+    \begin{tikzpicture}
+        \draw[->, black, thick] (-5,0) -- (5,0) node[right] {$x$};
+        \draw[->, black, thick] (0,0) -- (0,-5) node[right] {$z$};
+
+        \draw[pattern = Dots[angle = 45, distance = {4pt}]] (4,0) arc (20:-200:2);
+        \draw[pattern = Dots[angle = 45, distance = {2pt}]] (4,-1.2) arc (0:-180:2);
+    \end{tikzpicture}
+\end{document}

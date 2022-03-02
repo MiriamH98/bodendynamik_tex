@@ -4,11 +4,15 @@ check exercises (DK)
 
 tex scanned figures 
 
-V02: haus1dof.pdf, magnitude_response.png, phase_response.png
-V05: transition_z_v.pdf, transition_z_sigma.pdf, wavebar_friction.pdf, earthquake_model.pdf, earthquake_inf_element.pdf, earthquake_top_load.pdf 
+V02: magnitude_response.png, phase_response.png
+V05: wavebar_friction.pdf 
 V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png), wave_transition.png, love_wave_configuration.png
+V08: bemessungsspektrum.png
+
+TODO Dominik: V06 animate p_wave and s_wave
+
+DONE:
+V02: haus1dof.pdf,
+V05: transition_z_v.pdf, transition_z_sigma.pdf, earthquake_inf_element.pdf, earthquake_top_load.pdf, earthquake_model.pdf 
 V07: refraction_runtime.png
-V08: einmassenmodell_erdbeben.png, bemessungsspektrum.png
-
-happy branching
-
+V08: einmassenmodell_erdbeben.png,

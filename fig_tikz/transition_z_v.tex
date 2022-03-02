@@ -5,14 +5,14 @@
     \draw[black, thick] (10, 1) -- (0, 1) -- (0,0) -- (10, 0);
 
     %Schraffur
-    \fill[pattern = densely dots] (0, 0) rectangle (5, 1);
-    \fill[pattern = loosely dots] (5, 0) rectangle (10, 1);
+    \fill[pattern = Dots[angle = 45, distance = {2pt}]] (0, 0) rectangle (5, 1);
+    \fill[pattern = Dots[angle = 45, distance = {4pt}] (5, 0) rectangle (10, 1);
     
     \draw[->] (-0.5, 0.8) -- (0, 0.8);
     \draw[->] (-0.5, 0.5) -- (0, 0.5);
     \draw[->] (-0.5, 0.2) -- (0, 0.2);
 
-    \draw[black, thick, dotted] (5, 1.5) -- (5, -20.5);
+    \draw[black, thick, dotted] (5, 1) -- (5, -20.5);
     \draw[->, thick] (5, -20.5) -- (5, -21) node[right] {$t$};
 
     %Diagramm 1:
