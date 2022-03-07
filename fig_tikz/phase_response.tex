@@ -1,0 +1,18 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\begin{document}
+    \begin{tikzpicture}[scale = 0.5]
+       	\draw[->, black, thick] (0,0) -- (6,0) node[right] {$\frac{\omega}{\omega_0}$};
+       	\draw[->, black, thick] (0,0) -- (0, 5) node[left] {$\psi$};
+
+        \draw[domain = 0:5, color = black] plot[smooth] (\x,{atan((2*0.1*\x) / (1 -\x^2))});
+        \draw[domain = 0:5, color = black] plot[smooth] (\x,{atan((2*0.2*\x) / (1 -\x^2))});
+        \draw[domain = 0:5, color = black] plot[smooth] (\x,{atan((2*0.5*\x) / (1 -\x^2))});
+        \draw[domain = 0:5, color = black] plot[smooth] (\x,{atan((2*1.0*\x) / (1 -\x^2))});
+        \draw[domain = 0:5, color = black] plot[smooth] (\x,{atan((2*2.0*\x) / (1 -\x^2))});
+
+\end{tikzpicture}
+\end{document}
