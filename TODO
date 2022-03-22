@@ -2,8 +2,13 @@ get familiar with exam document class (Philip Hirschhorn, MIT)
 
 check exercises (DK)
 
-tex scanned figures 
+Dominik
+parametrize tikz figures (idea save only commands to files and use tikzpicture-env in main files)
+V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png) 
 
+Miriam
+V06: wave configuration (P, S, Rayleigh, Love) as sphere collection (no animation)
+wave_transition.png, love_wave_configuration.png
 
 
 V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png), love_wave_configuration.png
