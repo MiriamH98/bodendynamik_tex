@@ -10,3 +10,18 @@ Miriam
 V06: wave configuration (P, S, Rayleigh, Love) as sphere collection (no animation)
 wave_transition.png, love_wave_configuration.png
 
+
+V06: animations instead of figures for P-/S-waves (p_wave.png, s_wave.png) and Rayleigh-/Love-waves (love_wave.png, rayleigh_wave.png), love_wave_configuration.png
+++ wave_transition.png
+
+
+TODO Dominik: 
+V02: magnitude_response.png, phase_response.png bitte gegenchecken auf Korrektheit, speziell phase_response Fehler in Funktion
+V06: animate p_wave and s_wave
+
+DONE:
+V02: haus1dof.pdf,
+V05: transition_z_v.pdf, transition_z_sigma.pdf, earthquake_inf_element.pdf, earthquake_top_load.pdf, earthquake_model.pdf, wavebar_friction.pdf 
+V07: refraction_runtime.png
+V08: einmassenmodell_erdbeben.png,
+V08: bemessungsspektrum.png
