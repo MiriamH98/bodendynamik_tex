@@ -1,8 +1,6 @@
-\documentclass{article}
-\usepackage{tikz}
-\usetikzlibrary{calc,fadings,decorations.pathreplacing}
-\begin{document}
-	\begin{tikzpicture}
+%\usetikzlibrary{calc,fadings,decorations.pathreplacing}
+
+	\begin{tikzpicture}[scale=0.4]
 		\def\nuPi{3.1459265}
 		\foreach \i in {15,14,...,0}{% This one doesn't matter
 			\foreach \j in {5,4,...,0}{% This will crate a membrane
@@ -21,38 +19,3 @@
 			}
 		}
 	\end{tikzpicture}
-\end{document}
-
-% \documentclass{article}
-
-% \usepackage{tikz}
-
-% \usetikzlibrary{patterns}
-% \usetikzlibrary{perspective}
-
-
-% \newcommand\simplecuboid[3]{%
-% 	\fill[pattern = checkerboard, pattern color = gray!80] (tpp cs:x=0,y=0,z=#3)
-% 	-- (tpp cs:x=0,y=#2,z=#3)
-% 	-- (tpp cs:x=#1,y=#2,z=#3)
-% 	-- (tpp cs:x=#1,y=0,z=#3) -- cycle;
-% 	\fill[pattern = checkerboard, pattern color = gray!60] (tpp cs:x=0,y=0,z=0)
-% 	-- (tpp cs:x=0,y=0,z=#3)
-% 	-- (tpp cs:x=0,y=#2,z=#3)
-% 	-- (tpp cs:x=0,y=#2,z=0) -- cycle;
-% 	\fill[pattern = checkerboard, pattern color = gray!40] (tpp cs:x=0,y=0,z=0)
-% 	-- (tpp cs:x=0,y=0,z=#3)
-% 	-- (tpp cs:x=#1,y=0,z=#3)
-% 	-- (tpp cs:x=#1,y=0,z=0) -- cycle;}
-% \newcommand{\simpleaxes}[3]{%
-% 	\draw[->] (0,0,0) -- (#1,0,0) node[pos=1.1]{x};
-% 	\draw[->] (0,0,0) -- (0,#2,0) node[pos=1.1]{y};
-% 	\draw[->] (0,0,0) -- (0,0,#3) node[pos=1.1]{z};}
-
-% \begin{document}
-% 	\begin{tikzpicture}[3d view]
-% 		\simplecuboid{10}{2}{2}
-% 		\simpleaxes{11}{3}{3}
-		
-% 	\end{tikzpicture}
-% \end{document}
